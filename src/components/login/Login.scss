@@ -1,0 +1,39 @@
+$font-normal: 14px;
+
+
+div.login {
+    width: 100%;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div.login-form {
+        width: 80%;
+        height: 650px;
+        box-shadow: 10px 10px 15px #bfbfbf;
+        
+    }
+    .login-form-left {
+        img {
+            width: 100%;
+            height: 550px;
+        }
+    }
+    .login-form-right {
+        .login-form-right__center {
+            width: 75%;
+            margin: 0 auto;
+            margin-top: 120px;
+            p {
+                color: red;
+            }
+            input {
+                margin-bottom: 50px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 50px;
+            }
+        }
+    }
+}
