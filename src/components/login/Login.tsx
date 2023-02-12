@@ -2,6 +2,9 @@ import "./Login.scss"
 import { Button, Col, Input, Row } from 'antd'
 import {useFormik} from 'formik'
 import { useState } from "react"
+import Api, { endpoint } from "../../ configs/Api"
+import { useAppDispatch } from "../../store/store"
+import { IReqLogin, loginAsyncThunk } from "../../store/slices/user.slice"
 
 
 
@@ -12,14 +15,16 @@ const Login = () => {
     const [password, setPassword] = useState<string>("")
     const [errorUsername, setErrorUsername] = useState<string>("")
     const [errorPassword, setErrorPassword] = useState<string>("")
-    const handleLogin = () => {
-        if(username === ""){
-            setErrorUsername("username is required")
-        }else if(password === ""){
-            setErrorPassword("password is required")
-        } else {
-            console.log(username)
-            console.log(password)
+    const dispatch = useAppDispatch()
+    const handleLogin = async () => {
+        username === "" ? setErrorUsername("username is required !") : setErrorUsername("")
+        password === "" ? setErrorPassword("password is required !") : setErrorPassword("")
+        if(username !== "" && password !== ""){
+            const reqLogin:IReqLogin = {
+                username: username,
+                password: password
+            }
+            dispatch(loginAsyncThunk(reqLogin))
         }
     }
     return (
