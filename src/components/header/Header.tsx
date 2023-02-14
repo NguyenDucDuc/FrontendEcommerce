@@ -23,7 +23,7 @@ const Header = () => {
             icon: <AppstoreOutlined />
         },
         {
-            label: `${user.firstName} ${user.lastName}`,
+            label: `${user.firstName} ${user.userName === undefined ? user.userName : ""}`,
             key: 'username',
             icon: <UserOutlined />,
             children: [
