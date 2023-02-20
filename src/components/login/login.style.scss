@@ -38,6 +38,14 @@ div.login {
                 margin: 0 auto;
                 margin-top: 50px;
             }
+            div.errors {
+                width:  100%;
+                height: 50px;
+                h4 {
+                    text-align: center;
+                    color: red;
+                }
+            }
         }
     }
 }
