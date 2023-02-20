@@ -28,6 +28,11 @@ interface IUserGoogleLogin {
     status: string;
 }
 
+interface IResponseError {
+    status: number;
+    data: [];
+}
+
 export interface IReqLogin {
     username: string;
     password: string;
@@ -48,12 +53,17 @@ export interface IReqFacebookLogin {
     avatar?: string;
 }
 
-export const loginAsyncThunk = createAsyncThunk("user/login", async (reqLogin: IReqLogin) => {
-    const res = await Api.post(endpoint.login, {
-        userName: reqLogin.username,
-        passWord: reqLogin.password
-    })
-    return res.data.data
+export const loginAsyncThunk = createAsyncThunk("user/login", async (reqLogin: IReqLogin, {rejectWithValue}) => {
+    try {
+        const res = await Api.post(endpoint.login, {
+            userName: reqLogin.username,
+            passWord: reqLogin.password
+        })
+        return res.data.data
+    } catch (error: any) {
+        return rejectWithValue (error.response.data)
+    }
+    
 })
 
 export const googleLoginAsyncThunk = createAsyncThunk("user/googleLogin", async (reqGoogleLogin: IReqGoogleLogin) => {

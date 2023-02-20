@@ -1,4 +1,4 @@
-import "./Login.scss"
+import "./login.style.scss"
 import { Button, Col, Input, Row } from 'antd'
 import { useFormik } from 'formik'
 import { useState } from "react"
@@ -6,7 +6,6 @@ import Api, { endpoint } from "../../ configs/Api"
 import { useAppDispatch } from "../../store/store"
 import { facebookLoginAsyncThunk, googleLoginAsyncThunk, IReqFacebookLogin, IReqGoogleLogin, IReqLogin, loginAsyncThunk } from "../../store/slices/user.slice"
 import { GoogleLogin } from "@react-oauth/google"
-import FacebookLogin, { ReactFacebookLoginInfo } from 'react-facebook-login'
 import jwtDecode from "jwt-decode"
 
 
@@ -34,6 +33,7 @@ const Login = () => {
     const [password, setPassword] = useState<string>("")
     const [errorUsername, setErrorUsername] = useState<string>("")
     const [errorPassword, setErrorPassword] = useState<string>("")
+    const [errorResponse, setErrorResponse] = useState<string>("")
     const dispatch = useAppDispatch()
     const handleLogin = async () => {
         username === "" ? setErrorUsername("username is required !") : setErrorUsername("")
@@ -43,7 +43,13 @@ const Login = () => {
                 username: username,
                 password: password
             }
-            dispatch(loginAsyncThunk(reqLogin))
+            const resLoginAsyncThunk = await dispatch(loginAsyncThunk(reqLogin))
+            if (resLoginAsyncThunk.type.includes('rejected')) {
+                setErrorResponse(resLoginAsyncThunk.payload.data)
+            } else {
+                setErrorResponse("")
+                localStorage.setItem("accessToken", resLoginAsyncThunk.payload.accessToken)
+            }
         }
     }
     return (
@@ -57,6 +63,9 @@ const Login = () => {
                     <Col span={11} className="login-form-right">
                         <Col span={18} className="login-form-right__center">
                             <h1>USER LOGIN</h1>
+                            <div className="errors">
+                                {errorResponse !== "" ? <h4>{errorResponse}</h4> : null}
+                            </div>
                             {errorUsername !== "" ? <p>{errorUsername}</p> : null}
                             <Input type="text" placeholder="enter your user name" size="large" onChange={e => setUsername(e.target.value)} />
                             {errorPassword !== "" ? <p>{errorPassword}</p> : null}
@@ -79,24 +88,6 @@ const Login = () => {
                                     size="large"
                                 />
 
-                                <FacebookLogin
-                                    appId="1179926095991698"
-                                    autoLoad={true}
-                                    fields="name,email,picture"
-                                    callback={(res:ReactFacebookLoginInfo) => {
-                                        const reqFacebookLogin: IReqFacebookLogin = {
-                                            userId: parseInt(res.id?.slice(-4)||"88"),
-                                            firstName: res.name,
-                                            avatar: res.picture?.data.url,
-                                            email: res.email
-                                        }
-                                        dispatch(facebookLoginAsyncThunk(reqFacebookLogin))
-                                    }} 
-                                    textButton="Login with facebook"
-                                    size="small"
-                                    icon="fa fa-facebook"
-                                    buttonStyle={{background: 'white', color: '#595959', borderRadius: '40px', fontWeight: 'bold', fontSize: '14px', textTransform: 'none'}}
-                                />
                             </div>
                         </Col>
                     </Col>
