@@ -12,6 +12,7 @@ import AdminSeller from './components/admin/seller.component';
 import AdminShop from './components/admin/shop/shop.component';
 import HomeAdmin from './components/admin/home/home.component';
 import MainLayout from './components/layout/main.layout';
+import ProductDetail from './components/product-detail/productdetail.component';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='/home' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/product-detail' element={<ProductDetail />} />
           </Route>
         </Routes>
         {/* Route Admin */}
