@@ -84,7 +84,7 @@ const Header = () => {
                             placeholder="input search text"
                             allowClear
                             enterButton="Search"
-                            size="middle"
+                            size="large"
                             onSearch={onSearch}
                             
                         />

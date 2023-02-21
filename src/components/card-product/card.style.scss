@@ -5,6 +5,7 @@ div.card-product {
     border-radius: 10px;
     width: 90%;
     margin: 0 5%;
+    cursor: pointer;
     &:hover {
         margin-top: -15px;
         transition-duration: 0.7s;
