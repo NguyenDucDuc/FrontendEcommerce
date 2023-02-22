@@ -13,31 +13,7 @@ div.product-detail {
         margin-top: 50px;
     }
 }
-.mgl-25{
-    margin-left: 25px;
-}
-.mgl-40 {
-    margin-left: 40px;
-}
-.mgt-10 {
-    margin-top: 10px;
-}
-.mgt-20 {
-    margin-top: 20px;
-}
-.mgt-40 {
-    margin-top: 40px;
-}
-.mgb-40 {
-    margin-bottom: 40px;
-}
-.icon {
-    font-size: 25px;
-    color: red;
-}
-.cs-pointer {
-    cursor: pointer;
-}
+
 .shop-infomation {
     width: 100%;
     background-color: red;
@@ -46,6 +22,7 @@ div.product-detail {
 .min-height {
     min-height: 500px;
 }
+
 div.avt-shop {
     width: 90px;
     height: 90px;
@@ -64,6 +41,35 @@ div.shop-info {
     border-radius: 10px;
     height: 120px;
 }
-@media screen and (max-width: 1000px) {
 
+div.product-desc {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 40px;
+    box-shadow: 15px 15px 20px #bfbfbf;
+    border-radius: 10px;
+    line-height: 35px;
+}
+
+div.product-rate {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 40px;
+    box-shadow: 15px 15px 20px #bfbfbf;
+    border-radius: 10px;
+}
+
+div.user-rate {
+    margin-top: 40px;
+}
+
+div.avt-user {
+    margin-left: 25px;
+    
+    img {
+        width: 100%;
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+    }
 }

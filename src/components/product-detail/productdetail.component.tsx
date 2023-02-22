@@ -1,7 +1,7 @@
 import { EyeOutlined, HeartOutlined, MessageOutlined, SendOutlined, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
 import { Avatar, Button, Col, InputNumber, Rate, Row } from "antd"
 import "./productdetail.style.scss"
-
+import "../style-commond/commond.style.scss"
 
 
 const ProductDetail = () => {
@@ -48,7 +48,7 @@ const ProductDetail = () => {
                                 <Button type="primary" ghost>L</Button>
                             </Col>
                             <Col span={3}>
-                                <Button type="primary">XL</Button>
+                                <Button type="primary" className="btn-color">XL</Button>
                             </Col>
                         </Row>
                         <Row className="mgt-40">
@@ -61,7 +61,7 @@ const ProductDetail = () => {
                         </Row>
                         <Row className="mgt-40">
                             <Col span={3}>
-                                <Button type="primary" size="large" icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
+                                <Button className="btn-color" type="primary" size="large" icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
                             </Col>
                         </Row>
                         <Row className="mgt-40">
@@ -79,7 +79,7 @@ const ProductDetail = () => {
 
 
             <div className="shop-info">
-                <Row>
+                <Row className="mgl-25">
                     <Col span={8}>
                         <Row>
                             <Col span={7}>
@@ -88,22 +88,103 @@ const ProductDetail = () => {
                                 </div>
                             </Col>
                             <Col span={17}>
-                                <p style={{marginTop: '25px', fontWeight: 'bold'}}>Hades Studio</p>
+                                <p style={{ marginTop: '25px', fontWeight: 'bold' }}>Hades Studio</p>
                                 <Row className="mgt-20">
                                     <Col span={12}>
-                                        <Button type="primary" icon={<SendOutlined />}>Nhắn tin</Button>
+                                        <Button className="btn-color" type="primary" icon={<SendOutlined />}>Nhắn tin</Button>
                                     </Col>
                                     <Col span={12}>
-                                    <Button type="primary" icon={<EyeOutlined />}>Xem shop</Button>
+                                        <Button className="btn-color" type="primary" icon={<EyeOutlined />}>Xem shop</Button>
                                     </Col>
                                 </Row>
                             </Col>
-                            
+
                         </Row>
                     </Col>
                     <Col span={16}>
                     </Col>
                 </Row>
+            </div>
+
+            <div className="product-desc">
+                <h2 className="mgl-25" style={{ paddingTop: '40px' }}>Mô tả sản phẩm</h2>
+                <hr></hr>
+                <div className="mgl-25" style={{ paddingTop: '20px' }}>
+                    <p >
+                        ⚡ Bàn phím có 4 màu sắc thời trang và trẻ trung, tuyệt đẹp và Charming.
+                    </p>
+                    <p>
+                        ⚡ Bàn phím có 4 màu sắc thời trang và trẻ trung, tuyệt đẹp và Charming.
+                    </p>
+                    <p>
+                        ⚡ Bàn phím có 4 màu sắc thời trang và trẻ trung, tuyệt đẹp và Charming.
+                    </p>
+                    <p>
+                        ⚡ Bàn phím có 4 màu sắc thời trang và trẻ trung, tuyệt đẹp và Charming.
+                    </p>
+                    <p>
+                        ⚡ Bàn phím có 4 màu sắc thời trang và trẻ trung, tuyệt đẹp và Charming.
+                    </p>
+                </div>
+            </div>
+
+            <div className="product-rate" >
+                <h2 className="mgl-25" style={{ paddingTop: '40px' }}>Đánh giá sản phẩm</h2>
+                <hr></hr>
+                <div className="user-rate">
+                    {/* Comment */}
+                    <Row className="mgt-40">
+                        <Col span={2}>
+                            <div className="avt-user">
+                                <img src="https://res.cloudinary.com/djbju13al/image/upload/v1675700522/Avatar/1675700519338.jpg" />
+                            </div>
+                        </Col>
+                        <Col span={22} className="">
+                            <p style={{fontWeight: 'bold'}}>Nguyễn Đức Đức</p>
+                            <Rate value={4} style={{fontSize:'15px'}} />
+                            <p style={{fontSize: '13px', color: '#8c8c8c'}}>2023-1-1</p>
+                            <Row style={{marginTop: '10px'}}>
+                                <Col span={24}>
+                                    <p>Sản phẩm quá đẳng cấp. Không còn gì để bàn cãi.</p>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row className="mgt-40">
+                        <Col span={2}>
+                            <div className="avt-user">
+                                <img src="https://res.cloudinary.com/djbju13al/image/upload/v1675700522/Avatar/1675700519338.jpg" />
+                            </div>
+                        </Col>
+                        <Col span={22} className="">
+                            <p style={{fontWeight: 'bold'}}>Nguyễn Đức Đức</p>
+                            <Rate value={4} style={{fontSize:'15px'}} />
+                            <p style={{fontSize: '13px', color: '#8c8c8c'}}>2023-1-1</p>
+                            <Row style={{marginTop: '10px'}}>
+                                <Col span={24}>
+                                    <p>Sản phẩm quá đẳng cấp. Không còn gì để bàn cãi.</p>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row className="mgt-40">
+                        <Col span={2}>
+                            <div className="avt-user">
+                                <img src="https://res.cloudinary.com/djbju13al/image/upload/v1675700522/Avatar/1675700519338.jpg" />
+                            </div>
+                        </Col>
+                        <Col span={22} className="">
+                            <p style={{fontWeight: 'bold'}}>Nguyễn Đức Đức</p>
+                            <Rate value={4} style={{fontSize:'15px'}} />
+                            <p style={{fontSize: '13px', color: '#8c8c8c'}}>2023-1-1</p>
+                            <Row style={{marginTop: '10px'}}>
+                                <Col span={24}>
+                                    <p>Sản phẩm quá đẳng cấp. Không còn gì để bàn cãi.</p>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div>
             </div>
         </div>
     )

@@ -6,52 +6,77 @@ import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { RootState } from "../../store/store";
 import "./header.style.scss"
-
+import "../style-commond/commond.style.scss"
 
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
     const items: MenuProps['items'] = [
         {
-            label: (<Link to="/home">Trang chủ</Link>),
+            label: (<Link to="/home" >Trang chủ</Link>),
             key: 'home',
-            icon: <MailOutlined />,
+            icon: <MailOutlined  />,
+            style: {
+                color: "#884dff"
+            }
         },
         {
-            label: (<Link to="/login">Đăng nhập</Link>),
+            label: (<Link to="/login" >Đăng nhập</Link>),
             key: 'login',
-            icon: <AppstoreOutlined />
+            icon: <AppstoreOutlined />,
+            style: {
+                color: "#884dff"
+            }
         },
         {
             label: (<Link to="/admin/home">Quản trị</Link>),
             key: 'admin',
-            icon: <SettingOutlined />
+            icon: <SettingOutlined />,
+            style: {
+                color: "#884dff"
+            }
         },
         {
             label: `${user.firstName} ${user.lastName === undefined ? "" : user.lastName}`,
             key: 'username',
             icon: <UserOutlined />,
+            style: {
+                color: "#884dff",
+                
+            },
             children: [
                 {
                     label: "Đăng xuất",
                     key: 'logout',
                     onClick: () => {
                         localStorage.removeItem("accessToken")
+                    },
+                    style: {
+                        color: "#884dff"
                     }
                 },
                 {
                     label: "Đổi mật khẩu",
-                    key: 'changePassword'
+                    key: 'changePassword',
+                    style: {
+                        color: "#884dff"
+                    }
                 }
             ]
         },
         {
             label: (<Link to="/register">Đăng ký</Link>),
             key: "register",
+            style: {
+                color: "#884dff"
+            }
         },
         {
             label: (<Link to="/shop-create">Tạo shop</Link>),
             key: "shopCreate",
+            style: {
+                color: "#884dff"
+            }
         }
     ];
     const [current, setCurrent] = useState('home');
@@ -70,7 +95,7 @@ const Header = () => {
             <div className="header">
                 <Row>
                     <Col span={10}>
-                        <h1>Ecommerce</h1>
+                        <h1 style={{color:"#884dff"}}>Ecommerce</h1>
                     </Col>
                     <Col span={14}>
                         <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
@@ -94,10 +119,10 @@ const Header = () => {
                             <Col span={4}>
                             </Col>
                             <Col span={6}>
-                                <ShoppingCartOutlined style={{fontSize: '25px'}} />
+                                <ShoppingCartOutlined style={{fontSize: '25px'}} className="icon-color cs-pointer" />
                             </Col>
                             <Col span={6}>
-                                <BellOutlined style={{fontSize: '25px'}} />
+                                <BellOutlined style={{fontSize: '25px'}} className="icon-color cs-pointer" />
                             </Col>
                         </Row>
                     </Col>
