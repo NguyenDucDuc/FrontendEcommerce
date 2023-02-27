@@ -10,6 +10,7 @@ const ProductDetail = () => {
     }
     return (
         <div>
+            
             <div className="product-detail">
                 {/* Infomation */}
                 <Row className="mgb-40 min-height">
