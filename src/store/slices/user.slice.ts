@@ -106,7 +106,15 @@ const userSlice = createSlice({
     name: "user",
     initialState: initialUser,
     reducers: {
-
+        logout: (state) => {
+            state.user.userName = "Guest"
+            state.user.passWord = ""
+            state.user.avatar = ""
+            state.user.firstName = "Guest"
+            state.user.lastName = ""
+            state.user.phone = ""
+            state.accessToken = ""
+        }
     },
     extraReducers: (builder) => {
         // normal login
@@ -148,3 +156,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
+export const {logout} = userSlice.actions

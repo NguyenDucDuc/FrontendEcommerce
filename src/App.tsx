@@ -13,6 +13,7 @@ import AdminShop from './components/admin/shop/shop.component';
 import HomeAdmin from './components/admin/home/home.component';
 import MainLayout from './components/layout/main.layout';
 import ProductDetail from './components/product-detail/productdetail.component';
+import ProductSales from './components/products-sales/productsales.component';
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/product-detail' element={<ProductDetail />} />
+            <Route path='/shop-create' element={<ShopCreate />} />
+            <Route path='/products' element={<ProductSales />} />
           </Route>
         </Routes>
         {/* Route Admin */}

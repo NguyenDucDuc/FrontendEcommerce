@@ -2,15 +2,17 @@ import { AppstoreOutlined, BellOutlined, DownOutlined, MailOutlined, Notificatio
 import { Col, Dropdown, Menu, MenuProps, Row, Space, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { RootState } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import "./header.style.scss"
 import "../style-commond/commond.style.scss"
+import { logout } from "../../store/slices/user.slice";
 
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
+    const dispatch = useAppDispatch()
     const items: MenuProps['items'] = [
         {
             label: (<Link to="/home" >Trang chủ</Link>),
@@ -50,6 +52,7 @@ const Header = () => {
                     key: 'logout',
                     onClick: () => {
                         localStorage.removeItem("accessToken")
+                        dispatch(logout())
                     },
                     style: {
                         color: "#884dff"
@@ -91,14 +94,14 @@ const Header = () => {
 
 
     return (
-        <div>
-            <div className="header">
+        <div className="header">
+            <div className="header-child">
                 <Row>
                     <Col span={10}>
                         <h1 style={{color:"#884dff"}}>Ecommerce</h1>
                     </Col>
                     <Col span={14}>
-                        <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+                        <Menu  onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
                     </Col>
                 </Row>
                 <Row style={{marginTop: '20px', marginLeft: '25px'}}>
@@ -119,10 +122,10 @@ const Header = () => {
                             <Col span={4}>
                             </Col>
                             <Col span={6}>
-                                <ShoppingCartOutlined style={{fontSize: '25px'}} className="icon-color cs-pointer" />
+                                <ShoppingCartOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
                             </Col>
                             <Col span={6}>
-                                <BellOutlined style={{fontSize: '25px'}} className="icon-color cs-pointer" />
+                                <BellOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
                             </Col>
                         </Row>
                     </Col>
