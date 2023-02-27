@@ -1,8 +1,10 @@
-import { Button, Col, Row } from "antd"
+import { Avatar, Button, Col, Row } from "antd"
 import CardProduct from "../card-product/card.component"
 import HomeCarousel from "./carousel/carousel.component"
 import "./home.style.scss"
 import "../style-commond/commond.style.scss"
+import { ClearOutlined, MobileOutlined, TagsOutlined, ToolOutlined } from "@ant-design/icons"
+import CardCategory from "../card-category/cardcategory.component"
 
 const Home = () => {
     return (
@@ -41,7 +43,7 @@ const Home = () => {
             </section>
             {/* Products */}
             <h2 style={{ marginTop: '50px', marginLeft: '2%' }}>Sản phẩm nổi bật</h2>
-            <hr></hr>
+            <hr color="#884dff"></hr>
             <section className="section2">
                 <div className="product-promotion">
                     <Row>
@@ -70,8 +72,16 @@ const Home = () => {
                         <h1 className="title-credit-card">DỄ DÀNG THANH TOÁN VỚI NHIỀU HÌNH THỨC KHÁC NHAU</h1>
                         <div className="line"></div>
                     </Col>
-                    
+
                 </Row>
+            </section>
+            {/* category */}
+            <h2 style={{ marginTop: '50px', marginLeft: '2%' }}>Danh mục phổ biến</h2>
+            <hr color="#884dff"></hr>
+            <section className="section-category">
+                <CardCategory src="./images/category-mobile.png" categoryName="Điện thoại" />
+                <CardCategory src="./images/category-clothes.png" categoryName="Quần áo" />
+                <CardCategory src="./images/category-book.png" categoryName="Sách" />
             </section>
         </div>
     )
