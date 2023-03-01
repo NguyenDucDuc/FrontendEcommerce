@@ -15,6 +15,7 @@ import MainLayout from './components/layout/main.layout';
 import ProductDetail from './components/product-detail/productdetail.component';
 import ProductSales from './components/products-sales/productsales.component';
 import ShopProfile from './components/shop-profile/shopprofile.component';
+import Cart from './components/cart/cart.component';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path='/shop-create' element={<ShopCreate />} />
             <Route path='/products' element={<ProductSales />} />
             <Route path='/shop-profile' element={<ShopProfile />} />
+            <Route path='/cart' element={<Cart />} />
           </Route>
         </Routes>
         {/* Route Admin */}
