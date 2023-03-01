@@ -948,97 +948,97 @@ const Register = () => {
                         onFinishFailed={onFinishFailed}
                         autoComplete="off">
                         <Form.Item
-                            label="Username"
+                            label="Tên tài khoản"
                             name="userName"
-                            rules={[{ required: true, message: 'Please input your username!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item
-                            label="First name"
+                            label="Họ, tên lót"
                             name="firstName"
-                            rules={[{ required: true, message: 'Please input your first name!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item
-                            label="Last name"
+                            label="Tên chính"
                             name="lastName"
-                            rules={[{ required: true, message: 'Please input your last name!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item
-                            label="Birth day"
+                            label="Ngày sinh"
                             name="birthDay"
-                            rules={[{ required: true, message: 'Please input your birth day!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input type="date" />
                         </Form.Item>
 
                         <Form.Item
-                            label="Phone"
+                            label="Số điện thoại"
                             name="phone"
-                            rules={[{ required: true, message: 'Please input your phone number!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item
                             label="Email"
                             name="email"
-                            rules={[{ required: true, message: 'Please input your email address!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item
-                            label="City"
+                            label="Tỉnh/Thành phố"
                             name="city"
-                            rules={[{ required: true, message: 'Please input your city!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Select options={city} showSearch onChange={handleCityChange} />
                         </Form.Item>
 
                         <Form.Item
-                            label="District"
+                            label="Quận/Huyện"
                             name="district"
-                            rules={[{ required: true, message: 'Please input your district!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Select options={districts} showSearch onChange={handleDistrictChange} />
                         </Form.Item>
 
                         <Form.Item
-                            label="Ward"
+                            label="Phường/Xã"
                             name="ward"
-                            rules={[{ required: true, message: 'Please input your ward!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Select options={wards} showSearch />
                         </Form.Item>
 
                         <Form.Item
-                            label="Street"
+                            label="Đường"
                             name="street"
-                            rules={[{ required: true, message: 'Please input your street!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item
-                            label="Avatar"
+                            label="Ảnh đại diện"
                             name="avatar"
-                            rules={[{ required: true, message: 'Please choose your avatar!' }]}>
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input type="file" onChange={(e) => display(e)} />
                         </Form.Item>
 
                         <Form.Item
-                            label="Password"
+                            label="Mật khẩu"
                             name="passWord"
-                            rules={[{ required: true, message: 'Please input your password!' }]}
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}
                         >
                             <Input.Password />
                         </Form.Item>
 
                         <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                            <Checkbox >Remember me</Checkbox>
+                            <Checkbox >Nhớ mật khẩu</Checkbox>
                         </Form.Item>
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             <Button type="primary" htmlType="submit" className="btn-color" size="large">
-                                Submit
+                                Đăng ký
                             </Button>
                         </Form.Item>
                     </Form>

@@ -73,7 +73,7 @@ const Login = () => {
                     </Col>
                     <Col span={11} className="mg-lr">
 
-                        <h1 className="text-color text-center mgb-60 mgt-20">USER LOGIN</h1>
+                        <h1 className="text-color text-center mgb-60 mgt-20">Đăng Nhập</h1>
                         <Form
                             name="basic"
                             labelCol={{ span: 8 }}
@@ -83,30 +83,31 @@ const Login = () => {
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"
+                            size="large"
                         >
                             <Form.Item
-                                label="Username"
+                                label="Tên tài khoản"
                                 name="username"
-                                rules={[{ required: true, message: 'Please input your username!' }]}
+                                rules={[{ required: true, message: 'Bắt buộc!' }]}
                             >
                                 <Input />
                             </Form.Item>
 
                             <Form.Item
-                                label="Password"
+                                label="Mật khẩu"
                                 name="password"
-                                rules={[{ required: true, message: 'Please input your password!' }]}
+                                rules={[{ required: true, message: 'Bắt buộc!' }]}
                             >
                                 <Input.Password />
                             </Form.Item>
 
                             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                                <Checkbox>Remember me</Checkbox>
+                                <Checkbox>Nhớ mật khẩu</Checkbox>
                             </Form.Item>
 
                             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                                 <Button type="primary" htmlType="submit" className="btn-color">
-                                    Submit
+                                    Đăng nhập
                                 </Button>
                             </Form.Item>
                         </Form>
