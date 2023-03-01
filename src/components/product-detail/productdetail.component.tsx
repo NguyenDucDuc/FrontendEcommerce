@@ -1,16 +1,26 @@
-import { EyeOutlined, HeartOutlined, MessageOutlined, SendOutlined, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
-import { Avatar, Button, Col, InputNumber, Rate, Row } from "antd"
+import { CloseOutlined, EyeOutlined, HeartOutlined, MessageOutlined, SendOutlined, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
+import { Avatar, Button, Col, Input, InputNumber, Rate, Row } from "antd"
 import "./productdetail.style.scss"
 import "../style-commond/commond.style.scss"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 
 const ProductDetail = () => {
+    const [showChatBox, setShowChatBox] = useState<boolean>(false)
+    const nav = useNavigate()
     const handleOnChangeRate = (values: number) => {
         console.log(values)
     }
+    const handleChangeShowChatBox = () => {
+        setShowChatBox(true)
+        console.log(showChatBox)
+    }
+    const handleChangeHideChatBox = () => {
+        setShowChatBox(false)
+    }
     return (
-        <div>
-            
+        <div className="product-detail-father">
             <div className="product-detail">
                 {/* Infomation */}
                 <Row className="mgb-40 min-height">
@@ -92,10 +102,10 @@ const ProductDetail = () => {
                                 <p style={{ marginTop: '25px', fontWeight: 'bold' }}>Hades Studio</p>
                                 <Row className="mgt-20">
                                     <Col span={12}>
-                                        <Button className="btn-color" type="primary" icon={<SendOutlined />}>Nhắn tin</Button>
+                                        <Button className="btn-color" type="primary" icon={<SendOutlined />} onClick={handleChangeShowChatBox}>Nhắn tin</Button>
                                     </Col>
                                     <Col span={12}>
-                                        <Button className="btn-color" type="primary" icon={<EyeOutlined />}>Xem shop</Button>
+                                        <Button className="btn-color" type="primary" icon={<EyeOutlined />} onClick={() => nav("/shop-profile")}>Xem shop</Button>
                                     </Col>
                                 </Row>
                             </Col>
@@ -141,10 +151,10 @@ const ProductDetail = () => {
                             </div>
                         </Col>
                         <Col span={22} className="">
-                            <p style={{fontWeight: 'bold'}}>Nguyễn Đức Đức</p>
-                            <Rate value={4} style={{fontSize:'15px'}} />
-                            <p style={{fontSize: '13px', color: '#8c8c8c'}}>2023-1-1</p>
-                            <Row style={{marginTop: '10px'}}>
+                            <p style={{ fontWeight: 'bold' }}>Nguyễn Đức Đức</p>
+                            <Rate value={4} style={{ fontSize: '15px' }} />
+                            <p style={{ fontSize: '13px', color: '#8c8c8c' }}>2023-1-1</p>
+                            <Row style={{ marginTop: '10px' }}>
                                 <Col span={24}>
                                     <p>Sản phẩm quá đẳng cấp. Không còn gì để bàn cãi.</p>
                                 </Col>
@@ -158,10 +168,10 @@ const ProductDetail = () => {
                             </div>
                         </Col>
                         <Col span={22} className="">
-                            <p style={{fontWeight: 'bold'}}>Nguyễn Đức Đức</p>
-                            <Rate value={4} style={{fontSize:'15px'}} />
-                            <p style={{fontSize: '13px', color: '#8c8c8c'}}>2023-1-1</p>
-                            <Row style={{marginTop: '10px'}}>
+                            <p style={{ fontWeight: 'bold' }}>Nguyễn Đức Đức</p>
+                            <Rate value={4} style={{ fontSize: '15px' }} />
+                            <p style={{ fontSize: '13px', color: '#8c8c8c' }}>2023-1-1</p>
+                            <Row style={{ marginTop: '10px' }}>
                                 <Col span={24}>
                                     <p>Sản phẩm quá đẳng cấp. Không còn gì để bàn cãi.</p>
                                 </Col>
@@ -175,10 +185,10 @@ const ProductDetail = () => {
                             </div>
                         </Col>
                         <Col span={22} className="">
-                            <p style={{fontWeight: 'bold'}}>Nguyễn Đức Đức</p>
-                            <Rate value={4} style={{fontSize:'15px'}} />
-                            <p style={{fontSize: '13px', color: '#8c8c8c'}}>2023-1-1</p>
-                            <Row style={{marginTop: '10px'}}>
+                            <p style={{ fontWeight: 'bold' }}>Nguyễn Đức Đức</p>
+                            <Rate value={4} style={{ fontSize: '15px' }} />
+                            <p style={{ fontSize: '13px', color: '#8c8c8c' }}>2023-1-1</p>
+                            <Row style={{ marginTop: '10px' }}>
                                 <Col span={24}>
                                     <p>Sản phẩm quá đẳng cấp. Không còn gì để bàn cãi.</p>
                                 </Col>
@@ -187,6 +197,35 @@ const ProductDetail = () => {
                     </Row>
                 </div>
             </div>
+            {/* chat box */}
+            {
+                showChatBox === true ?
+                    <div className="message">
+                        <Row className="mgt-10">
+                            <Col span={22}>
+                            <h4 className="mgl-40">Hades studio</h4>
+                            </Col>
+                            <Col span={2}>
+                                <CloseOutlined style={{color: 'red', fontWeight: 'bold'}} className="cs-pointer" onClick={handleChangeHideChatBox} />
+                            </Col>
+                        </Row>
+                        <div className="message-content">
+
+                        </div>
+                        <Row className="message-input">
+                            <Col span={17}>
+                                <Input type="text" />
+                            </Col>
+                            <Col span={1}>
+                            </Col>
+                            <Col span={3}>
+                                <Button className="btn-color" style={{ color: 'white' }} icon={<SendOutlined />}>Send</Button>
+                            </Col>
+                        </Row>
+                    </div>
+                    :
+                    null
+            }
         </div>
     )
 }

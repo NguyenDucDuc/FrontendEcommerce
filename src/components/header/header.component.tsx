@@ -1,5 +1,5 @@
 import { AppstoreOutlined, BellOutlined, DownOutlined, MailOutlined, NotificationFilled, NotificationOutlined, SettingOutlined, ShoppingCartOutlined, ShoppingFilled, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
-import { Col, Dropdown, Menu, MenuProps, Row, Space, Typography } from "antd";
+import { Badge, Col, Dropdown, Menu, MenuProps, Row, Space, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -122,10 +122,14 @@ const Header = () => {
                             <Col span={4}>
                             </Col>
                             <Col span={6}>
-                                <ShoppingCartOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                <Badge count={100} className="cs-pointer">
+                                    <ShoppingCartOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                </Badge>
                             </Col>
                             <Col span={6}>
-                                <BellOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                <Badge count={100} className="cs-pointer">
+                                    <BellOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                </Badge>
                             </Col>
                         </Row>
                     </Col>
