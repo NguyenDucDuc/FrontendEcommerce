@@ -1,6 +1,6 @@
 import "./shopprofile.style.scss"
 import "../style-commond/commond.style.scss"
-import { Button, Col, Input, Menu, MenuProps, Row } from "antd"
+import { Button, Col, Input, Menu, MenuProps, Pagination, Row } from "antd"
 import { AppstoreOutlined, CloseOutlined, MailOutlined, SendOutlined, StarOutlined } from "@ant-design/icons"
 import { useState } from "react"
 import CardProduct from "../card-product/card.component"
@@ -41,6 +41,10 @@ const ShopProfile = () => {
     const handleHideChatBox = () => {
         setShowChatBox(false)
     }
+    const handleChangePageSize = (page: number, pageSize: number) => {
+        console.log(page)
+        console.log(pageSize)
+    }
     return (
         <div className="shop-profile mgt-40">
             <Row align="middle">
@@ -72,7 +76,7 @@ const ShopProfile = () => {
                             <Col span={12}>
                                 <h4>Số đánh giá: <span className="txt-red">420</span></h4>
                                 <h4>Tỷ lệ đánh giá: <span className="txt-red">4/5</span></h4>
-                                <h4>Ngày tham gia: <span className="txt-red">150</span></h4>
+                                <h4>Số lượt thích: <span className="txt-red">1.290</span></h4>
                             </Col>
                         </Row>
                     </div>
@@ -122,6 +126,16 @@ const ShopProfile = () => {
                     {arr.map((item, idx) => <Col span={6}><CardProduct key={idx} /></Col>)}
                 </Row>
             </div>
+            {/* Pagination */}
+            <Row className="mgt-40">
+                <Col span={9}>
+                </Col>
+                <Col span={6}>
+                    <Pagination defaultCurrent={1} pageSize={12} total={50} onChange={handleChangePageSize} />
+                </Col>
+                <Col span={9}>
+                </Col>
+            </Row>
         </div>
     )
 }
