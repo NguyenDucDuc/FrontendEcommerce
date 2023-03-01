@@ -3,7 +3,7 @@ import { Badge, Col, Dropdown, Menu, MenuProps, Row, Space, Typography } from "a
 import Search from "antd/es/input/Search";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store/store";
 import "./header.style.scss"
 import "../style-commond/commond.style.scss"
@@ -13,6 +13,7 @@ import { logout } from "../../store/slices/user.slice";
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
     const dispatch = useAppDispatch()
+    const nav = useNavigate()
     const items: MenuProps['items'] = [
         {
             label: (<Link to="/home" >Trang chủ</Link>),
@@ -123,7 +124,7 @@ const Header = () => {
                             </Col>
                             <Col span={6}>
                                 <Badge count={100} className="cs-pointer">
-                                    <ShoppingCartOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                    <ShoppingCartOutlined onClick={() => nav("/cart")} style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
                                 </Badge>
                             </Col>
                             <Col span={6}>

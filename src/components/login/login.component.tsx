@@ -17,16 +17,6 @@ interface IResponseGoogleLogin {
     picture: string;
 }
 
-interface IResponseFacebookLogin {
-    email?: string;
-    name?: string;
-    picture?: {
-        data?: {
-            url?: string;
-        }
-    }
-    id?: string;
-}
 
 
 const Login = () => {
