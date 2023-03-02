@@ -91,10 +91,10 @@ export const facebookLoginAsyncThunk = createAsyncThunk("user/facebookLogin", as
 const initialUser: IUser = {
     user: {
         id: 88,
-        userName: "Guest",
+        userName: "",
         passWord: "",
         avatar: "",
-        firstName: "Guest",
+        firstName: "Chưa đăng nhập",
         lastName: "",
         phone: ""
     },
