@@ -8,17 +8,25 @@ import { RootState, useAppDispatch } from "../../store/store";
 import "./header.style.scss"
 import "../style-commond/commond.style.scss"
 import { logout } from "../../store/slices/user.slice";
+import MiniCartItem from "./mini-cart-item/minicartitem.component";
 
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
+    const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const nav = useNavigate()
+    const handleMouseEnterCartMini = () => {
+        setIsShowCartMini(true)
+    }
+    const handleMouseLeaveCartMini = () => {
+        setIsShowCartMini(false)
+    }
     const items: MenuProps['items'] = [
         {
             label: (<Link to="/home" >Trang chủ</Link>),
             key: 'home',
-            icon: <MailOutlined  />,
+            icon: <MailOutlined />,
             style: {
                 color: "#884dff"
             }
@@ -45,7 +53,7 @@ const Header = () => {
             icon: <UserOutlined />,
             style: {
                 color: "#884dff",
-                
+
             },
             children: [
                 {
@@ -89,7 +97,7 @@ const Header = () => {
         console.log('click ', e);
         setCurrent(e.key);
     };
-    const onSearch = (value:string) => {
+    const onSearch = (value: string) => {
         console.log(value)
     }
 
@@ -99,37 +107,49 @@ const Header = () => {
             <div className="header-child">
                 <Row>
                     <Col span={10}>
-                        <h1 style={{color:"#884dff"}}>Ecommerce</h1>
+                        <h1 style={{ color: "#884dff" }}>Ecommerce</h1>
                     </Col>
                     <Col span={14}>
-                        <Menu  onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+                        <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
                     </Col>
                 </Row>
-                <Row style={{marginTop: '20px', marginLeft: '25px'}}>
+                <Row style={{ marginTop: '20px', marginLeft: '25px' }}>
                     <Col span={10}>
                     </Col>
                     <Col span={8}>
                         <Search
-                            placeholder="input search text"
+                            placeholder="Tìm kiếm"
                             allowClear
                             enterButton="Search"
                             size="large"
                             onSearch={onSearch}
-                            
+
                         />
                     </Col>
                     <Col span={6}>
                         <Row>
                             <Col span={4}>
                             </Col>
-                            <Col span={6}>
+                            <Col span={6} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini}>
                                 <Badge count={100} className="cs-pointer">
-                                    <ShoppingCartOutlined onClick={() => nav("/cart")} style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                    <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
                                 </Badge>
+                                {
+                                    isShowCartMini === true
+                                        ?
+                                        <div className="cart-mini">
+                                            <MiniCartItem />
+                                            <MiniCartItem />
+                                            <MiniCartItem />
+                                            <MiniCartItem />
+                                        </div>
+                                        :
+                                        null
+                                }
                             </Col>
                             <Col span={6}>
                                 <Badge count={100} className="cs-pointer">
-                                    <BellOutlined style={{fontSize: '25px', color: "#884dff"}} className="icon-color cs-pointer" />
+                                    <BellOutlined style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
                                 </Badge>
                             </Col>
                         </Row>
