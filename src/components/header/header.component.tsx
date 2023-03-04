@@ -9,11 +9,13 @@ import "./header.style.scss"
 import "../style-commond/commond.style.scss"
 import { logout } from "../../store/slices/user.slice";
 import MiniCartItem from "./mini-cart-item/minicartitem.component";
+import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
 
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
     const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
+    const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const handleMouseEnterCartMini = () => {
@@ -21,6 +23,12 @@ const Header = () => {
     }
     const handleMouseLeaveCartMini = () => {
         setIsShowCartMini(false)
+    }
+    const handleMouseEnterNotification = () => {
+        setIsShowNotifi(true)
+    }
+    const handleMouseLeaveNotification = () => {
+        setIsShowNotifi(false)
     }
     const items: MenuProps['items'] = [
         {
@@ -127,10 +135,10 @@ const Header = () => {
                         />
                     </Col>
                     <Col span={6}>
-                        <Row>
+                        <Row justify="space-between">
                             <Col span={4}>
                             </Col>
-                            <Col span={6} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini}>
+                            <Col  span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
                                 <Badge count={100} className="cs-pointer">
                                     <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
                                 </Badge>
@@ -147,11 +155,23 @@ const Header = () => {
                                         null
                                 }
                             </Col>
-                            <Col span={6}>
+                            <Col  span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
                                 <Badge count={100} className="cs-pointer">
-                                    <BellOutlined style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
+                                    <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
                                 </Badge>
+                                {
+                                    isShowNotifi === true
+                                        ?
+                                        <div className="cart-mini notification">
+                                            <MiniCardNotification />
+                                            <MiniCardNotification />
+                                            <MiniCardNotification />
+                                        </div>
+                                        :
+                                        null
+                                }
                             </Col>
+                            <Col span={8}></Col>
                         </Row>
                     </Col>
                 </Row>

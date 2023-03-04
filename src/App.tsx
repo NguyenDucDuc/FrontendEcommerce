@@ -16,6 +16,7 @@ import ProductDetail from './components/product-detail/productdetail.component';
 import ProductSales from './components/products-sales/productsales.component';
 import ShopProfile from './components/shop-profile/shopprofile.component';
 import Cart from './components/cart/cart.component';
+import Notification from './components/notification/notification.component';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path='/products' element={<ProductSales />} />
             <Route path='/shop-profile' element={<ShopProfile />} />
             <Route path='/cart' element={<Cart />} />
+            <Route path='/notification' element={<Notification />} />
           </Route>
         </Routes>
         {/* Route Admin */}

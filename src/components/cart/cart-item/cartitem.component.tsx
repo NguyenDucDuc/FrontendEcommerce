@@ -1,16 +1,35 @@
-import { Button, Col, InputNumber, Row } from "antd"
+import { Button, Checkbox, Col, InputNumber, Row } from "antd"
+import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
+import { addItem, deleteItem, ICartItem } from "../../../store/slices/cartitem.slice";
+import { useAppDispatch } from "../../../store/store";
 import "./cartitem.style.scss"
 
 interface IProps {
     id?: number;
     image?: string;
     desc?: string;
-    price?: number;
+    price: number;
 }
 
 const CartItem: React.FC<IProps> = ({id, image, desc, price}) => {
+    const valueCheckBox:ICartItem = {
+        productId: id,
+        image: image,
+        desc: desc,
+        price: price
+    }
+    const dispatch = useAppDispatch()
     const nav = useNavigate()
+    const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+        console.log(e.target.checked)
+        if(e.target.checked === true){
+            dispatch(addItem(e.target.value))
+        }
+        if(e.target.checked === false){
+            dispatch(deleteItem(valueCheckBox))
+        }
+    }
     return (
         <div className="cart-item">
             <Row>
@@ -36,6 +55,11 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price}) => {
                 </Col>
                 <Col span={5} className="mgt-20">
                     <Button type="primary" className="btn-danger">Xóa</Button>
+                </Col>
+                <Col span={2} className="mgt-20">
+                    <Checkbox value={valueCheckBox} onChange={handleCheckboxChange}>
+
+                    </Checkbox>
                 </Col>
             </Row>
         </div>
