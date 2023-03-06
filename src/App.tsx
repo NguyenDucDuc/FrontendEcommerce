@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import "./App.scss"
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import './App.scss';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/login/login.component';
-import Header from './components/header/header.component'
-import ReactGa from 'react-ga'
+import Header from './components/header/header.component';
+import ReactGa from 'react-ga';
 import Register from './components/register/register.component';
 import ShopCreate from './components/shop/createshop.component';
 import Home from './components/home/home.component';
@@ -21,13 +21,12 @@ import UserProfile from './components/user-profile/userprofile.component';
 import Profile from './components/user-profile/profile/profile.component';
 import Address from './components/user-profile/address/address.component';
 
-
 function App() {
-  
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+
           <Route path='/' element={<MainLayout />}>
             <Route path='/home' element={<Home />} />
             <Route path='/login' element={<Login />} />
@@ -46,10 +45,10 @@ function App() {
         </Routes>
         {/* Route Admin */}
         <Routes>
-          <Route path='/admin' element={<Admin />}>
-            <Route path='/admin/home' element={<HomeAdmin />} />
-            <Route path='/admin/sellers' element={<AdminSeller />} />
-            <Route path='/admin/shops' element={<AdminShop />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/home" element={<HomeAdmin />} />
+            <Route path="/admin/sellers" element={<AdminSeller />} />
+            <Route path="/admin/shops" element={<AdminShop />} />
           </Route>
         </Routes>
       </BrowserRouter>
