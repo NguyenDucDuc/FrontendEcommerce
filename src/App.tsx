@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import "./App.scss"
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import './App.scss';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/login/login.component';
-import Header from './components/header/header.component'
-import ReactGa from 'react-ga'
+import Header from './components/header/header.component';
+import ReactGa from 'react-ga';
 import Register from './components/register/register.component';
 import ShopCreate from './components/shop/createshop.component';
 import Home from './components/home/home.component';
@@ -18,31 +18,29 @@ import ShopProfile from './components/shop-profile/shopprofile.component';
 import Cart from './components/cart/cart.component';
 import Notification from './components/notification/notification.component';
 
-
 function App() {
-  
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<MainLayout />}>
-            <Route path='/home' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/product-detail' element={<ProductDetail />} />
-            <Route path='/shop-create' element={<ShopCreate />} />
-            <Route path='/products' element={<ProductSales />} />
-            <Route path='/shop-profile' element={<ShopProfile />} />
-            <Route path='/cart' element={<Cart />} />
-            <Route path='/notification' element={<Notification />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/product-detail" element={<ProductDetail />} />
+            <Route path="/shop-create" element={<ShopCreate />} />
+            <Route path="/products" element={<ProductSales />} />
+            <Route path="/shop-profile" element={<ShopProfile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/notification" element={<Notification />} />
           </Route>
         </Routes>
         {/* Route Admin */}
         <Routes>
-          <Route path='/admin' element={<Admin />}>
-            <Route path='/admin/home' element={<HomeAdmin />} />
-            <Route path='/admin/sellers' element={<AdminSeller />} />
-            <Route path='/admin/shops' element={<AdminShop />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/home" element={<HomeAdmin />} />
+            <Route path="/admin/sellers" element={<AdminSeller />} />
+            <Route path="/admin/shops" element={<AdminShop />} />
           </Route>
         </Routes>
       </BrowserRouter>

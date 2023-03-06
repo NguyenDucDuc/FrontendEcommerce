@@ -7,7 +7,7 @@
     background: #884dff;
 }
 
-.mgl-25{
+.mgl-25 {
     margin-left: 25px;
 }
 .mgl-40 {
@@ -58,4 +58,19 @@
 }
 .position-rl {
     position: relative;
+}
+
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.grow {
+    flex-grow: 1;
+}
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
