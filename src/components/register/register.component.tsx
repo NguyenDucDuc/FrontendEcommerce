@@ -935,7 +935,9 @@ const Register = () => {
         <div className="register">
             <Row>
                 <Col span={12}>
-                    <img src="images/login-ecommerce.png" />
+                    <div className="register-img">
+                        <img src="images/login-ecommerce.png" />
+                    </div>
                 </Col>
                 <Col span={12}>
                     <Form size="large"

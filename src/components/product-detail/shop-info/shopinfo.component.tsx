@@ -5,19 +5,13 @@ import { useNavigate } from "react-router-dom"
 import "./shopinfo.style.scss"
 
 interface IProps {
-    showChat: boolean
+    handleShowChatBox: any;
 }
 
-const ShopInfo = () => {
+const ShopInfo: React.FC<IProps> = ({handleShowChatBox}) => {
     const nav = useNavigate()
     const handleOnChangeRate = (values: number) => {
         console.log(values)
-    }
-    const handleChangeShowChatBox = () => {
-        
-    }
-    const handleChangeHideChatBox = () => {
-        
     }
     return (
             <div className="shop-info">
@@ -33,7 +27,7 @@ const ShopInfo = () => {
                                 <p style={{ marginTop: '25px', fontWeight: 'bold' }}>Hades Studio</p>
                                 <Row className="mgt-20">
                                     <Col span={12}>
-                                        <Button className="btn-color" type="primary" icon={<SendOutlined />} onClick={handleChangeShowChatBox}>Nhắn tin</Button>
+                                        <Button className="btn-color" type="primary" icon={<SendOutlined />} onClick={handleShowChatBox}>Nhắn tin</Button>
                                     </Col>
                                     <Col span={12}>
                                         <Button className="btn-color" type="primary" icon={<EyeOutlined />} onClick={() => nav("/shop-profile")}>Xem shop</Button>

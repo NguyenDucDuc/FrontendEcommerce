@@ -42,7 +42,7 @@ const ProductDetail = () => {
             />
 
             {/* Shop Information */}
-            <ShopInfo />
+            <ShopInfo handleShowChatBox={handleChangeShowChatBox} />
             
             <ProductAttribute attributes={attributeDemo} />
 
