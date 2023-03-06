@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { number } from "yup";
-import Api, { endpoint } from "../../ configs/Api";
+import Api, { AuthApi, endpoint } from "../../ configs/Api";
 
 
 interface IUser {
@@ -12,6 +12,8 @@ interface IUser {
         lastName?: string;
         phone?: string;
         avatar?: string;
+        email?: string;
+        birthDay?: string;
     },
     accessToken?: string;
     status: string;
@@ -88,6 +90,12 @@ export const facebookLoginAsyncThunk = createAsyncThunk("user/facebookLogin", as
     return res.data.data
 })
 
+export const currentUserAsyncThunk = createAsyncThunk("/user/currentUser", async () => {
+    const res = await AuthApi().get(endpoint.user.currentUser)
+    console.log(res.data.data)
+    return res.data.data
+})
+
 const initialUser: IUser = {
     user: {
         id: 88,
@@ -96,7 +104,9 @@ const initialUser: IUser = {
         avatar: "",
         firstName: "Chưa đăng nhập",
         lastName: "",
-        phone: ""
+        phone: "",
+        birthDay: "2004-02-07",
+        email: ""
     },
     accessToken: "",
     status: ""
@@ -151,6 +161,14 @@ const userSlice = createSlice({
         })
         builder.addCase(facebookLoginAsyncThunk.rejected, (state) => {
             state.status = "rejected"
+        })
+        // current user
+        builder.addCase(currentUserAsyncThunk.pending, (state) => {
+            state.status = "pending"
+        })
+        builder.addCase(currentUserAsyncThunk.fulfilled, (state, action) => {
+            state.status = "fulfilled"
+            state.user = action.payload
         })
     }
 })

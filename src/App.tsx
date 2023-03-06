@@ -17,6 +17,9 @@ import ProductSales from './components/products-sales/productsales.component';
 import ShopProfile from './components/shop-profile/shopprofile.component';
 import Cart from './components/cart/cart.component';
 import Notification from './components/notification/notification.component';
+import UserProfile from './components/user-profile/userprofile.component';
+import Profile from './components/user-profile/profile/profile.component';
+import Address from './components/user-profile/address/address.component';
 
 
 function App() {
@@ -35,6 +38,10 @@ function App() {
             <Route path='/shop-profile' element={<ShopProfile />} />
             <Route path='/cart' element={<Cart />} />
             <Route path='/notification' element={<Notification />} />
+            <Route path='/user' element={<UserProfile />}>
+              <Route path='/user/profile' element={<Profile />} />
+              <Route path='/user/address' element={<Address />} />
+            </Route>
           </Route>
         </Routes>
         {/* Route Admin */}

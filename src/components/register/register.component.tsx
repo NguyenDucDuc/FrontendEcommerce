@@ -6,7 +6,7 @@ import Api, { endpoint } from "../../ configs/Api";
 import "./register.style.scss"
 
 
-const city = [
+export const city = [
     {
         value: "Hòa Bình",
         label: "Hòa Bình",

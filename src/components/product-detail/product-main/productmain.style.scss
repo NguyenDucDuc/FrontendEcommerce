@@ -1,0 +1,26 @@
+div.product-main {
+    width: 90%;
+    margin: 0 auto;
+    height: 700px;
+    margin-top: 50px;
+    box-shadow: 15px 15px 20px #bfbfbf;
+    border-radius: 10px;
+    img {
+        width: 100%;
+        height: 450px;
+    }
+    .group-add {
+        margin-top: 50px;
+    }
+    div.group-img {
+        width: 100%;
+        height: 100px;
+        margin-top: 20px;
+        img {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #cccccc;
+            cursor: pointer;
+        }
+    }
+}
