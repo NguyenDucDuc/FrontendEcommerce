@@ -1,13 +1,13 @@
 import { AppstoreOutlined, BellOutlined, DownOutlined, MailOutlined, NotificationFilled, NotificationOutlined, SettingOutlined, ShoppingCartOutlined, ShoppingFilled, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
-import { Badge, Col, Dropdown, Menu, MenuProps, Row, Space, Typography } from "antd";
+import { Badge, Button, Col, Dropdown, Menu, MenuProps, Row, Space, Spin, Typography } from "antd";
 import Search from "antd/es/input/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store/store";
 import "./header.style.scss"
 import "../style-commond/commond.style.scss"
-import { logout } from "../../store/slices/user.slice";
+import { currentUserAsyncThunk, logout } from "../../store/slices/user.slice";
 import MiniCartItem from "./mini-cart-item/minicartitem.component";
 import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
 
@@ -18,6 +18,12 @@ const Header = () => {
     const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const nav = useNavigate()
+    useEffect( () => {
+        const getCurrentUser = () => {
+            dispatch(currentUserAsyncThunk())
+        }
+        getCurrentUser()
+    }, [])
     const handleMouseEnterCartMini = () => {
         setIsShowCartMini(true)
     }
@@ -56,7 +62,7 @@ const Header = () => {
             }
         },
         {
-            label: `${user.firstName} ${user.lastName === undefined ? "" : user.lastName}`,
+            label: `${user.firstName} ${user.lastName}`,
             key: 'username',
             icon: <UserOutlined />,
             style: {
@@ -76,8 +82,8 @@ const Header = () => {
                     }
                 },
                 {
-                    label: "Đổi mật khẩu",
-                    key: 'changePassword',
+                    label: (<Link to="/user/profile">Hồ sơ</Link>),
+                    key: 'profile',
                     style: {
                         color: "#884dff"
                     }

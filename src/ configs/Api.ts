@@ -7,8 +7,9 @@ export const endpoint = {
     facebookLogin: "/user/facebook-login",
     user: {
         register: "/user",
+        currentUser: "/user/current-user",
+        updateUser: (userId: number) => `/user/${userId}`
     },
-    //
     shop: {
         create: "/shop",
         getAll: "/shop",
@@ -19,6 +20,10 @@ export const endpoint = {
         getAll: "/seller",
         lock: (userId:number) => `/seller/lock/${userId}`,
         unLock: (userId: number) => `/seller/un-lock/${userId}`
+    },
+    address: {
+        currentAddress: "/address/current",
+        updateAddress: (userId: number) => `/user/${userId}`
     }
 }
 
