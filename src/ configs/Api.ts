@@ -11,6 +11,7 @@ export const endpoint = {
         updateUser: (userId: number) => `/user/${userId}`
     },
     shop: {
+        getDetail:(shopId:number) => `/shop/${shopId}`,
         create: "/shop",
         getAll: "/shop",
         lock: (shopId: number) => `/shop/block/${shopId}`,
@@ -24,6 +25,9 @@ export const endpoint = {
     address: {
         currentAddress: "/address/current",
         updateAddress: (userId: number) => `/user/${userId}`
+    },
+    product: {
+        productDetail: (productId: string) => `/product/${productId}`
     }
 }
 

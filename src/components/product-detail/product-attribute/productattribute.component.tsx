@@ -4,7 +4,7 @@ import { Col, Row } from "antd"
 
 
 interface IProps {
-    attributes: any
+    attributes: any[]
 }
 
 const ProductAttribute: React.FC<IProps> = ({ attributes }) => {
@@ -13,10 +13,22 @@ const ProductAttribute: React.FC<IProps> = ({ attributes }) => {
             <h2 className="title">Chi tiết sản phẩm</h2>
             <hr></hr>
             <div className="product-attribute-info">
-                {Object.keys(attributes).map((item) => <Row>
+                {/* {Object.keys(attributes).map((item) => <Row>
                     <Col span={3}><p style={{fontWeight: 'bold'}}>{item}</p></Col>
-                    <Col span={20}><p style={{color:'red'}}>{attributes[item]}</p></Col>
-                </Row>)}
+                    <Col span={20}><p style={{color:'red'}}>{attributes}</p></Col>
+                </Row>)} */}
+                {
+                    attributes.map((item, idx) => 
+                        <Row>
+                            <Col span={4}>
+                                <p style={{fontWeight: 'bold'}}>{item.name}:</p>
+                            </Col>
+                            <Col span={20}>
+                                <p style={{color: 'red'}}>{item.value}</p>
+                            </Col>
+                        </Row>
+                    )
+                }
 
 
             </div>
