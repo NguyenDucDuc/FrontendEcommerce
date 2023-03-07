@@ -6,9 +6,10 @@ import "./shopinfo.style.scss"
 
 interface IProps {
     handleShowChatBox: any;
+    shopName: string;
 }
 
-const ShopInfo: React.FC<IProps> = ({handleShowChatBox}) => {
+const ShopInfo: React.FC<IProps> = ({handleShowChatBox, shopName}) => {
     const nav = useNavigate()
     const handleOnChangeRate = (values: number) => {
         console.log(values)
@@ -24,7 +25,7 @@ const ShopInfo: React.FC<IProps> = ({handleShowChatBox}) => {
                                 </div>
                             </Col>
                             <Col span={17} >
-                                <p style={{ marginTop: '25px', fontWeight: 'bold' }}>Hades Studio</p>
+                                <p style={{ marginTop: '25px', fontWeight: 'bold' }}>{shopName}</p>
                                 <Row className="mgt-20">
                                     <Col span={12}>
                                         <Button className="btn-color" type="primary" icon={<SendOutlined />} onClick={handleShowChatBox}>Nhắn tin</Button>

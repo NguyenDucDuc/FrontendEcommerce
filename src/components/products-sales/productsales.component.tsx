@@ -92,7 +92,7 @@ const ProductSales = () => {
                 <Menu onClick={onClickNavCategory} selectedKeys={[categoryCurrent]} mode="horizontal" items={items} />
                 
             </div>
-            <Row>
+            <Row gutter={[10,10]}>
                 {arr.map(item => <Col span={6}>
                     <CardProduct />
                 </Col>)

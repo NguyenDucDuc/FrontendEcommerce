@@ -1,4 +1,4 @@
-import { HeartOutlined, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
+import { HeartOutlined, QuestionCircleOutlined, QuestionCircleTwoTone, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
 import { Badge, Button, Col, InputNumber, Rate, Row } from "antd"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -63,7 +63,7 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                             }
                         </Row>
                         {/* Heart Or Report */}
-                        <Row className="mgt-40" justify="space-around">
+                        <Row className="mgt-30" justify="space-around">
                             <Col span={4}></Col>
                             <Col span={4}>
                                 <HeartOutlined className="icon cs-pointer" /> (3,4K)
@@ -103,39 +103,60 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                                     </Badge>
                                 </Col>
                             </Row>
+                            <Row justify="space-around">
+                                <Col span={23}>
+                                    <Row>
+                                        <Col span={2}>
+                                            <QuestionCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '25px' }} />
+                                        </Col>
+                                        <Col span={4}>
+                                            <h3 style={{ color: 'red' }}>Gì cũng rẻ</h3>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={2}>
+
+                                        </Col>
+                                        <Col span={15}>
+                                            <p>Giá tốt nhất so với các sản phẩm cùng loại.</p>
+                                        </Col>
+                                    </Row>
+                                </Col>
+
+                            </Row>
                         </Col>
                     </Row>
                     {/* Shop discount */}
-                    <Row className="mgt-40">
+                    <Row className="mgt-30">
                         <Col span={6}>
                             <p style={{}}>Mã giảm giá của shop: </p>
                         </Col>
                         <Col span={18}>
                             <Row>
                                 <Col span={4}>
-                                    <Badge count="Giảm 10k" />
+                                    <Badge count="Giảm 10k" style={{ background: '#00cc66' }} />
                                 </Col>
                                 <Col span={4}>
-                                    <Badge count="Giảm 10k" />
+                                    <Badge count="Giảm 10k" style={{ background: '#00cc66' }} />
                                 </Col>
                                 <Col span={4}>
-                                    <Badge count="Giảm 10k" />
+                                    <Badge count="Giảm 10k" style={{ background: '#00cc66' }} />
                                 </Col>
                                 <Col span={4}>
-                                    <Badge count="Giảm 10k" />
+                                    <Badge count="Giảm 10k" style={{ background: '#00cc66' }} />
                                 </Col>
                                 <Col span={4}>
-                                    <Badge count="Giảm 10k" />
+                                    <Badge count="Giảm 10k" style={{ background: '#00cc66' }} />
                                 </Col>
                                 <Col span={4}>
-                                    <Badge count="Giảm 10k" />
+                                    <Badge count="Giảm 10k" style={{ background: '#00cc66' }} />
                                 </Col>
 
                             </Row>
                         </Col>
                     </Row>
                     {/* transport */}
-                    <Row className="mgt-40">
+                    <Row className="mgt-30">
                         <Col span={6}>
                             <p>Vận chuyển: </p>
                         </Col>
@@ -147,26 +168,26 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                             }
                         </Col>
                     </Row>
-                    <Row className="mgt-40">
+                    <Row className="mgt-30">
                         <Col span={6}>
                             <p>Màu sắc: </p>
                         </Col>
                         <Col span={18}>
                             <Row>
                                 <Col span={5}>
-                                    <Button type="primary">Màu đỏ</Button>
+                                    <Button type="primary" ghost>Màu đỏ</Button>
                                 </Col>
                                 <Col span={5}>
-                                    <Button type="primary">Màu đỏ</Button>
+                                    <Button type="primary" ghost>Màu đỏ</Button>
                                 </Col>
                                 <Col span={5}>
-                                    <Button type="primary">Màu đỏ</Button>
+                                    <Button type="primary" ghost>Màu đỏ</Button>
                                 </Col>
                             </Row>
                         </Col>
                     </Row>
                     {/* Size */}
-                    <Row className="mgt-40">
+                    <Row className="mgt-30">
                         <Col span={6}>
                             <p style={{ marginTop: '10px' }}>Kích thước: </p>
                         </Col>
@@ -179,18 +200,18 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                                 null
                         }
                     </Row>
-                    <Row className="mgt-40">
+                    <Row className="mgt-30">
                         <Col span={6}>
                             <p>Số lượng: </p>
                         </Col>
                         <Col span={3}>
                             <InputNumber min={1} max={100} defaultValue={1} />
                         </Col>
-                        <Col span={6} style={{marginLeft: '10px', color: '#8c8c8c'}}>
+                        <Col span={6} style={{ marginLeft: '10px', color: '#8c8c8c' }}>
                             <p>923 sản phẩm có sẵn</p>
                         </Col>
                     </Row>
-                    <Row className="mgt-40">
+                    <Row className="mgt-30">
                         <Col span={3}>
                             <Button className="btn-color" type="primary" size="large" icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
                         </Col>

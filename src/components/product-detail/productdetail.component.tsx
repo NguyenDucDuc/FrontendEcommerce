@@ -2,13 +2,14 @@ import { CloseOutlined, EyeOutlined, HeartOutlined, MessageOutlined, SendOutline
 import { Avatar, Button, Col, Input, InputNumber, Rate, Row } from "antd"
 import "./productdetail.style.scss"
 import "../style-commond/commond.style.scss"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import ProductMain from "./product-main/productmain.component"
 import ShopInfo from "./shop-info/shopinfo.component"
 import ProductDesc from "./product-desc/productdesc.component"
 import ProductAttribute from "./product-attribute/productattribute.component"
 import ProductRate from "./product-rate/productrate.component"
+import Api, { endpoint } from "../../ configs/Api"
 
 const attributeDemo = {
     Category: "Áo thun",
@@ -18,8 +19,22 @@ const attributeDemo = {
     Quantity: 90
 }
 
+interface IProductDetail {
+    id: number;
+    desc: string;
+    price: number;
+}
+
 const ProductDetail = () => {
     const [showChatBox, setShowChatBox] = useState<boolean>(false)
+    const [attributes, setAttributes] = useState<any>([])
+    const [shop, setShop] = useState<any>()
+    const [product, setProduct] = useState<IProductDetail>({
+        price: 0,
+        desc: "",
+        id: 0
+    })
+    const {productId} = useParams()
     const nav = useNavigate()
     const handleOnChangeRate = (values: number) => {
         console.log(values)
@@ -31,20 +46,35 @@ const ProductDetail = () => {
     const handleChangeHideChatBox = () => {
         setShowChatBox(false)
     }
+    useEffect( () => {
+        const getProductDetail = async () => {
+            const res = await Api.get(endpoint.product.productDetail(productId||""))
+            console.log(res.data.data)
+            const resShop = await Api.get(endpoint.shop.getDetail(res.data.data.shopId))
+            setShop(resShop.data.data)
+            setProduct(res.data.data)
+            setAttributes(res.data.data.attributes)
+        }
+        getProductDetail()
+    }, [])
     return (
         <div className="product-detail-father">
             <ProductMain img="https://cf.shopee.vn/file/189172eea31b4fa7a18dd7a17e0813e1" 
-            desc="Gấu bông heo nhiều kích cỡ, giá cực tốt, nhanh tay mua ngay đi nào !" 
+            desc={product.desc} 
             rateCount={329}
             saleCount={1208}
             size={["S", "M", "L", "XL"]}
-            price={299000}
+            price={product?.price}
             />
 
             {/* Shop Information */}
-            <ShopInfo handleShowChatBox={handleChangeShowChatBox} />
+            {shop !== undefined ? 
+                <ShopInfo handleShowChatBox={handleChangeShowChatBox} shopName={shop.shopName} />
+                :
+                null
+            }
             
-            <ProductAttribute attributes={attributeDemo} />
+            <ProductAttribute attributes={attributes} />
 
             <ProductDesc />
 
