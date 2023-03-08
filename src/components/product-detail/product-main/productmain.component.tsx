@@ -1,12 +1,16 @@
-import { HeartOutlined, QuestionCircleOutlined, QuestionCircleTwoTone, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
-import { Badge, Button, Col, InputNumber, Rate, Row } from "antd"
+import { HeartFilled, HeartOutlined, QuestionCircleOutlined, QuestionCircleTwoTone, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
+import { Badge, Button, Col, InputNumber, Radio, RadioChangeEvent, Rate, Row } from "antd"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { AuthApi, endpoint } from "../../../ configs/Api"
+import { addItem, ICartItem, updateCartCount } from "../../../store/slices/cartitem.slice"
+import { RootState, useAppDispatch } from "../../../store/store"
 import "./productmain.style.scss"
 
 
 interface IProps {
+    productId: number;
     img: string;
     desc: string;
     rateCount: number;
@@ -25,11 +29,29 @@ const arrImgs = [
     "https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e"
 ]
 
-const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price, size }) => {
+const arrColor = [1, 2, 3]
+const options = [
+    { label: 'Đỏ', value: 'red' },
+    { label: 'Đen', value: 'black' },
+    { label: 'Vàng', value: 'yellow' },
+  ];
+
+  const optionsSize = [
+    { label: 'S', value: 's' },
+    { label: 'M', value: 'm' },
+    { label: 'L', value: 'l' },
+    { label: 'XL', value: 'xl' },
+  ];
+
+const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price, size, productId }) => {
+    const listCartItem = useSelector((state: RootState) => state.cartItem.listCartItem)
     const [showChatBox, setShowChatBox] = useState<boolean>(false)
     const [currrentAddress, setCurrentAddress] = useState<any>()
     const [urlMainImage, setUrlMainImage] = useState<string>(img)
+    const [value4, setValue4] = useState('Apple')
+    const [isHeart, setIsHeart] = useState<boolean>(false)
     const nav = useNavigate()
+    const dispatch = useAppDispatch()
     const handleOnChangeRate = (values: number) => {
         console.log(values)
     }
@@ -43,6 +65,22 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
     const handleClickImage = (img: string) => {
         setUrlMainImage(img)
     }
+    const onChange4 = ({ target: { value } }: RadioChangeEvent) => {
+        console.log('radio4 checked', value);
+        setValue4(value);
+      };
+      const handleAddToCart = () => {
+        // update cart count in header
+        dispatch(updateCartCount())
+        const newCartItem: ICartItem = {
+            price: price,
+            productId: productId,
+            image: "https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e",
+            desc: desc,
+            quantity: 1
+        }
+        dispatch(addItem(newCartItem))
+      }
     useEffect(() => {
         const getCurrentAddress = async () => {
             const res = await AuthApi().get(endpoint.address.currentAddress)
@@ -59,14 +97,19 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                     <div className="group-img">
                         <Row justify="space-around">
                             {
-                                arrImgs.map((img) => <Col span={7}><img src={img} onClick={() => handleClickImage(img)} /></Col>)
+                                arrImgs.map((img, idx) => <Col key={idx} span={7}><img src={img} onClick={() => handleClickImage(img)} /></Col>)
                             }
                         </Row>
                         {/* Heart Or Report */}
                         <Row className="mgt-30" justify="space-around">
                             <Col span={4}></Col>
                             <Col span={4}>
-                                <HeartOutlined className="icon cs-pointer" /> (3,4K)
+                                {
+                                    isHeart === true ?
+                                    <><HeartFilled onClick={() => setIsHeart(false)} className="icon cs-pointer" /> (3,4K)</>
+                                    :
+                                    <><HeartOutlined onClick={() => setIsHeart(true)} className="icon cs-pointer" /> (3,4K)</>
+                                }
                             </Col>
                             <Col span={4}>
                                 <WarningOutlined className="icon cs-pointer" />
@@ -174,15 +217,13 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                         </Col>
                         <Col span={18}>
                             <Row>
-                                <Col span={5}>
-                                    <Button type="primary" ghost>Màu đỏ</Button>
-                                </Col>
-                                <Col span={5}>
-                                    <Button type="primary" ghost>Màu đỏ</Button>
-                                </Col>
-                                <Col span={5}>
-                                    <Button type="primary" ghost>Màu đỏ</Button>
-                                </Col>
+                                <Radio.Group
+                                    options={options}
+                                    onChange={onChange4}
+                                    value={value4}
+                                    optionType="button"
+                                    buttonStyle="solid"
+                                />
                             </Row>
                         </Col>
                     </Row>
@@ -191,14 +232,9 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                         <Col span={6}>
                             <p style={{ marginTop: '10px' }}>Kích thước: </p>
                         </Col>
-                        {
-                            size.length > 0 ?
-                                size.map((s) => <Col span={3}>
-                                    <Button type="primary" ghost>{s}</Button>
-                                </Col>)
-                                :
-                                null
-                        }
+                        <Col span={18}>
+                            <Radio.Group options={optionsSize} onChange={onChange4} optionType="button" buttonStyle="solid" />
+                        </Col>
                     </Row>
                     <Row className="mgt-30">
                         <Col span={6}>
@@ -213,7 +249,7 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                     </Row>
                     <Row className="mgt-30">
                         <Col span={3}>
-                            <Button className="btn-color" type="primary" size="large" icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
+                            <Button onClick={handleAddToCart} className="btn-color" type="primary" size="large" icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
                         </Col>
                     </Row>
 

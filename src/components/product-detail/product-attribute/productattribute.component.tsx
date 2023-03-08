@@ -19,7 +19,7 @@ const ProductAttribute: React.FC<IProps> = ({ attributes }) => {
                 </Row>)} */}
                 {
                     attributes.map((item, idx) => 
-                        <Row>
+                        <Row key={idx}>
                             <Col span={4}>
                                 <p style={{fontWeight: 'bold'}}>{item.name}:</p>
                             </Col>

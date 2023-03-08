@@ -6,19 +6,28 @@ export interface ICartItem {
     image?: string;
     price: number;
     desc?: string;
+    quantity: number;
 }
 
 interface IInitialState {
-    listCartItem?: ICartItem[];
+    listCartItem: ICartItem[];
     totalProduct: number;
     totalAmount: number;
     status?: string;
 }
 
 const initialState: IInitialState = {
-    listCartItem: [],
+    listCartItem: [
+        {
+            productId: 88,
+            image: "https://cf.shopee.vn/file/sg-11134201-22120-60igl1u0z8kv26",
+            price: 350000,
+            desc: "Áo varsity thánh giá nam cực khét. Giá chỉ bằng 2 cốc trà sữa.",
+            quantity: 3
+        }
+    ],
     status: "",
-    totalProduct: 0,
+    totalProduct: 5,
     totalAmount: 0
 }
 
@@ -27,21 +36,17 @@ const cartItemSlice = createSlice({
     initialState,
     reducers: {
         addItem: (state, action: PayloadAction<ICartItem>) => {
-            if(state.listCartItem)
-            {
-                console.log("add")
+            const index = state.listCartItem.findIndex((item) => item.productId === action.payload.productId)
+            if(index === -1){
                 state.listCartItem = [...state.listCartItem, action.payload]
+            }else {
+                state.listCartItem[index].quantity++
             }
-            state.status = "fulfilled"
-            state.totalProduct++
-            state.totalAmount += action.payload.price
         },
-        deleteItem: (state, action: PayloadAction<ICartItem>) => {
-            state.listCartItem = state.listCartItem?.filter((item) => item.productId !== action.payload.productId)
-            state.status = "fulfilled"
-            state.totalProduct--
-            state.totalAmount -= action.payload.price
+        updateCartCount: (state) => {
+            state.totalProduct++
         }
+
     },
     extraReducers: {
 
@@ -49,4 +54,4 @@ const cartItemSlice = createSlice({
 })
 
 export default cartItemSlice.reducer
-export const {addItem, deleteItem} = cartItemSlice.actions
+export const {addItem, updateCartCount} = cartItemSlice.actions

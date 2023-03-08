@@ -1,7 +1,7 @@
 import { Button, Checkbox, Col, InputNumber, Row } from "antd"
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
-import { addItem, deleteItem, ICartItem } from "../../../store/slices/cartitem.slice";
+import {  ICartItem } from "../../../store/slices/cartitem.slice";
 import { useAppDispatch } from "../../../store/store";
 import "./cartitem.style.scss"
 
@@ -10,24 +10,26 @@ interface IProps {
     image?: string;
     desc?: string;
     price: number;
+    quantity: number;
 }
 
-const CartItem: React.FC<IProps> = ({id, image, desc, price}) => {
+const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity}) => {
     const valueCheckBox:ICartItem = {
         productId: id,
         image: image,
         desc: desc,
-        price: price
+        price: price,
+        quantity: quantity
     }
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const handleCheckboxChange = (e: CheckboxChangeEvent) => {
         console.log(e.target.checked)
         if(e.target.checked === true){
-            dispatch(addItem(e.target.value))
+            
         }
         if(e.target.checked === false){
-            dispatch(deleteItem(valueCheckBox))
+            
         }
     }
     return (
@@ -44,16 +46,16 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price}) => {
                         <img src={image} />
                     </div>
                 </Col>
-                <Col span={5} className="mgt-20">
+                <Col span={6} className="mgt-20">
                     <h4>{desc}</h4>
                 </Col>
-                <Col span={5} style={{}} className="mgt-20">
+                <Col span={3} style={{}} className="mgt-20">
                     <p className="txt-red txt-bold">{price}đ</p>
                 </Col>
-                <Col span={5} style={{}} className="mgt-20">
-                    <InputNumber min={1} max={10} defaultValue={1}  />
+                <Col span={3} style={{}} className="mgt-20">
+                    <InputNumber min={1} max={10} defaultValue={quantity}  />
                 </Col>
-                <Col span={5} className="mgt-20">
+                <Col span={3} className="mgt-20">
                     <Button type="primary" className="btn-danger">Xóa</Button>
                 </Col>
                 <Col span={2} className="mgt-20">

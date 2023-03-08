@@ -14,6 +14,7 @@ import MiniCardNotification from "../notification/mini-card-notification/minicar
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
+    const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct )
     const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
     const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
     const dispatch = useAppDispatch()
@@ -145,7 +146,7 @@ const Header = () => {
                             <Col span={4}>
                             </Col>
                             <Col  span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
-                                <Badge count={100} className="cs-pointer">
+                                <Badge count={cartCount} className="cs-pointer">
                                     <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
                                 </Badge>
                                 {
