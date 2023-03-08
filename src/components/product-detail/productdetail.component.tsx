@@ -65,6 +65,7 @@ const ProductDetail = () => {
             saleCount={1208}
             size={["S", "M", "L", "XL"]}
             price={product?.price}
+            productId={product.id}
             />
 
             {/* Shop Information */}

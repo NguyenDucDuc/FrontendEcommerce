@@ -41,7 +41,10 @@ const Cart = () => {
     return (
         <div className="cart">
             {
-                products.map((item, idx) => <CartItem key={idx} id={item.id} desc={item.desc} price={item.price} image={item.image}  />)
+                listCartItem.listCartItem.length > 0 ?
+                listCartItem.listCartItem.map((item, idx) => <CartItem quantity={item.quantity} price={item.price} image={item.image} desc={item.desc} id={item.productId} key={idx} />)
+                :
+                null
             }
             <div className="cart-payment">
                 <Row>
@@ -49,10 +52,10 @@ const Cart = () => {
                     <Col span={12}>
                         <Row style={{ marginTop: '30px' }} justify="space-around">
                             <Col span={5}>
-                                <h4>Tổng sản phẩm: <span className="txt-red">{listCartItem.totalProduct}</span></h4>
+                                <h4>Tổng sản phẩm: <span className="txt-red">0</span></h4>
                             </Col>
                             <Col span={10}>
-                                <h4>Tổng thanh toán: <span className="txt-red">{listCartItem.totalAmount}</span></h4>
+                                <h4>Tổng thanh toán: <span className="txt-red">0</span></h4>
                             </Col>
                             <Col span={5}>
                                 <Button type="primary" className="btn-color">Thanh toán</Button>
