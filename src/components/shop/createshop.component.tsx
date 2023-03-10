@@ -1,4 +1,5 @@
-import { Button, Checkbox, Col, Form, Input, Row } from "antd"
+import { WarningOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd"
 import { useState } from "react";
 import Api, { AuthApi, endpoint } from "../../ configs/Api";
 import "./createshop.style.scss"
@@ -6,20 +7,31 @@ import "./createshop.style.scss"
 
 
 const ShopCreate = () => {
+    const [api, contextHolder] = notification.useNotification();
     const [image, setImage] = useState<any>()
     const onFinish = async (values: any) => {
-        console.log('Success:', values);
-        console.log(image)
-        const formData = new FormData()
-        formData.append("shopName", values.shopName)
-        formData.append("desc", values.desc)
-        formData.append("image", image)
-        const res = await AuthApi().post(endpoint.shop.create, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
-        })
-        console.log(res.data)
+        try {
+            console.log('Success:', values);
+            console.log(image)
+            const formData = new FormData()
+            formData.append("shopName", values.shopName)
+            formData.append("desc", values.desc)
+            formData.append("image", image)
+            const res = await AuthApi().post(endpoint.shop.create, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            console.log(res.data)
+        } catch (error: any) {
+            console.log(error.response.data.errors)
+            api.open({
+                icon: <WarningOutlined style={{color: 'red'}} /> ,
+                message: 'Create error',
+                description:`${error.response.data.errors}`,
+                duration: 4
+              });
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -32,6 +44,7 @@ const ShopCreate = () => {
     }
     return (
         <div className="create-shop">
+            {contextHolder}
             <Row>
                 <Col span={12}>
                     <img src="./images/login-ecommerce.png" />
@@ -72,7 +85,7 @@ const ShopCreate = () => {
                         </Form.Item>
 
                         <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                            <Checkbox style={{accentColor: 'red'}}>Remember me</Checkbox>
+                            <Checkbox style={{ accentColor: 'red' }}>Remember me</Checkbox>
                         </Form.Item>
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

@@ -10,6 +10,8 @@ import ProductDesc from "./product-desc/productdesc.component"
 import ProductAttribute from "./product-attribute/productattribute.component"
 import ProductRate from "./product-rate/productrate.component"
 import Api, { endpoint } from "../../ configs/Api"
+import { useAppDispatch } from "../../store/store"
+import { getAllReviewAsyncThunk } from "../../store/slices/reviews.slice"
 
 const attributeDemo = {
     Category: "Áo thun",
@@ -29,6 +31,7 @@ const ProductDetail = () => {
     const [showChatBox, setShowChatBox] = useState<boolean>(false)
     const [attributes, setAttributes] = useState<any>([])
     const [shop, setShop] = useState<any>()
+    const dispatch = useAppDispatch()
     const [product, setProduct] = useState<IProductDetail>({
         price: 0,
         desc: "",
@@ -55,7 +58,15 @@ const ProductDetail = () => {
             setProduct(res.data.data)
             setAttributes(res.data.data.attributes)
         }
+        const getListReviews = async () => {
+            const body = {
+                productId: productId,
+                page: 1
+            }
+            dispatch(getAllReviewAsyncThunk(body))
+        }
         getProductDetail()
+        getListReviews()
     }, [])
     return (
         <div className="product-detail-father">
