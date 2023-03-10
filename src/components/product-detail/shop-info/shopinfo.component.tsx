@@ -3,6 +3,8 @@ import { Button, Col, Row } from "antd"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./shopinfo.style.scss"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface IProps {
     handleShowChatBox: any;
@@ -21,7 +23,8 @@ const ShopInfo: React.FC<IProps> = ({handleShowChatBox, shopName}) => {
                         <Row>
                             <Col span={7}>
                                 <div className="avt-shop">
-                                    <img src="https://res.cloudinary.com/djbju13al/image/upload/v1676826995/Avatar/1676826993120.jpg" />
+                                    {/* <img src="https://res.cloudinary.com/djbju13al/image/upload/v1676826995/Avatar/1676826993120.jpg" /> */}
+                                    <LazyLoadImage src="https://res.cloudinary.com/djbju13al/image/upload/v1676826995/Avatar/1676826993120.jpg"  />
                                 </div>
                             </Col>
                             <Col span={17} >

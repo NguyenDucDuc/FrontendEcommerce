@@ -1,5 +1,7 @@
 import { Col, Rate, Row } from "antd"
 import "./cardrate.style.scss"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 
 interface IProps {
@@ -19,7 +21,8 @@ const CardRate: React.FC<IProps> = ({id, firstName, lastName, rate, content, cre
             <Row className="mgt-40">
                     <Col span={2}>
                         <div className="avt-user">
-                            <img src={img} />
+                            {/* <img src={img} /> */}
+                            <LazyLoadImage src={img} effect="opacity"/>
                         </div>
                     </Col>
                     <Col span={22} className="">
