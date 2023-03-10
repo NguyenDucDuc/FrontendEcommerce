@@ -1,5 +1,5 @@
 import { HeartFilled, HeartOutlined, QuestionCircleOutlined, QuestionCircleTwoTone, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
-import { Badge, Button, Col, InputNumber, Radio, RadioChangeEvent, Rate, Row } from "antd"
+import { Badge, Button, Col, InputNumber, Radio, RadioChangeEvent, Rate, Row, Skeleton } from "antd"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
@@ -7,6 +7,8 @@ import { AuthApi, endpoint } from "../../../ configs/Api"
 import { addItem, ICartItem, updateCartCount } from "../../../store/slices/cartitem.slice"
 import { RootState, useAppDispatch } from "../../../store/store"
 import "./productmain.style.scss"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 
 interface IProps {
@@ -97,7 +99,7 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                     <div className="group-img">
                         <Row justify="space-around">
                             {
-                                arrImgs.map((img, idx) => <Col key={idx} span={7}><img src={img} onClick={() => handleClickImage(img)} /></Col>)
+                                arrImgs.map((img, idx) => <Col key={idx} span={7}><LazyLoadImage effect="opacity" src={img} onClick={() => handleClickImage(img)} /></Col>)
                             }
                         </Row>
                         {/* Heart Or Report */}
@@ -257,7 +259,6 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                 </Col>
             </Row>
         </div>
-
     )
 }
 

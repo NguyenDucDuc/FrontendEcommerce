@@ -1,5 +1,5 @@
 import { CloseOutlined, EyeOutlined, HeartOutlined, MessageOutlined, SendOutlined, ShoppingCartOutlined, WarningOutlined } from "@ant-design/icons"
-import { Avatar, Button, Col, Input, InputNumber, Rate, Row } from "antd"
+import { Avatar, Button, Col, Input, InputNumber, Rate, Row, Skeleton } from "antd"
 import "./productdetail.style.scss"
 import "../style-commond/commond.style.scss"
 import { useEffect, useState } from "react"
@@ -31,6 +31,7 @@ const ProductDetail = () => {
     const [showChatBox, setShowChatBox] = useState<boolean>(false)
     const [attributes, setAttributes] = useState<any>([])
     const [shop, setShop] = useState<any>()
+    const [loading, setLoading] = useState<boolean>(true)
     const dispatch = useAppDispatch()
     const [product, setProduct] = useState<IProductDetail>({
         price: 0,
@@ -67,6 +68,7 @@ const ProductDetail = () => {
         }
         getProductDetail()
         getListReviews()
+        setLoading(true)
     }, [])
     return (
         <div className="product-detail-father">
@@ -81,7 +83,7 @@ const ProductDetail = () => {
 
             {/* Shop Information */}
             {shop !== undefined ? 
-                <ShopInfo handleShowChatBox={handleChangeShowChatBox} shopName={shop.shopName} />
+                <ShopInfo handleShowChatBox={handleChangeShowChatBox} shopName={shop.shopName}  />
                 :
                 null
             }
