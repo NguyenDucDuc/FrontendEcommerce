@@ -88,6 +88,13 @@ const Header = () => {
                     style: {
                         color: "#884dff"
                     }
+                },
+                {
+                    label: (<Link to="/register-seller">Đăng ký đối tác</Link>),
+                    key: 'registerSeller',
+                    style: {
+                        color: "#884dff"
+                    }
                 }
             ]
         },

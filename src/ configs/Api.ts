@@ -18,6 +18,7 @@ export const endpoint = {
         unLock: (shopId: number) => `/shop/unlock/${shopId}`
     },
     seller: {
+        register: "/seller",
         getAll: "/seller",
         lock: (userId:number) => `/seller/lock/${userId}`,
         unLock: (userId: number) => `/seller/un-lock/${userId}`
@@ -27,7 +28,8 @@ export const endpoint = {
         updateAddress: (userId: number) => `/user/${userId}`
     },
     product: {
-        productDetail: (productId: string) => `/product/${productId}`
+        productDetail: (productId: string) => `/product/${productId}`,
+        reviews: (productId: string) => `/product/${productId}/reviews`
     }
 }
 

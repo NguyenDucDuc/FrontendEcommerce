@@ -20,8 +20,15 @@ import Notification from './components/notification/notification.component';
 import UserProfile from './components/user-profile/userprofile.component';
 import Profile from './components/user-profile/profile/profile.component';
 import Address from './components/user-profile/address/address.component';
+import {io} from 'socket.io-client'
+import RegisterSeller from './components/register-seller/register-seller.component';
+
+export const socket = io("http://localhost:5000")
 
 function App() {
+  useEffect( () => {
+    socket.emit("test", "kk")
+  },[])
   return (
     <div className="App">
       <BrowserRouter>
@@ -41,6 +48,7 @@ function App() {
               <Route path='/user/profile' element={<Profile />} />
               <Route path='/user/address' element={<Address />} />
             </Route>
+            <Route path='/register-seller' element={<RegisterSeller />} />
           </Route>
         </Routes>
         {/* Route Admin */}
