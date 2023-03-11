@@ -2,11 +2,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, DatePicker, DatePickerProps, Form, Input, InputRef, Row, Select, Upload } from "antd"
 import axios from "axios";
 import { useRef, useState } from "react";
-import Api, { endpoint } from "../../ configs/Api";
+import Api, { endpoint } from "../../configs/Api";
 import "./register.style.scss"
 
 
-const city = [
+export const city = [
     {
         value: "Hòa Bình",
         label: "Hòa Bình",
@@ -935,7 +935,9 @@ const Register = () => {
         <div className="register">
             <Row>
                 <Col span={12}>
-                    <img src="images/login-ecommerce.png" />
+                    <div className="register-img">
+                        <img src="images/login-ecommerce.png" />
+                    </div>
                 </Col>
                 <Col span={12}>
                     <Form size="large"
