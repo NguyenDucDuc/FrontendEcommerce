@@ -3,7 +3,7 @@ import { StarFilled } from '@ant-design/icons';
 import '../style-commond/commond.style.scss';
 import './card.style.scss';
 
-const CardProduct = () => {
+const CardProduct: React.FC = () => {
   const nav = useNavigate();
   const handleGoToProductDetail = () => {
     nav('/product-detail');
@@ -12,7 +12,7 @@ const CardProduct = () => {
     <>
       <div className="home-product-item">
         <div className="home-product-item__img">
-          <Link to="/">
+          <Link className="home-product-item__link" to="/id">
             <img
               src="https://res.cloudinary.com/de5pwc5fq/image/upload/v1666977594/Ecommerce/cdhqeuem1ol7vzhs60qo.png"
               alt="Ảnh sản phẩm"

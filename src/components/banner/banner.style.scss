@@ -1,0 +1,64 @@
+.app__banner {
+    padding: 15px 0;
+    background-color: purple;
+  }
+  
+  .app__banner-content {
+    margin: 0 auto;
+  }
+
+  
+  .full-home-banners__right-link {
+    display: block;
+    width: 100%;
+  }
+  
+  .full-home-banners__right-link:nth-child(2) {
+    margin-top: 5px;
+  }
+  
+  .full-home-banners__right-img {
+    height: 115px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+  }
+  
+  .app__banner-list {
+    padding-left: 0;
+    margin-top: 30px;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .banner-list__item {
+    width: 100px;
+    height: 90px;
+  }
+  
+  .banner-list__link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.3rem;
+    font-weight: 400;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .banner-list__img {
+    width: 45px;
+    height: 45px;
+    background-repeat: none;
+    background-size: cover;
+  }
+  
+  .banner-list__title {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+  }
+  

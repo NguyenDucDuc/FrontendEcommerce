@@ -6,7 +6,7 @@ import Header from './components/header/header.component';
 import ReactGa from 'react-ga';
 import Register from './components/register/register.component';
 import ShopCreate from './components/shop/createshop.component';
-import Home from './components/home/home.component';
+import Home from './pages/home/home.component';
 import Admin from './components/admin/admin.component';
 import AdminSeller from './components/admin/seller.component';
 import AdminShop from './components/admin/shop/shop.component';
@@ -17,6 +17,7 @@ import ProductSales from './components/products-sales/productsales.component';
 import ShopProfile from './components/shop-profile/shopprofile.component';
 import Cart from './components/cart/cart.component';
 import Notification from './components/notification/notification.component';
+import './components/style-commond/commond.style.scss';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route path="/home" element={<Home />} />
+            <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/product-detail" element={<ProductDetail />} />
