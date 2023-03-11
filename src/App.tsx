@@ -6,7 +6,7 @@ import Header from './components/header/header.component';
 import ReactGa from 'react-ga';
 import Register from './components/register/register.component';
 import ShopCreate from './components/shop/createshop.component';
-import Home from './components/home/home.component';
+import Home from './pages/home/home.component';
 import Admin from './components/admin/admin.component';
 import AdminSeller from './components/admin/seller.component';
 import AdminShop from './components/admin/shop/shop.component';
@@ -17,38 +17,43 @@ import ProductSales from './components/products-sales/productsales.component';
 import ShopProfile from './components/shop-profile/shopprofile.component';
 import Cart from './components/cart/cart.component';
 import Notification from './components/notification/notification.component';
+
+import './components/style-commond/commond.style.scss';
+
 import UserProfile from './components/user-profile/userprofile.component';
 import Profile from './components/user-profile/profile/profile.component';
 import Address from './components/user-profile/address/address.component';
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client';
 import RegisterSeller from './components/register-seller/register-seller.component';
 
-export const socket = io("http://localhost:5000")
+export const socket = io('http://localhost:5000');
 
 function App() {
-  useEffect( () => {
-    socket.emit("test", "kk")
-  },[])
+  useEffect(() => {
+    socket.emit('test', 'kk');
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-
-          <Route path='/' element={<MainLayout />}>
-            <Route path='/home' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/product-detail/:productId' element={<ProductDetail />} />
-            <Route path='/shop-create' element={<ShopCreate />} />
-            <Route path='/products' element={<ProductSales />} />
-            <Route path='/shop-profile' element={<ShopProfile />} />
-            <Route path='/cart' element={<Cart />} />
-            <Route path='/notification' element={<Notification />} />
-            <Route path='/user' element={<UserProfile />}>
-              <Route path='/user/profile' element={<Profile />} />
-              <Route path='/user/address' element={<Address />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/product-detail/:productId"
+              element={<ProductDetail />}
+            />
+            <Route path="/shop-create" element={<ShopCreate />} />
+            <Route path="/products" element={<ProductSales />} />
+            <Route path="/shop-profile" element={<ShopProfile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/user" element={<UserProfile />}>
+              <Route path="/user/profile" element={<Profile />} />
+              <Route path="/user/address" element={<Address />} />
             </Route>
-            <Route path='/register-seller' element={<RegisterSeller />} />
+            <Route path="/register-seller" element={<RegisterSeller />} />
           </Route>
         </Routes>
         {/* Route Admin */}

@@ -2,7 +2,7 @@ import "./login.style.scss"
 import { Button, Checkbox, Col, Form, Input, notification, Row } from 'antd'
 import { useFormik } from 'formik'
 import { useState } from "react"
-import Api, { endpoint } from "../../ configs/Api"
+import Api, { endpoint } from "../../configs/Api"
 import { useAppDispatch } from "../../store/store"
 import { facebookLoginAsyncThunk, googleLoginAsyncThunk, IReqFacebookLogin, IReqGoogleLogin, IReqLogin, loginAsyncThunk } from "../../store/slices/user.slice"
 import { GoogleLogin } from "@react-oauth/google"

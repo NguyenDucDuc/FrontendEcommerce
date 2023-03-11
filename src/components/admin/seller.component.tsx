@@ -1,7 +1,7 @@
 import { Col, Row, Table } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import Api, { endpoint } from "../../ configs/Api";
+import Api, { endpoint } from "../../configs/Api";
 
 
 interface DataType {

@@ -1,7 +1,7 @@
 import { WarningOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd"
 import { useState } from "react";
-import Api, { AuthApi, endpoint } from "../../ configs/Api";
+import Api, { AuthApi, endpoint } from "../../configs/Api";
 import "./createshop.style.scss"
 
 

@@ -1,7 +1,7 @@
 import { Space } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import { AuthApi, endpoint } from "../../../ configs/Api";
+import { AuthApi, endpoint } from "../../../configs/Api";
 
 
 

@@ -85,3 +85,74 @@ img {
     height: 100%;
     object-fit: cover;
 }
+
+.section-simple {
+    width: 80%;
+    margin: 20px auto;
+    background-color: purple;
+}
+
+.section-simple__header {
+    height: 60px;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.section-simple__header-title {
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: 500;
+    text-transform: uppercase;
+    flex: 1;
+}
+.underline {
+    border-bottom: 1px rgba(0, 0, 0, 0.54) solid;
+}
+
+.price {
+    font-size: 1.125rem;
+    font-weight: 500;
+    height: 1.6875rem;
+    color: #ee4d2d;
+}
+
+.carousel-arrow {
+    z-index: 1;
+    background-color: #a81919;
+    box-shadow: 0 1px 12px 0 rgb(0 0 0 / 12%);
+    cursor: pointer;
+    border-radius: 50%;
+    top: 50%;
+    margin-top: -12.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.6, 1);
+
+    &:hover {
+        font-size: 20px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        margin-top: 0;
+        outline: 0;
+    }
+}
+
+.btn-next {
+    position: absolute;
+    left: 100%;
+    transform: translate(-50%, -100%);
+}
+.btn-prev {
+    position: absolute;
+    right: 100%;
+    transform: translate(50%, -100%);
+}
+.btn-show-all {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #d0011b;
+    margin-left: 0.5rem;
+}

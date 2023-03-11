@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, DatePicker, DatePickerProps, Form, Input, InputRef, Row, Select, Upload } from "antd"
 import axios from "axios";
 import { useRef, useState } from "react";
-import Api, { endpoint } from "../../ configs/Api";
+import Api, { endpoint } from "../../configs/Api";
 import "./register.style.scss"
 
 

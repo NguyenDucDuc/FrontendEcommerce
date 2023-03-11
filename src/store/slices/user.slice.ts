@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { number } from "yup";
-import Api, { AuthApi, endpoint } from "../../ configs/Api";
+import Api, { AuthApi, endpoint } from "../../configs/Api";
 
 
 interface IUser {
