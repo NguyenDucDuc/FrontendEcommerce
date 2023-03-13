@@ -9,7 +9,7 @@ import ShopInfo from "./shop-info/shopinfo.component"
 import ProductDesc from "./product-desc/productdesc.component"
 import ProductAttribute from "./product-attribute/productattribute.component"
 import ProductRate from "./product-rate/productrate.component"
-import Api, { endpoint } from "../../ configs/Api"
+import Api, { endpoint } from "../../configs/Api"
 import { useAppDispatch } from "../../store/store"
 import { getAllReviewAsyncThunk } from "../../store/slices/reviews.slice"
 import LazyLoad from 'react-lazy-load'

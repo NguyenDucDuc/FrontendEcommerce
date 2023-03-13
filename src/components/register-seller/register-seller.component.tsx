@@ -1,7 +1,7 @@
 import { Button, Checkbox, notification } from "antd"
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useState } from "react";
-import { AuthApi, endpoint } from "../../ configs/Api";
+import { AuthApi, endpoint } from "../../configs/Api";
 import "./register-seller.style.scss"
 
 

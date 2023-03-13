@@ -2,7 +2,7 @@ import { Button, Form, Input, Select, Spin } from "antd"
 import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { AuthApi, endpoint } from "../../../ configs/Api";
+import { AuthApi, endpoint } from "../../../configs/Api";
 import { RootState } from "../../../store/store";
 import { city } from "../../register/register.component";
 import "./address.style.scss"

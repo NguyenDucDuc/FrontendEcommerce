@@ -1,6 +1,5 @@
 import { Avatar, Button, Col, Row, Spin } from "antd"
 import CardProduct from "../card-product/card.component"
-import HomeCarousel from "./carousel/carousel.component"
 import "./home.style.scss"
 import "../style-commond/commond.style.scss"
 import { ClearOutlined, MobileOutlined, TagsOutlined, ToolOutlined } from "@ant-design/icons"

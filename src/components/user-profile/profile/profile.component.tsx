@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { AuthApi, endpoint } from "../../../ configs/Api"
+import { AuthApi, endpoint } from "../../../configs/Api"
 import { RootState } from "../../../store/store"
 import "./profile.style.scss"
 import jwtDecode from "jwt-decode"

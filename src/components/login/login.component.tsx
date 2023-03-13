@@ -2,8 +2,8 @@ import "./login.style.scss"
 import { Button, Checkbox, Col, Form, Input, notification, Row, Spin } from 'antd'
 import { useFormik } from 'formik'
 import { useState } from "react"
-import Api, { endpoint } from "../../ configs/Api"
 import { RootState, useAppDispatch } from "../../store/store"
+import Api, { endpoint } from "../../configs/Api"
 import { facebookLoginAsyncThunk, googleLoginAsyncThunk, IReqFacebookLogin, IReqGoogleLogin, IReqLogin, loginAsyncThunk } from "../../store/slices/user.slice"
 import { GoogleLogin } from "@react-oauth/google"
 import jwtDecode from "jwt-decode"

@@ -45,7 +45,7 @@ const Header = () => {
     }
     const items: MenuProps['items'] = [
         {
-            label: (<Link to="/home" >Trang chủ</Link>),
+            label: (<Link to="/" >Trang chủ</Link>),
             key: 'home',
             icon: <MailOutlined />,
             style: {

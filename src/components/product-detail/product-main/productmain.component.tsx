@@ -3,7 +3,7 @@ import { Badge, Button, Col, InputNumber, Radio, RadioChangeEvent, Rate, Row, Sk
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { AuthApi, endpoint } from "../../../ configs/Api"
+import { AuthApi, endpoint } from "../../../configs/Api"
 import { addItem, ICartItem, updateCartCount } from "../../../store/slices/cartitem.slice"
 import { RootState, useAppDispatch } from "../../../store/store"
 import "./productmain.style.scss"
