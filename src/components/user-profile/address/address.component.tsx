@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd"
+import { Button, Form, Input, Select, Spin } from "antd"
 import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -77,6 +77,8 @@ const Address = () => {
         console.log(w)
         setWards(w.ward)
     }
+    if (currentAddress === undefined)
+        return <Spin tip="Loading..."></Spin>
     return (
         <div className="profile-address">
             <h1>Địa Chỉ Của Tôi</h1>
