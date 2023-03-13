@@ -4,7 +4,7 @@ import { valueType } from "antd/es/statistic/utils";
 import { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import { AuthApi, endpoint } from "../../../ configs/Api";
+import { AuthApi, endpoint } from "../../../configs/Api";
 import {  decreaseTotalPrice, decreaseTotalPriceTotalProductPayment, ICartItem, increaseTotalPrice, increaseTotalPriceTotalProductPayment } from "../../../store/slices/cartitem.slice";
 import { useAppDispatch } from "../../../store/store";
 import "./cartitem.style.scss"

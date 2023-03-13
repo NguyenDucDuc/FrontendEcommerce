@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthApi, endpoint } from "../../ configs/Api";
+import { AuthApi, endpoint } from "../../configs/Api";
 
 
 export interface ICartItem {
