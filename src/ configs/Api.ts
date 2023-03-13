@@ -30,6 +30,14 @@ export const endpoint = {
     product: {
         productDetail: (productId: string) => `/product/${productId}`,
         reviews: (productId: string) => `/product/${productId}/reviews`
+    },
+    cart: {
+        getAllItem: "/cart/products",
+        getByUserId: "/cart"
+    },
+    productCart: {
+        add: "/product-cart",
+        update: "/product-cart"
     }
 }
 

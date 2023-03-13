@@ -10,6 +10,7 @@ import "../style-commond/commond.style.scss"
 import { currentUserAsyncThunk, logout } from "../../store/slices/user.slice";
 import MiniCartItem from "./mini-cart-item/minicartitem.component";
 import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
+import { getAllItemAsyncThunk } from "../../store/slices/cartitem.slice";
 
 
 const Header = () => {
@@ -19,11 +20,16 @@ const Header = () => {
     const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const nav = useNavigate()
+    const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
     useEffect( () => {
         const getCurrentUser = () => {
             dispatch(currentUserAsyncThunk())
         }
+        const getCart = () => {
+            dispatch(getAllItemAsyncThunk())
+        }
         getCurrentUser()
+        getCart()
     }, [])
     const handleMouseEnterCartMini = () => {
         setIsShowCartMini(true)

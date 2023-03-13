@@ -19,6 +19,7 @@ interface IProps {
     saleCount: number;
     price: number;
     size: string[];
+    productName: string;
 }
 
 const attributes = {
@@ -45,8 +46,8 @@ const options = [
     { label: 'XL', value: 'xl' },
   ];
 
-const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price, size, productId }) => {
-    const listCartItem = useSelector((state: RootState) => state.cartItem.listCartItem)
+const ProductMain: React.FC<IProps> = ({ productName, img, desc, rateCount, saleCount, price, size, productId }) => {
+    const listCartItem = useSelector((state: RootState) => state.cartItem.listProducts)
     const [showChatBox, setShowChatBox] = useState<boolean>(false)
     const [currrentAddress, setCurrentAddress] = useState<any>()
     const [urlMainImage, setUrlMainImage] = useState<string>(img)
@@ -71,17 +72,28 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
         console.log('radio4 checked', value);
         setValue4(value);
       };
-      const handleAddToCart = () => {
+      const handleAddToCart = async () => {
         // update cart count in header
         dispatch(updateCartCount())
+        // add to redux
         const newCartItem: ICartItem = {
             price: price,
-            productId: productId,
+            id: productId,
             image: "https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e",
             desc: desc,
             quantity: 1
         }
         dispatch(addItem(newCartItem))
+        // add to database
+        // -- step 1: get cartId
+        const resCart = await AuthApi().get(endpoint.cart.getByUserId)
+        const res = await AuthApi().post(endpoint.productCart.add, {
+            productId: productId,
+            cartId: resCart.data.data.id,
+            quantity: 1,
+            unitPrice: price
+        })
+        console.log(res.data)
       }
     useEffect(() => {
         const getCurrentAddress = async () => {
@@ -122,7 +134,7 @@ const ProductMain: React.FC<IProps> = ({ img, desc, rateCount, saleCount, price,
                     </div>
                 </Col>
                 <Col span={14} className="mgl-40" >
-                    <h2>{desc}</h2>
+                    <h2>{`${productName} | ${desc}`}</h2>
                     <Row className="mgt-10">
                         <Col span={5}>
                             <Rate onChange={(values) => handleOnChangeRate(values)} />

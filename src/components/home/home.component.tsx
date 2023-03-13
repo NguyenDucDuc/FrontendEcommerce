@@ -1,12 +1,18 @@
-import { Avatar, Button, Col, Row } from "antd"
+import { Avatar, Button, Col, Row, Spin } from "antd"
 import CardProduct from "../card-product/card.component"
 import HomeCarousel from "./carousel/carousel.component"
 import "./home.style.scss"
 import "../style-commond/commond.style.scss"
 import { ClearOutlined, MobileOutlined, TagsOutlined, ToolOutlined } from "@ant-design/icons"
 import CardCategory from "../card-category/cardcategory.component"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store/store"
 
 const Home = () => {
+    const status = useSelector((state: RootState) => state.user.status)
+    if(status === "pending"){
+        return <Spin tip="Loading..." size="large"></Spin>
+    }
     return (
         <div className="home">
             <section className="section-banner1">

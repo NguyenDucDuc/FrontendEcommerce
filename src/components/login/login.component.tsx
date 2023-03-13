@@ -1,13 +1,15 @@
 import "./login.style.scss"
-import { Button, Checkbox, Col, Form, Input, notification, Row } from 'antd'
+import { Button, Checkbox, Col, Form, Input, notification, Row, Spin } from 'antd'
 import { useFormik } from 'formik'
 import { useState } from "react"
 import Api, { endpoint } from "../../ configs/Api"
-import { useAppDispatch } from "../../store/store"
+import { RootState, useAppDispatch } from "../../store/store"
 import { facebookLoginAsyncThunk, googleLoginAsyncThunk, IReqFacebookLogin, IReqGoogleLogin, IReqLogin, loginAsyncThunk } from "../../store/slices/user.slice"
 import { GoogleLogin } from "@react-oauth/google"
 import jwtDecode from "jwt-decode"
 import { GiftOutlined, WarningOutlined } from "@ant-design/icons"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 
 interface IResponseGoogleLogin {
@@ -21,7 +23,9 @@ interface IResponseGoogleLogin {
 
 const Login = () => {
     const [errorResponse, setErrorResponse] = useState<string>("")
+    const status = useSelector((state: RootState) => state.user.status)
     const dispatch = useAppDispatch()
+    const nav = useNavigate()
     const onFinish = async (values: any) => {
         console.log('Success:', values);
         const reqLogin: IReqLogin = {
@@ -35,25 +39,34 @@ const Login = () => {
             // show notification
             notification.open({
                 message: 'Error message',
-                description:resLoginAsyncThunk.payload.data,
-                icon: <WarningOutlined style={{color: 'red'}} />,
+                description: resLoginAsyncThunk.payload.data,
+                icon: <WarningOutlined style={{ color: 'red' }} />,
                 duration: 5
-              });
+            });
+
         } else {
             setErrorResponse("")
             localStorage.setItem("accessToken", resLoginAsyncThunk.payload.accessToken)
             notification.open({
                 message: 'Login success',
-                description:'',
-                icon: <GiftOutlined style={{color: 'green'}} />,
+                description: '',
+                icon: <GiftOutlined style={{ color: 'green' }} />,
                 duration: 5
-              });
+            });
+            nav("/home")
         }
-      };
-      
-      const onFinishFailed = (errorInfo: any) => {
+    };
+
+    const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
-      };
+    };
+    if(status === "pending"){
+        return <Spin tip="Loading..." size="large">
+            <div className="login">
+                
+            </div>
+        </Spin>
+    }
     return (
         <div className="login">
             <div className="form-login">

@@ -1,57 +1,87 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AuthApi, endpoint } from "../../ configs/Api";
 
 
 export interface ICartItem {
-    productId?: number;
+    id?: number;
     image?: string;
     price: number;
     desc?: string;
     quantity: number;
 }
 
-interface IInitialState {
-    listCartItem: ICartItem[];
+interface ICartResponse {
+    listProducts: ICartItem[];
     totalProduct: number;
-    totalAmount: number;
-    status?: string;
+    totalPrice: number;
+}
+
+interface IInitialState {
+    listProducts: ICartItem[];
+    totalProduct: number;
+    totalPrice: number;
+    status: string;
+    totalProductPayment: number;
 }
 
 const initialState: IInitialState = {
-    listCartItem: [
-        {
-            productId: 88,
-            image: "https://cf.shopee.vn/file/sg-11134201-22120-60igl1u0z8kv26",
-            price: 350000,
-            desc: "Áo varsity thánh giá nam cực khét. Giá chỉ bằng 2 cốc trà sữa.",
-            quantity: 3
-        }
-    ],
+    listProducts: [],
+    totalProduct: 0,
+    totalPrice: 0,
     status: "",
-    totalProduct: 5,
-    totalAmount: 0
+    totalProductPayment: 0
 }
+
+export const getAllItemAsyncThunk = createAsyncThunk("cart/getAllItem", async () => {
+    const res = await AuthApi().get(endpoint.cart.getAllItem)
+    console.log(res.data.data)
+    return res.data.data
+})
 
 const cartItemSlice = createSlice({
     name: "cartItem",
     initialState,
     reducers: {
         addItem: (state, action: PayloadAction<ICartItem>) => {
-            const index = state.listCartItem.findIndex((item) => item.productId === action.payload.productId)
+            const index = state.listProducts.findIndex((item) => item.id === action.payload.id)
             if(index === -1){
-                state.listCartItem = [...state.listCartItem, action.payload]
+                state.listProducts = [...state.listProducts, action.payload]
             }else {
-                state.listCartItem[index].quantity++
+                state.listProducts[index].quantity++
             }
         },
         updateCartCount: (state) => {
             state.totalProduct++
-        }
-
+        },
+        increaseTotalPriceTotalProductPayment: (state, action) => {
+            state.totalProductPayment++
+            state.totalPrice += action.payload.totalPrice
+        },
+        decreaseTotalPriceTotalProductPayment: (state,action) => {
+            state.totalProductPayment--
+            state.totalPrice -= action.payload.totalPrice
+        },
+        increaseTotalPrice: (state, action) => {
+            state.totalPrice += action.payload.unitPrice
+        },
+        decreaseTotalPrice: (state, action) => {
+            state.totalPrice -= action.payload.unitPrice
+        },
     },
-    extraReducers: {
-
+    extraReducers: (builder) => {
+        builder.addCase(getAllItemAsyncThunk.pending, (state) => {
+            state.status = "pending"
+        })
+        builder.addCase(getAllItemAsyncThunk.fulfilled, (state, action: PayloadAction<ICartResponse>) => {
+            state.listProducts = action.payload.listProducts
+            state.status = "fulfilled"
+            state.totalProduct = action.payload.totalProduct
+        })
+        builder.addCase(getAllItemAsyncThunk.rejected, (state) => {
+            state.status = "rejected"
+        })
     }
 })
 
 export default cartItemSlice.reducer
-export const {addItem, updateCartCount} = cartItemSlice.actions
+export const {addItem, updateCartCount, increaseTotalPriceTotalProductPayment, decreaseTotalPriceTotalProductPayment, increaseTotalPrice, decreaseTotalPrice} = cartItemSlice.actions

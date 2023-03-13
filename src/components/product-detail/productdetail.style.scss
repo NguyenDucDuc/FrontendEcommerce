@@ -44,5 +44,14 @@ div.message-content {
     margin-top: 20px;
 }
 
+.LazyLoad {
+    opacity: 0;
+    transition: all 1s ease-in-out;
+  }
+  
+  .is-visible {
+    opacity: 1;
+  }
+
 
 
