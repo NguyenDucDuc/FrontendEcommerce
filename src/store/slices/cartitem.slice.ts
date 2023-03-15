@@ -8,6 +8,7 @@ export interface ICartItem {
     price: number;
     desc?: string;
     quantity: number;
+    name?: string;
 }
 
 interface ICartResponse {
@@ -67,6 +68,10 @@ const cartItemSlice = createSlice({
         decreaseTotalPrice: (state, action) => {
             state.totalPrice -= action.payload.unitPrice
         },
+        setNullTotalPriceAndTotalProduct: (state) => {
+            state.totalPrice = 0
+            state.totalProductPayment = 0
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllItemAsyncThunk.pending, (state) => {
@@ -84,4 +89,12 @@ const cartItemSlice = createSlice({
 })
 
 export default cartItemSlice.reducer
-export const {addItem, updateCartCount, increaseTotalPriceTotalProductPayment, decreaseTotalPriceTotalProductPayment, increaseTotalPrice, decreaseTotalPrice} = cartItemSlice.actions
+export const {
+    addItem, 
+    updateCartCount, 
+    increaseTotalPriceTotalProductPayment, 
+    decreaseTotalPriceTotalProductPayment, 
+    increaseTotalPrice, 
+    decreaseTotalPrice,
+    setNullTotalPriceAndTotalProduct
+} = cartItemSlice.actions

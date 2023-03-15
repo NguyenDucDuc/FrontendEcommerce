@@ -83,6 +83,7 @@ const Header = () => {
                     onClick: () => {
                         localStorage.removeItem("accessToken")
                         dispatch(logout())
+                        nav("/login")
                     },
                     style: {
                         color: "#884dff"
