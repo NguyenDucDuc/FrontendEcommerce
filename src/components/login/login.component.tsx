@@ -53,7 +53,7 @@ const Login = () => {
                 icon: <GiftOutlined style={{ color: 'green' }} />,
                 duration: 5
             });
-            nav("/home")
+            nav("/")
         }
     };
 

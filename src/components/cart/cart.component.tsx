@@ -1,7 +1,11 @@
-import { Button, Checkbox, Col, Row } from "antd"
-import { useState } from "react"
+import { Button, Checkbox, Col, Row, Spin } from "antd"
+import { useEffect, useState } from "react"
+import LazyLoad from "react-lazy-load"
 import { useSelector } from "react-redux"
-import { RootState } from "../../store/store"
+import { useNavigate } from "react-router-dom"
+import { setNullTotalPriceAndTotalProduct } from "../../store/slices/cartitem.slice"
+import { setNullListProductsChecked } from "../../store/slices/product-checked.slice"
+import { RootState, useAppDispatch } from "../../store/store"
 import CartItem from "./cart-item/cartitem.component"
 import "./cart.style.scss"
 
@@ -12,13 +16,27 @@ const Cart = () => {
     const totalProduct = useSelector((state: RootState) => state.cartItem.totalProduct)
     const totalPrice = useSelector((state: RootState) => state.cartItem.totalPrice)
     const totalProductPayment = useSelector((state: RootState) => state.cartItem.totalProductPayment)
+    const nav = useNavigate()
+    const status = useSelector((state: RootState) => state.cartItem.status)
+    const dispatch = useAppDispatch()
+    useEffect( () => {
+        dispatch(setNullListProductsChecked())
+        dispatch(setNullTotalPriceAndTotalProduct())
+    }, [])
+    if(status === "pending"){
+        return <Spin tip="Loading..." size="large">
+            <div className="cart"></div>
+        </Spin>
+    }
     return (
         <div className="cart">
             {
                 listCartItem.listProducts.length > 0 ?
-                listCartItem.listProducts.map((item, idx) => <CartItem quantity={item.quantity} price={item.price} image={item.image} desc={item.desc} id={item.id} key={idx} />)
-                :
-                null
+                    listCartItem.listProducts.map((item, idx) => <LazyLoad>
+                        <CartItem name={item.name} quantity={item.quantity} price={item.price} image={item.image} desc={item.desc} id={item.id} key={idx} />
+                    </LazyLoad>)
+                    :
+                    null
             }
             <div className="cart-payment">
                 <Row>
@@ -32,7 +50,7 @@ const Cart = () => {
                                 <h4>Tổng thanh toán: <span className="txt-red">{totalPrice}</span></h4>
                             </Col>
                             <Col span={5}>
-                                <Button type="primary" className="btn-color">Thanh toán</Button>
+                                <Button type="primary" className="btn-color" onClick={() => nav("/checkout")}>Thanh toán</Button>
                             </Col>
                         </Row>
                     </Col>

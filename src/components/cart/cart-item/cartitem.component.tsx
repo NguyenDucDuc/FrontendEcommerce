@@ -3,10 +3,12 @@ import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { valueType } from "antd/es/statistic/utils";
 import { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AuthApi, endpoint } from "../../../configs/Api";
 import {  decreaseTotalPrice, decreaseTotalPriceTotalProductPayment, ICartItem, increaseTotalPrice, increaseTotalPriceTotalProductPayment } from "../../../store/slices/cartitem.slice";
-import { useAppDispatch } from "../../../store/store";
+import { addItemChecked, ICheckedItem, removeItemChecked } from "../../../store/slices/product-checked.slice";
+import { RootState, useAppDispatch } from "../../../store/store";
 import "./cartitem.style.scss"
 
 interface IProps {
@@ -15,15 +17,17 @@ interface IProps {
     desc?: string;
     price: number;
     quantity: number;
+    name?: string;
 }
 
-const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity}) => {
+const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity, name}) => {
     const valueCheckBox:ICartItem = {
         id: id,
         image: image,
         desc: desc,
         price: price,
-        quantity: quantity
+        quantity: quantity,
+        name: name
     }
     const [inputNumber, setInputNumber] = useState<number>(quantity)
     const dispatch = useAppDispatch()
@@ -33,11 +37,30 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity}) => {
         if(e.target.checked === true){
             const totalPrice = price * inputNumber
             dispatch(increaseTotalPriceTotalProductPayment({totalPrice: totalPrice}))
+            // add from redux checked item
+            const newItemChecked: ICheckedItem = {
+                id: id,
+                name: name,
+                desc: desc,
+                quantity: quantity,
+                price: price,
+                image: image
+            }
+            dispatch(addItemChecked(newItemChecked))
         }
         if(e.target.checked === false){
             const totalPrice = price * inputNumber
             dispatch(decreaseTotalPriceTotalProductPayment({totalPrice: totalPrice}))
             console.log(totalPrice)
+            // remove from redux checked item
+            const newItemChecked: ICheckedItem = {
+                id: id,
+                name: name,
+                desc: desc,
+                quantity: quantity,
+                price: price
+            }
+            dispatch(removeItemChecked(newItemChecked))
         }
     }
     const handleQuantityChange = async (value: number|string|null) => {
@@ -49,8 +72,6 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity}) => {
         })
         console.log(res.data)
         // update UI
-        
-        
     }
     const onStep = (value: number, info: any) => {
         if(info.type === "up"){
@@ -75,7 +96,7 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity}) => {
                     </div>
                 </Col>
                 <Col span={6} className="mgt-20">
-                    <h4>{desc}</h4>
+                    <h4>{name}  |  {desc}</h4>
                 </Col>
                 <Col span={3} style={{}} className="mgt-20">
                     <p className="txt-red txt-bold">{price}đ</p>

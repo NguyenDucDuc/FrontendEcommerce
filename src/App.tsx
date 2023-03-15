@@ -25,6 +25,7 @@ import Profile from './components/user-profile/profile/profile.component';
 import Address from './components/user-profile/address/address.component';
 import { io } from 'socket.io-client';
 import RegisterSeller from './components/register-seller/register-seller.component';
+import Checkout from './components/checkout/checkout.component';
 
 export const socket = io('http://localhost:5000');
 
@@ -54,6 +55,7 @@ function App() {
               <Route path="/user/address" element={<Address />} />
             </Route>
             <Route path="/register-seller" element={<RegisterSeller />} />
+            <Route path='/checkout' element={<Checkout />} />
           </Route>
         </Routes>
         {/* Route Admin */}
