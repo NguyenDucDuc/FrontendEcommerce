@@ -1,10 +1,10 @@
 import "./login.style.scss"
 import { Button, Checkbox, Col, Form, Input, notification, Row, Spin } from 'antd'
 import { useFormik } from 'formik'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { RootState, useAppDispatch } from "../../store/store"
 import Api, { endpoint } from "../../configs/Api"
-import { facebookLoginAsyncThunk, googleLoginAsyncThunk, IReqFacebookLogin, IReqGoogleLogin, IReqLogin, loginAsyncThunk } from "../../store/slices/user.slice"
+import { facebookLoginAsyncThunk, googleLoginAsyncThunk, IReqFacebookLogin, IReqGoogleLogin, IReqLogin, loginAsyncThunk, updateStatusFulfilled } from "../../store/slices/user.slice"
 import { GoogleLogin } from "@react-oauth/google"
 import jwtDecode from "jwt-decode"
 import { GiftOutlined, WarningOutlined } from "@ant-design/icons"
@@ -27,6 +27,9 @@ const Login = () => {
     const status = useSelector((state: RootState) => state.user.status)
     const dispatch = useAppDispatch()
     const nav = useNavigate()
+    useEffect(() => {
+        dispatch(updateStatusFulfilled())
+    }, [])
     const onFinish = async (values: any) => {
         console.log('Success:', values);
         const reqLogin: IReqLogin = {

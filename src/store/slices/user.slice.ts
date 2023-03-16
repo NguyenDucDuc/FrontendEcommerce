@@ -125,6 +125,9 @@ const userSlice = createSlice({
             state.user.phone = ""
             state.accessToken = ""
             state.status = "fulfilled"
+        },
+        updateStatusFulfilled: (state) => {
+            state.status = "fulfilled"
         }
     },
     extraReducers: (builder) => {
@@ -175,4 +178,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer
-export const {logout} = userSlice.actions
+export const {logout, updateStatusFulfilled} = userSlice.actions
