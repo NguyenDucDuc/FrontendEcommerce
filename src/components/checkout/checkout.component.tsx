@@ -1,7 +1,9 @@
 import { AimOutlined } from "@ant-design/icons"
 import { Col, Row } from "antd"
-import { useSelector } from "react-redux"
-import { RootState } from "../../store/store"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { updateTotalPriceCheckedList } from "../../store/slices/product-checked.slice"
+import { RootState, useAppDispatch } from "../../store/store"
 import CardConfirmCheckout from "./card-confirm-checkout/card-confirm-checkout.component"
 import CardProductCheckout from "./card-product-checkout/card-product-checkout.component"
 import "./checkout.style.scss"
@@ -10,6 +12,18 @@ import "./checkout.style.scss"
 
 const Checkout = () => {
     const listProductsChecked = useSelector((state: RootState) => state.productsChecked.listProductsChecked)
+    const totalPrice = useSelector((state: RootState) => state.productsChecked.totalPrice)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        const calcPrice = () => {
+            for(let i=0; i<listProductsChecked.length; i++){
+                let total = Number(listProductsChecked[i].price) * Number(listProductsChecked[i].quantity) + 40000
+                console.log(total)
+                dispatch(updateTotalPriceCheckedList(total))
+            }
+        }
+        calcPrice()
+    },[])
     return (
         <div>
             <div className="address">
@@ -33,13 +47,17 @@ const Checkout = () => {
             <div className="list-product">
                 {
                     listProductsChecked.length > 0 ? 
-                    listProductsChecked.map((item, idx) => <CardProductCheckout key={idx} productName={item.desc} image={item.image} id={item.id} quantity={item.quantity} unitPrice={item.price} />)
+                    listProductsChecked.map((item, idx) => <CardProductCheckout name={item.name} key={idx} desc={item.desc} image={item.image} id={item.id} quantity={item.quantity} unitPrice={item.price} />)
                     :
                     null
                 }
             </div>
             <div className="confirm-checkout">
-                <CardConfirmCheckout />
+                {
+                    totalPrice !== 0 ?
+                    <CardConfirmCheckout totalPrice={totalPrice} />
+                    : null
+                }
             </div>
         </div>
     )

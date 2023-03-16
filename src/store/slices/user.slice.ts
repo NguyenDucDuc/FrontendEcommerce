@@ -124,6 +124,7 @@ const userSlice = createSlice({
             state.user.lastName = ""
             state.user.phone = ""
             state.accessToken = ""
+            state.status = "fulfilled"
         }
     },
     extraReducers: (builder) => {

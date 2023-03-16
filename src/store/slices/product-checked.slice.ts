@@ -8,16 +8,19 @@ export interface ICheckedItem {
     quantity: number;
     image?: string;
     desc?: string;
+    
 }
 
 interface IInitialState {
     listProductsChecked: ICheckedItem[];
     status: string;
+    totalPrice: number;
 }
 
 const initialState: IInitialState = {
     listProductsChecked: [],
-    status: ""
+    status: "",
+    totalPrice: 0
 }
 
 
@@ -33,6 +36,17 @@ const productsCheckedSlice = createSlice({
         },
         setNullListProductsChecked: (state) => {
             state.listProductsChecked = []
+        },
+        updateQuantityCheckedList: (state, action) => {
+            console.log("update quantity")
+            const index = state.listProductsChecked.findIndex((item) => item.id === action.payload.productId)
+            if(index !== -1){
+                state.listProductsChecked[index].quantity = action.payload.quantity
+            }
+        },
+        updateTotalPriceCheckedList: (state, action) => {
+            state.totalPrice = state.totalPrice + action.payload
+            
         }
     },
     extraReducers: {
@@ -41,4 +55,11 @@ const productsCheckedSlice = createSlice({
 })
 
 export default productsCheckedSlice.reducer
-export const {addItemChecked, removeItemChecked, setNullListProductsChecked} = productsCheckedSlice.actions
+export const {
+    addItemChecked,
+    removeItemChecked,
+    setNullListProductsChecked,
+    updateQuantityCheckedList,
+    updateTotalPriceCheckedList
+    
+} = productsCheckedSlice.actions

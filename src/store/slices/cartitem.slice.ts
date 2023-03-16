@@ -71,6 +71,13 @@ const cartItemSlice = createSlice({
         setNullTotalPriceAndTotalProduct: (state) => {
             state.totalPrice = 0
             state.totalProductPayment = 0
+        },
+        setNullCartItem: (state) => {
+            state.listProducts = []
+            state.totalPrice = 0
+            state.totalProduct = 0
+            state.totalProductPayment = 0
+            state.status = "fulfilled"
         }
     },
     extraReducers: (builder) => {
@@ -96,5 +103,6 @@ export const {
     decreaseTotalPriceTotalProductPayment, 
     increaseTotalPrice, 
     decreaseTotalPrice,
-    setNullTotalPriceAndTotalProduct
+    setNullTotalPriceAndTotalProduct,
+    setNullCartItem
 } = cartItemSlice.actions

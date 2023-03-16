@@ -1,7 +1,9 @@
 import { Col, Input, Row } from "antd"
+import { useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
+import { } from "../../../store/slices/product-checked.slice";
+import { RootState, useAppDispatch } from "../../../store/store";
 import "./card-product-checkout.style.scss"
 
 
@@ -10,11 +12,16 @@ interface IProps {
     unitPrice?: number;
     quantity?: number;
     image?: string;
-    productName?: string;
+    desc?: string;
+    name?: string;
 }
 
-const CardProductCheckout: React.FC<IProps> = ({id, unitPrice, quantity, image, productName}) => {
+const CardProductCheckout: React.FC<IProps> = ({id, unitPrice, quantity, image, desc, name}) => {
+    const dispatch = useAppDispatch()
     let totalPrice = Number(unitPrice) * Number(quantity)
+    useEffect(() => {
+        
+    }, [])
     return (
         <div className="card-product-checkout">
             <div className="card-product-checkout-content">
@@ -26,7 +33,7 @@ const CardProductCheckout: React.FC<IProps> = ({id, unitPrice, quantity, image, 
                         </div>
                     </Col>
                     <Col span={8}>
-                        <h4>{productName}</h4>
+                        <h4>{name}</h4>
                     </Col>
                     <Col span={4}>
                         <p style={{ textAlign: 'center' }}>{unitPrice}</p>
