@@ -3,10 +3,12 @@ import { useSelector } from "react-redux"
 import { RootState } from "../../../store/store"
 import "./card-confirm-checkout.style.scss"
 
+interface IProps {
+    totalPrice: number
+}
 
-
-const CardConfirmCheckout = () => {
-    const totalPrice = useSelector((state: RootState) => state.cartItem.totalPrice)
+const CardConfirmCheckout: React.FC<IProps> = ({totalPrice}) => {
+    
     return (
         <div className="card-confirm-checkout">
             <div className="card-confirm-checkout-child">

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import LazyLoad from "react-lazy-load"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { setNullTotalPriceAndTotalProduct } from "../../store/slices/cartitem.slice"
+import { getAllItemAsyncThunk, setNullTotalPriceAndTotalProduct } from "../../store/slices/cartitem.slice"
 import { setNullListProductsChecked } from "../../store/slices/product-checked.slice"
 import { RootState, useAppDispatch } from "../../store/store"
 import CartItem from "./cart-item/cartitem.component"
@@ -22,6 +22,8 @@ const Cart = () => {
     useEffect( () => {
         dispatch(setNullListProductsChecked())
         dispatch(setNullTotalPriceAndTotalProduct())
+        dispatch(getAllItemAsyncThunk())
+        dispatch(setNullListProductsChecked())
     }, [])
     if(status === "pending"){
         return <Spin tip="Loading..." size="large">

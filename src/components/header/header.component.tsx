@@ -10,7 +10,7 @@ import "../style-commond/commond.style.scss"
 import { currentUserAsyncThunk, logout } from "../../store/slices/user.slice";
 import MiniCartItem from "./mini-cart-item/minicartitem.component";
 import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
-import { getAllItemAsyncThunk } from "../../store/slices/cartitem.slice";
+import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice";
 
 
 const Header = () => {
@@ -84,6 +84,7 @@ const Header = () => {
                         localStorage.removeItem("accessToken")
                         dispatch(logout())
                         nav("/login")
+                        dispatch(setNullCartItem())
                     },
                     style: {
                         color: "#884dff"

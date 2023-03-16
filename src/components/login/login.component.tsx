@@ -10,6 +10,7 @@ import jwtDecode from "jwt-decode"
 import { GiftOutlined, WarningOutlined } from "@ant-design/icons"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { getAllItemAsyncThunk } from "../../store/slices/cartitem.slice"
 
 
 interface IResponseGoogleLogin {
@@ -53,6 +54,8 @@ const Login = () => {
                 icon: <GiftOutlined style={{ color: 'green' }} />,
                 duration: 5
             });
+            // dispatch to get product in cart for user
+            dispatch(getAllItemAsyncThunk())
             nav("/")
         }
     };
@@ -63,7 +66,9 @@ const Login = () => {
     if(status === "pending"){
         return <Spin tip="Loading..." size="large">
             <div className="login">
-                
+                <div className="form-login">
+
+                </div>
             </div>
         </Spin>
     }
