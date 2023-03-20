@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import cartitemSlice from './slices/cartitem.slice'
 import productCheckedSlice from './slices/product-checked.slice'
 import reviewSlice from './slices/reviews.slice'
+import userAdminSlice from './slices/user-admin.slice'
 import userSlice from './slices/user.slice'
 
 
@@ -11,7 +12,8 @@ const store = configureStore({
         user: userSlice,
         cartItem: cartitemSlice,
         reviews: reviewSlice,
-        productsChecked: productCheckedSlice
+        productsChecked: productCheckedSlice,
+        userAdmin: userAdminSlice
     }
 })
 

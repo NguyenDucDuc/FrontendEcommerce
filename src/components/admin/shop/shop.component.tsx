@@ -1,7 +1,8 @@
-import { Space } from "antd";
+import { Space, Spin } from "antd";
 import Table, { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import { AuthApi, endpoint } from "../../../configs/Api";
+import { useNavigate } from "react-router-dom";
+import { AuthAdminApi, AuthApi, endpoint } from "../../../configs/Api";
 
 
 
@@ -16,18 +17,20 @@ interface DataType {
 
 const AdminShop = () => {
     // set up collumn
+    const nav = useNavigate()
+    const [show, setShow] = useState<boolean>(false)
     const [reload, setReload] = useState<boolean>(true)
     const handleLockShop = async (record: DataType) => {
         const res = await AuthApi().patch(endpoint.shop.lock(record.id))
         console.log(res.data)
-        if(res.data.status === 200){
+        if (res.data.status === 200) {
             setReload(!reload)
         }
     }
     const handleUnLockShop = async (record: DataType) => {
         const res = await AuthApi().patch(endpoint.shop.unLock(record.id))
         console.log(res.data)
-        if(res.data.status === 200){
+        if (res.data.status === 200) {
             setReload(!reload)
         }
     }
@@ -60,19 +63,34 @@ const AdminShop = () => {
         {
             title: "Action",
             key: 'action',
-            render: (_, record) => record.isBlock == true ? <p key={record.id} style={{cursor: 'pointer'}} onClick={() => handleUnLockShop(record)}>Mở khóa shop</p> : <p key={record.id} style={{cursor: 'pointer'}} onClick={() => handleLockShop(record)}>Khóa shop</p>
+            render: (_, record) => record.isBlock == true ? <p key={record.id} style={{ cursor: 'pointer' }} onClick={() => handleUnLockShop(record)}>Mở khóa shop</p> : <p key={record.id} style={{ cursor: 'pointer' }} onClick={() => handleLockShop(record)}>Khóa shop</p>
         }
     ];
     //
     const [shops, setShops] = useState([])
+
     useEffect(() => {
         const getAllShop = async () => {
-            const res = await AuthApi().get(endpoint.shop.getAll)
-            console.log(res.data)
-            setShops(res.data.data)
+            try {
+                const res = await AuthAdminApi().get(endpoint.shop.getAll)
+                console.log(res.data)
+                setShops(res.data.data)
+            } catch (error) {
+                nav("/admin/forbidden")
+            }
         }
+        setShow(true)
         getAllShop()
     }, [reload])
+
+    if(show === false){
+        return <Spin tip="Loading..." size="large">
+            <div style={{height: 500}}>
+
+            </div>
+        </Spin>
+    }
+
     return (
         <div>
             {shops.length > 0

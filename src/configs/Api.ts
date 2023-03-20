@@ -8,7 +8,8 @@ export const endpoint = {
     user: {
         register: "/user",
         currentUser: "/user/current-user",
-        updateUser: (userId: number) => `/user/${userId}`
+        updateUser: (userId: number) => `/user/${userId}`,
+        roleAdmin: "/user/role-admin"
     },
     shop: {
         getDetail:(shopId:number) => `/shop/${shopId}`,
@@ -38,6 +39,9 @@ export const endpoint = {
     productCart: {
         add: "/product-cart",
         update: "/product-cart"
+    },
+    admin: {
+        login: "/user/login"
     }
 }
 
@@ -46,6 +50,15 @@ export const AuthApi = () => {
         baseURL: "http://localhost:5000/",
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+    })
+}
+
+export const AuthAdminApi = () => {
+    return axios.create({
+        baseURL: "http://localhost:5000",
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('accessTokenAdmin')}`
         }
     })
 }
