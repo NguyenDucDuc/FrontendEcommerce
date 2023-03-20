@@ -42,6 +42,9 @@ export const endpoint = {
     },
     admin: {
         login: "/user/login"
+    },
+    order: {
+        buyProduct: "/order"
     }
 }
 

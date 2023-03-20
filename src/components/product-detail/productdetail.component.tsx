@@ -27,6 +27,7 @@ interface IProductDetail {
     desc: string;
     price: number;
     name: string;
+    shopId: number;
 }
 
 const ProductDetail = () => {
@@ -47,7 +48,8 @@ const ProductDetail = () => {
         price: 0,
         desc: "",
         id: 0,
-        name: ""
+        name: "",
+        shopId: 0
     })
     const { productId } = useParams()
     const nav = useNavigate()
@@ -94,6 +96,7 @@ const ProductDetail = () => {
                         price={product?.price}
                         productId={product.id}
                         productName={product.name}
+                        shopId={product.shopId}
                     />
                     :
                     <Spin tip="Loading..." size="large">
@@ -105,6 +108,7 @@ const ProductDetail = () => {
                             price={product?.price}
                             productId={product.id}
                             productName={product.name}
+                            shopId={product.shopId}
                         />
                     </Spin>
             }
