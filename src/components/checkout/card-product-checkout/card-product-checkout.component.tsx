@@ -14,9 +14,10 @@ interface IProps {
     image?: string;
     desc?: string;
     name?: string;
+    shopName?: string;
 }
 
-const CardProductCheckout: React.FC<IProps> = ({id, unitPrice, quantity, image, desc, name}) => {
+const CardProductCheckout: React.FC<IProps> = ({id, unitPrice, quantity, image, desc, name, shopName}) => {
     const dispatch = useAppDispatch()
     let totalPrice = Number(unitPrice) * Number(quantity)
     useEffect(() => {
@@ -25,7 +26,7 @@ const CardProductCheckout: React.FC<IProps> = ({id, unitPrice, quantity, image, 
     return (
         <div className="card-product-checkout">
             <div className="card-product-checkout-content">
-                <h4>Hades studio</h4>
+                <h4>{shopName}</h4>
                 <Row style={{ marginTop: 10 }}>
                     <Col span={4}>
                         <div className="card-img">

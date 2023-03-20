@@ -1,12 +1,12 @@
 import { Button, Checkbox, Col, InputNumber, Row } from "antd"
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { valueType } from "antd/es/statistic/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AuthApi, endpoint } from "../../../configs/Api";
-import {  decreaseTotalPrice, decreaseTotalPriceTotalProductPayment, ICartItem, increaseTotalPrice, increaseTotalPriceTotalProductPayment } from "../../../store/slices/cartitem.slice";
+import { decreaseTotalPrice, decreaseTotalPriceTotalProductPayment, ICartItem, increaseTotalPrice, increaseTotalPriceTotalProductPayment } from "../../../store/slices/cartitem.slice";
 import { addItemChecked, ICheckedItem, removeItemChecked, updateQuantityCheckedList } from "../../../store/slices/product-checked.slice";
 import { RootState, useAppDispatch } from "../../../store/store";
 import "./cartitem.style.scss"
@@ -18,28 +18,33 @@ interface IProps {
     price: number;
     quantity: number;
     name?: string;
+    shopId: number;
 }
 
-const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity, name}) => {
-    const valueCheckBox:ICartItem = {
+const CartItem: React.FC<IProps> = ({ id, image, desc, price, quantity, name, shopId }) => {
+    const valueCheckBox: ICartItem = {
         id: id,
         image: image,
         desc: desc,
         price: price,
         quantity: quantity,
-        name: name
+        name: name,
+        shopId: shopId
     }
+    const [shop, setShop] = useState<any>({
+        shopName: ""
+    })
     const [inputNumber, setInputNumber] = useState<number>(quantity)
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const [check, setCheck] = useState<boolean>()
     const handleCheckboxChange = (e: CheckboxChangeEvent) => {
         console.log(e.target.checked)
-        if(e.target.checked === true){
+        if (e.target.checked === true) {
             // set check box == true
             setCheck(e.target.checked)
             const totalPrice = price * inputNumber
-            dispatch(increaseTotalPriceTotalProductPayment({totalPrice: totalPrice}))
+            dispatch(increaseTotalPriceTotalProductPayment({ totalPrice: totalPrice }))
             // add from redux checked item
             const newItemChecked: ICheckedItem = {
                 id: id,
@@ -47,15 +52,17 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity, name}) =>
                 desc: desc,
                 quantity: quantity,
                 price: price,
-                image: image
+                image: image,
+                shopName: shop.shopName,
+                shopId: shopId
             }
             dispatch(addItemChecked(newItemChecked))
         }
-        if(e.target.checked === false){
+        if (e.target.checked === false) {
             // set state checkbox == false
             setCheck(e.target.checked)
             const totalPrice = price * inputNumber
-            dispatch(decreaseTotalPriceTotalProductPayment({totalPrice: totalPrice}))
+            dispatch(decreaseTotalPriceTotalProductPayment({ totalPrice: totalPrice }))
             console.log(totalPrice)
             // remove from redux checked item
             const newItemChecked: ICheckedItem = {
@@ -63,15 +70,18 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity, name}) =>
                 name: name,
                 desc: desc,
                 quantity: quantity,
-                price: price
+                price: price,
+                image: image,
+                shopName: shop.shopName,
+                shopId: shopId
             }
             dispatch(removeItemChecked(newItemChecked))
         }
     }
-    const handleQuantityChange = async (value: number|string|null) => {
+    const handleQuantityChange = async (value: number | string | null) => {
         setInputNumber(Number(value))
         // update into checked list product
-        dispatch(updateQuantityCheckedList({productId: id, quantity: Number(value)}))
+        dispatch(updateQuantityCheckedList({ productId: id, quantity: Number(value), shopId: shopId }))
         // update to database
         const res = await AuthApi().patch(endpoint.productCart.update, {
             productId: id,
@@ -81,19 +91,30 @@ const CartItem: React.FC<IProps> = ({id, image, desc, price, quantity, name}) =>
         // update UI
     }
     const onStep = (value: number, info: any) => {
-        if(info.type === "up" && check === true){
-            dispatch(increaseTotalPrice({unitPrice: Number(price)}))
-            
+        if (info.type === "up" && check === true) {
+            dispatch(increaseTotalPrice({ unitPrice: Number(price) }))
+
         }
-        if(info.type === "down" && check == true){
-            dispatch(decreaseTotalPrice({unitPrice: Number(price)}))
+        if (info.type === "down" && check == true) {
+            dispatch(decreaseTotalPrice({ unitPrice: Number(price) }))
         }
     }
+
+    useEffect(() => {
+        const getShopInfo = async () => {
+            if (shopId !== 0) {
+                const res = await AuthApi().get(endpoint.shop.getDetail(shopId))
+                console.log(res.data)
+                setShop(res.data.data)
+            }
+        }
+        getShopInfo()
+    }, [])
     return (
         <div className="cart-item">
             <Row>
                 <Col span={24}>
-                    <h4 className="cs-pointer" onClick={() => nav("/shop-profile")}>Hades Studio</h4>
+                    <h4 className="cs-pointer" onClick={() => nav("/shop-profile")}>{shop.shopName}</h4>
                     <hr color="#e6e6e6"></hr>
                 </Col>
             </Row>
