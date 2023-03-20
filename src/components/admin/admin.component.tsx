@@ -1,7 +1,10 @@
 import { AppstoreOutlined, ContainerOutlined, DesktopOutlined, MailOutlined, MenuFoldOutlined, MenuUnfoldOutlined, PieChartOutlined } from "@ant-design/icons"
-import { Button, Col, Menu, MenuProps, Row } from "antd"
-import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Button, Col, Menu, MenuProps, Row, Spin } from "antd"
+import { useEffect, useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { AuthAdminApi, endpoint } from "../../configs/Api";
+import { updateUserAdmin } from "../../store/slices/user-admin.slice";
+import { useAppDispatch } from "../../store/store";
 import "./admin.style.scss"
 import HeaderAdmin from "./header/header.component";
 import SideBar from "./sidebar/sidebar.component";
@@ -51,10 +54,37 @@ const items: MenuItem[] = [
 
 const Admin = () => {
     const [collapsed, setCollapsed] = useState(false);
-
+    const nav = useNavigate()
+    const [show, setShow] = useState<boolean>(false)
+    const dispatch = useAppDispatch()
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
     };
+    useEffect(() => {
+        const checkLogin = async () => {
+            try {
+                const res = await AuthAdminApi().get(endpoint.user.roleAdmin)
+                dispatch(updateUserAdmin(res.data.data))
+            } catch (error: any) {
+                console.log(error.response)
+                if (error.response.status !== 200) {
+                    nav("/admin/login")
+                }
+            }
+            setShow(true)
+        }
+        checkLogin()
+    }, [])
+
+    if (show === false) {
+        return (
+            <Spin tip="Loading..." size="large">
+                <div style={{ height: 500 }}>
+
+                </div>
+            </Spin>
+        )
+    }
     return (
         <div className="admin" style={{ width: '100%' }}>
             <Row>
