@@ -1,3 +1,4 @@
+import { GoogleLogin } from "@react-oauth/google";
 import { Button, Checkbox, Col, Form, Input, Row } from "antd"
 import { loginAdminAsyncThunk } from "../../../store/slices/user-admin.slice";
 import { useAppDispatch } from "../../../store/store";
@@ -13,7 +14,7 @@ const LoginAdmin = () => {
             passWord: values.password
         }
         const dp = await dispatch(loginAdminAsyncThunk(reqBody))
-        if(dp.meta.requestStatus === 'fulfilled') {
+        if (dp.meta.requestStatus === 'fulfilled') {
             localStorage.setItem("accessTokenAdmin", dp.payload.accessToken)
         }
     };
