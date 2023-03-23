@@ -10,7 +10,7 @@ import jwtDecode from "jwt-decode"
 import { GiftOutlined, WarningOutlined } from "@ant-design/icons"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { getAllItemAsyncThunk } from "../../store/slices/cartitem.slice"
+import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice"
 
 
 interface IResponseGoogleLogin {
@@ -66,7 +66,27 @@ const Login = () => {
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
-    if(status === "pending"){
+
+    const googleLogin = async (acceessToken: string|undefined) => {
+        console.log(acceessToken)
+        const info: any = jwtDecode(acceessToken||"")
+        console.log(info)
+        if(info) {
+            dispatch(setNullCartItem())
+            const reqBody: IReqGoogleLogin = {
+                email: info.email,
+                firstName: info.family_name,
+                lastName: info.given_name,
+                avatar: info.picture
+            }
+            const resGoogleLogin = await dispatch(googleLoginAsyncThunk(reqBody))
+            if(resGoogleLogin){
+                localStorage.setItem('accessToken',resGoogleLogin.payload.accessToken)
+            }
+        }
+        
+    }
+    if (status === "pending") {
         return <Spin tip="Loading..." size="large">
             <div className="login">
                 <div className="form-login">
@@ -122,9 +142,22 @@ const Login = () => {
                                 </Button>
                             </Form.Item>
                         </Form>
+                        {/* google login */}
+                        <Row>
+                            <Col span={8}></Col>
+                            <Col span={16}>
+                                <GoogleLogin
+                                    onSuccess={(credentialResponse) => googleLogin(credentialResponse.credential) }
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                />
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </div>
+
         </div>
     )
 }
