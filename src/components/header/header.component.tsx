@@ -18,6 +18,9 @@ const Header = () => {
     const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct )
     const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
     const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
+    const [statusLogin, setStatusLogin] = useState<any>({
+        
+    })
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
@@ -28,8 +31,14 @@ const Header = () => {
         const getCart = () => {
             dispatch(getAllItemAsyncThunk())
         }
+        const checkLogin = () => {
+            if(localStorage.getItem('accessToken')){
+                
+            }
+        }
         getCurrentUser()
         getCart()
+        checkLogin()
     }, [])
     const handleMouseEnterCartMini = () => {
         setIsShowCartMini(true)
@@ -43,6 +52,7 @@ const Header = () => {
     const handleMouseLeaveNotification = () => {
         setIsShowNotifi(false)
     }
+    const accessToken = localStorage.getItem('accessToken')
     const items: MenuProps['items'] = [
         {
             label: (<Link to="/" >Trang chủ</Link>),
@@ -52,14 +62,15 @@ const Header = () => {
                 color: "#884dff"
             }
         },
-        {
-            label: (<Link to="/login" >Đăng nhập</Link>),
+        !localStorage.getItem('accessToken') ? {
+            label: <Link to='/login'>Đăng nhập</Link>,
             key: 'login',
             icon: <AppstoreOutlined />,
             style: {
                 color: "#884dff"
             }
-        },
+            
+        } : null,
         {
             label: (<Link to="/admin/home">Quản trị</Link>),
             key: 'admin',
@@ -121,6 +132,7 @@ const Header = () => {
             }
         }
     ];
+
     const [current, setCurrent] = useState('home');
 
     const onClick: MenuProps['onClick'] = (e) => {

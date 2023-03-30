@@ -20,6 +20,7 @@ interface IProps {
     price: number;
     size: string[];
     productName: string;
+    shopId: number;
 }
 
 const attributes = {
@@ -46,7 +47,7 @@ const options = [
     { label: 'XL', value: 'xl' },
   ];
 
-const ProductMain: React.FC<IProps> = ({ productName, img, desc, rateCount, saleCount, price, size, productId }) => {
+const ProductMain: React.FC<IProps> = ({ productName, img, desc, rateCount, saleCount, price, size, productId, shopId }) => {
     const listCartItem = useSelector((state: RootState) => state.cartItem.listProducts)
     const [showChatBox, setShowChatBox] = useState<boolean>(false)
     const [currrentAddress, setCurrentAddress] = useState<any>()
@@ -75,13 +76,14 @@ const ProductMain: React.FC<IProps> = ({ productName, img, desc, rateCount, sale
       const handleAddToCart = async () => {
         // update cart count in header
         dispatch(updateCartCount())
-        // add to redux
+        // add to redux cart
         const newCartItem: ICartItem = {
             price: price,
             id: productId,
             image: "https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e",
             desc: desc,
-            quantity: 1
+            quantity: 1,
+            shopId: shopId
         }
         dispatch(addItem(newCartItem))
         // add to database

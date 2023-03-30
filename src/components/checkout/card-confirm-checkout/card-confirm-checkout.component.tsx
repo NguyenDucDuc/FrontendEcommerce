@@ -4,10 +4,11 @@ import { RootState } from "../../../store/store"
 import "./card-confirm-checkout.style.scss"
 
 interface IProps {
-    totalPrice: number
+    totalPrice: number,
+    testOrder: any
 }
 
-const CardConfirmCheckout: React.FC<IProps> = ({totalPrice}) => {
+const CardConfirmCheckout: React.FC<IProps> = ({totalPrice, testOrder}) => {
     
     return (
         <div className="card-confirm-checkout">
@@ -64,7 +65,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({totalPrice}) => {
                             <p>Nhấn đặt hàng là bạn đã đồng ý với tất cả điều khoản của chúng tôi.</p>
                         </Col>
                         <Col span={6}>
-                            <Button type="primary" className="btn-color" size="large" style={{width: '100%'}}>Đặt hàng</Button>
+                            <Button onClick={() => testOrder()} type="primary" className="btn-color" size="large" style={{width: '100%'}}>Đặt hàng</Button>
                         </Col>
                     </Row>
                 </div>

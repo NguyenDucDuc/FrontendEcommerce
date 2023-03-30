@@ -147,10 +147,11 @@ const userSlice = createSlice({
         builder.addCase(googleLoginAsyncThunk.pending, (state) => {
             state.status = "pending"
         })
-        builder.addCase(googleLoginAsyncThunk.fulfilled, (state, action: PayloadAction<IUserGoogleLogin>) => {
+        builder.addCase(googleLoginAsyncThunk.fulfilled, (state, action: PayloadAction<any>) => {
             state.status = "fulfilled"
             console.log(action.payload)
-            state.user = action.payload
+            state.user = action.payload.user
+            state.accessToken = action.payload.accessToken
         })
         builder.addCase(googleLoginAsyncThunk.rejected, (state) => {
             state.status = "rejected"

@@ -20,13 +20,16 @@ import Notification from "./components/notification/notification.component";
 
 import "./components/style-commond/commond.style.scss";
 
-import UserProfile from "./components/user-profile/userprofile.component";
-import Profile from "./components/user-profile/profile/profile.component";
-import Address from "./components/user-profile/address/address.component";
-import { io } from "socket.io-client";
-import RegisterSeller from "./components/register-seller/register-seller.component";
-import Checkout from "./components/checkout/checkout.component";
+import UserProfile from './components/user-profile/userprofile.component';
+import Profile from './components/user-profile/profile/profile.component';
+import Address from './components/user-profile/address/address.component';
+import { io } from 'socket.io-client';
+import RegisterSeller from './components/register-seller/register-seller.component';
+import Checkout from './components/checkout/checkout.component';
+import LoginAdmin from './components/admin/login/login-admin.component';
+import Forbidden from './components/admin/forbidden/forbidden.component';
 import AddProduct from "./components/add-product/AddProduct";
+
 
 export const socket = io("http://localhost:5000");
 
@@ -63,9 +66,11 @@ function App() {
         {/* Route Admin */}
         <Routes>
           <Route path="/admin" element={<Admin />}>
+            <Route path='/admin/login' element={<LoginAdmin />} />
             <Route path="/admin/home" element={<HomeAdmin />} />
             <Route path="/admin/sellers" element={<AdminSeller />} />
             <Route path="/admin/shops" element={<AdminShop />} />
+            <Route path='/admin/forbidden' element={<Forbidden />} />
           </Route>
         </Routes>
       </BrowserRouter>

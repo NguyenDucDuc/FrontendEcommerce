@@ -35,7 +35,7 @@ const Cart = () => {
             {
                 listCartItem.listProducts.length > 0 ?
                     listCartItem.listProducts.map((item, idx) => <LazyLoad>
-                        <CartItem name={item.name} quantity={item.quantity} price={item.price} image={item.image} desc={item.desc} id={item.id} key={idx} />
+                        <CartItem shopId={item.shopId} name={item.name} quantity={item.quantity} price={item.price} image={item.image} desc={item.desc} id={item.id} key={idx} />
                     </LazyLoad>)
                     :
                     null

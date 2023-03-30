@@ -1,7 +1,8 @@
-import { Col, Row, Table } from "antd"
+import { Col, Row, Spin, Table } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import Api, { endpoint } from "../../configs/Api";
+import { useNavigate } from "react-router-dom";
+import Api, { AuthAdminApi, endpoint } from "../../configs/Api";
 
 
 interface DataType {
@@ -20,8 +21,10 @@ const AdminSeller = () => {
   // const rowClick: any = () => {
   //   console.log("row click")
   // }
+  const nav = useNavigate()
   const [sellers, setSellers] = useState<DataType[]>([])
   const [reload, setReload] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(true)
 
   const handleBlockUser = async (record: DataType) => {
     const res = await Api.patch(endpoint.seller.lock(record.id))
@@ -39,14 +42,15 @@ const AdminSeller = () => {
     { title: 'First name', dataIndex: 'firstName', key: 'firstName' },
     { title: 'Last name', dataIndex: 'lastName', key: 'lastName' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Status', dataIndex: 'isActive', key: 'isActive', 
-      render: (_, record) => record.isActive == false ? <p key={record.id} style={{color: 'red'}}>Khóa</p> : <p key={record.id} style={{color: 'green'}} >Không khóa</p>
+    {
+      title: 'Status', dataIndex: 'isActive', key: 'isActive',
+      render: (_, record) => record.isActive == false ? <p key={record.id} style={{ color: 'red' }}>Khóa</p> : <p key={record.id} style={{ color: 'green' }} >Không khóa</p>
     },
     {
       title: 'Action',
       dataIndex: 'status',
       key: 'status',
-      render: (_, record) => record.isActive == true ? <p onClick={() => handleBlockUser(record)} style={{cursor: 'pointer'}}>Khóa tài khoản</p> : <p style={{cursor: 'pointer'}} onClick={() => handleUnLock(record)}>Mở khóa</p>
+      render: (_, record) => record.isActive == true ? <p onClick={() => handleBlockUser(record)} style={{ cursor: 'pointer' }}>Khóa tài khoản</p> : <p style={{ cursor: 'pointer' }} onClick={() => handleUnLock(record)}>Mở khóa</p>
     }
   ];
 
@@ -57,9 +61,28 @@ const AdminSeller = () => {
       console.log(res.data)
       setSellers(res.data.data)
     }
-
     getAllSeller()
   }, [reload])
+
+  useEffect(() => {
+    const checkRole = async () => {
+      try {
+        const res = await AuthAdminApi().get(endpoint.user.roleAdmin)
+      } catch (error) {
+        nav("/admin/forbidden")
+      }
+
+    }
+    checkRole()
+    setShow(false)
+  }, [])
+  if(show === true){
+    return <Spin tip="Loading..." size="large">
+      <div style={{height: 600}}>
+
+      </div>
+    </Spin>
+  }
   return (
     <div style={{ marginTop: '50px' }}>
       {sellers.length > 0

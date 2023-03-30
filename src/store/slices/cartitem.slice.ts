@@ -9,6 +9,7 @@ export interface ICartItem {
     desc?: string;
     quantity: number;
     name?: string;
+    shopId: number;
 }
 
 interface ICartResponse {
