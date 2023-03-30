@@ -17,14 +17,21 @@ export interface Product {
   attributes: Array<Attribute>;
 }
 
-interface Attribute {
-  id: number;
+export interface Attribute {
+  id?: number;
   value: string | number;
-  productId: number;
+  productId?: number;
   attributeId: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   name: string;
   backendType: string;
   frontendInput: string;
+}
+
+export interface AttributeGroup {
+  id: number;
+  name: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

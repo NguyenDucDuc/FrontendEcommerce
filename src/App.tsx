@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
-import './App.scss';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './components/login/login.component';
-import Header from './components/header/header.component';
-import ReactGa from 'react-ga';
-import Register from './components/register/register.component';
-import ShopCreate from './components/shop/createshop.component';
-import Home from './pages/home/home.component';
-import Admin from './components/admin/admin.component';
-import AdminSeller from './components/admin/seller.component';
-import AdminShop from './components/admin/shop/shop.component';
-import HomeAdmin from './components/admin/home/home.component';
-import MainLayout from './components/layout/main.layout';
-import ProductDetail from './components/product-detail/productdetail.component';
-import ProductSales from './components/products-sales/productsales.component';
-import ShopProfile from './components/shop-profile/shopprofile.component';
-import Cart from './components/cart/cart.component';
-import Notification from './components/notification/notification.component';
+import React, { useEffect } from "react";
+import "./App.scss";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./components/login/login.component";
+import Header from "./components/header/header.component";
+import ReactGa from "react-ga";
+import Register from "./components/register/register.component";
+import ShopCreate from "./components/shop/createshop.component";
+import Home from "./pages/home/home.component";
+import Admin from "./components/admin/admin.component";
+import AdminSeller from "./components/admin/seller.component";
+import AdminShop from "./components/admin/shop/shop.component";
+import HomeAdmin from "./components/admin/home/home.component";
+import MainLayout from "./components/layout/main.layout";
+import ProductDetail from "./components/product-detail/productdetail.component";
+import ProductSales from "./components/products-sales/productsales.component";
+import ShopProfile from "./components/shop-profile/shopprofile.component";
+import Cart from "./components/cart/cart.component";
+import Notification from "./components/notification/notification.component";
 
-import './components/style-commond/commond.style.scss';
+import "./components/style-commond/commond.style.scss";
 
 import UserProfile from './components/user-profile/userprofile.component';
 import Profile from './components/user-profile/profile/profile.component';
@@ -28,12 +28,14 @@ import RegisterSeller from './components/register-seller/register-seller.compone
 import Checkout from './components/checkout/checkout.component';
 import LoginAdmin from './components/admin/login/login-admin.component';
 import Forbidden from './components/admin/forbidden/forbidden.component';
+import AddProduct from "./components/add-product/AddProduct";
 
-export const socket = io('http://localhost:5000');
+
+export const socket = io("http://localhost:5000");
 
 function App() {
   useEffect(() => {
-    socket.emit('test', 'kk');
+    socket.emit("test", "kk");
   }, []);
   return (
     <div className="App">
@@ -50,6 +52,7 @@ function App() {
             <Route path="/shop-create" element={<ShopCreate />} />
             <Route path="/products" element={<ProductSales />} />
             <Route path="/shop-profile" element={<ShopProfile />} />
+            <Route path="/add-product" element={<AddProduct />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/user" element={<UserProfile />}>
@@ -57,7 +60,7 @@ function App() {
               <Route path="/user/address" element={<Address />} />
             </Route>
             <Route path="/register-seller" element={<RegisterSeller />} />
-            <Route path='/checkout' element={<Checkout />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
         </Routes>
         {/* Route Admin */}

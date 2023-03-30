@@ -1,14 +1,19 @@
-import axios from 'axios';
-import queryString from 'query-string';
+import axios from "axios";
+import queryString from "query-string";
 
 export const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 
-  paramsSerializer: (params) => queryString.stringify(params),
+  // headers: {
+  //   "content-type": "application/json",
+  // },
+
+  // paramsSerializer: (params) => queryString.stringify(params),
 });
 axiosClient.interceptors.request.use(async (config) => {
   return config;
 });
+
 axiosClient.interceptors.response.use(
   async (response) => {
     if (response && response.data) {
@@ -30,7 +35,7 @@ export const authAxios = (currentUser) => {
   newInstance.interceptors.request.use(
     async (config) => {
       if (currentUser?.accessToken) {
-        config.headers['authentication'] = `Bearer ${currentUser.accessToken}`;
+        config.headers["authentication"] = `Bearer ${currentUser.accessToken}`;
       }
 
       return config;
