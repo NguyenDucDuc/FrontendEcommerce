@@ -41,7 +41,7 @@ export const endpoint = {
         update: "/product-cart"
     },
     admin: {
-        login: "/user/login"
+        login: "/admin/login"
     },
     order: {
         buyProduct: "/order"
