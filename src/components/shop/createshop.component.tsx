@@ -62,24 +62,24 @@ const ShopCreate = () => {
                         autoComplete="off"
                     >
                         <Form.Item
-                            label="Shop name"
+                            label="Tên shop"
                             name="shopName"
-                            rules={[{ required: true, message: 'Please input your shop name!' }]}
+                            rules={[{ required: true, message: 'Vui lòng nhập tên shop!' }]}
                         >
                             <Input />
                         </Form.Item>
 
                         <Form.Item
-                            label="Description"
+                            label="Mô tả"
                             name="desc"
-                            rules={[{ required: true, message: 'Please input your description!' }]}
+                            rules={[{ required: true, message: 'Vui lòng nhập mô tả về shop!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Image"
+                            label="Ảnh đại diện"
                             name="image"
-                            rules={[{ required: true, message: 'Choose your shop avatar !' }]}
+                            rules={[{ required: true, message: 'Vui lòng chọn ảnh đại diện!' }]}
                         >
                             <Input type="file" onChange={(e) => imageChange(e)} />
                         </Form.Item>

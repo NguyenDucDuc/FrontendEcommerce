@@ -45,6 +45,9 @@ export const endpoint = {
     },
     order: {
         buyProduct: "/order"
+    },
+    customer: {
+        checkBoughtProduct: "/customer/check-bought-product"
     }
 }
 

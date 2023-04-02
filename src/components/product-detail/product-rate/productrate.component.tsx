@@ -23,6 +23,7 @@ interface IProps {
     listReviews: IPropsReview[]
 }
 
+
 const ProductRate = () => {
     const listReviews = useSelector((state: RootState) => state.reviews.listReviews)
     const amountPage = useSelector((state: RootState) => state.reviews.amountPage)
@@ -43,7 +44,9 @@ const ProductRate = () => {
         <div className="product-rate" >
             <h2 className="mgl-25" style={{ paddingTop: '40px' }}>Đánh giá sản phẩm</h2>
             <hr></hr>
+            
             <TotalRate />
+            
             <div className="user-rate">
                 {/* Comment */}
                 {listReviews.length > 0 ?
