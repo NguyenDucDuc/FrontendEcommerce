@@ -39,11 +39,11 @@ const Login = () => {
         const resLoginAsyncThunk = await dispatch(loginAsyncThunk(reqLogin))
         console.log(resLoginAsyncThunk)
         if (resLoginAsyncThunk.type.includes('rejected')) {
-            setErrorResponse(resLoginAsyncThunk.payload.data)
+            setErrorResponse(resLoginAsyncThunk.payload.errors)
             // show notification
             notification.open({
                 message: 'Error message',
-                description: resLoginAsyncThunk.payload.data,
+                description: resLoginAsyncThunk.payload.errors,
                 icon: <WarningOutlined style={{ color: 'red' }} />,
                 duration: 5
             });
