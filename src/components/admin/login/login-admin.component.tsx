@@ -1,21 +1,39 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { Button, Checkbox, Col, Form, Input, Row } from "antd"
-import { loginAdminAsyncThunk } from "../../../store/slices/user-admin.slice";
+import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd"
+import { useState } from "react";
+import { useNavigate, redirect } from "react-router-dom";
+import { loginAdminAsyncThunk, updateUserAdmin } from "../../../store/slices/user-admin.slice";
 import { useAppDispatch } from "../../../store/store";
 import "./login-admin.style.scss"
 
 
 const LoginAdmin = () => {
     const dispatch = useAppDispatch()
+    const [errors, setErrors] = useState<string>('')
+    const nav = useNavigate()
+    const [api, contextHolder] = notification.useNotification();
     const onFinish = async (values: any) => {
-        console.log('Success:', values);
         const reqBody = {
             userName: values.username,
             passWord: values.password
         }
         const dp = await dispatch(loginAdminAsyncThunk(reqBody))
+        console.log(dp.payload)
         if (dp.meta.requestStatus === 'fulfilled') {
             localStorage.setItem("accessTokenAdmin", dp.payload.accessToken)
+            api.success({
+                message: `Thông báo`,
+                description: "Đăng nhập thành công",
+              });
+              setTimeout(() => {
+                nav("/admin/home")
+              }, (1500));
+        }
+        if(dp.meta.requestStatus === 'rejected'){
+            api.error({
+                message: `Thông báo`,
+                description: dp.payload.errors,
+              });
         }
     };
 
@@ -24,6 +42,7 @@ const LoginAdmin = () => {
     };
     return (
         <div className="login-admin">
+            {contextHolder}
             <Row>
                 <Col span={12}>
                     <img src="/images/login-admin.png" />
@@ -43,7 +62,7 @@ const LoginAdmin = () => {
                             <Form.Item
                                 label="Tên tài khoản"
                                 name="username"
-                                rules={[{ required: true, message: 'Please input your username!' }]}
+                                rules={[{ required: true, message: 'Vui lòng nhập tên tài khoản!' }]}
                             >
                                 <Input size="large" />
                             </Form.Item>
@@ -51,7 +70,7 @@ const LoginAdmin = () => {
                             <Form.Item
                                 label="Mật khẩu"
                                 name="password"
-                                rules={[{ required: true, message: 'Please input your password!' }]}
+                                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
                             >
                                 <Input.Password size="large" />
                             </Form.Item>
