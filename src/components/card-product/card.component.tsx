@@ -3,6 +3,7 @@ import { StarFilled } from '@ant-design/icons';
 import '../style-commond/commond.style.scss';
 import './card.style.scss';
 
+
 const CardProduct: React.FC = () => {
   const nav = useNavigate();
   const handleGoToProductDetail = () => {

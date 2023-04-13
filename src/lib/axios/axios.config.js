@@ -1,5 +1,4 @@
 import axios from "axios";
-import queryString from "query-string";
 
 export const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -7,8 +6,6 @@ export const axiosClient = axios.create({
   // headers: {
   //   "content-type": "application/json",
   // },
-
-  // paramsSerializer: (params) => queryString.stringify(params),
 });
 axiosClient.interceptors.request.use(async (config) => {
   return config;
@@ -26,18 +23,20 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export const authAxios = (currentUser) => {
+export const authAxios = () => {
   const newInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
-    paramsSerializer: (params) => queryString.stringify(params),
   });
 
   newInstance.interceptors.request.use(
     async (config) => {
-      if (currentUser?.accessToken) {
-        config.headers["authentication"] = `Bearer ${currentUser.accessToken}`;
+      if (localStorage.getItem("accessToken")) {
+        config.headers["authorization"] = `Bearer ${localStorage.getItem(
+          "accessToken"
+        )}`;
+      } else {
+        console.log("Not find accessToken");
       }
-
       return config;
     },
     (err) => Promise.reject(err)
