@@ -33,7 +33,7 @@ export const endpoint = {
     search: "/product",
     productDetail: (productId: string) => `/product/${productId}`,
     reviews: (productId: string) => `/product/${productId}/reviews`,
-    update: (productId: string) => `product/${productId}`
+    update: (productId: string) => `product/${productId}`,
   },
   cart: {
     getAllItem: "/cart/products",
@@ -45,13 +45,53 @@ export const endpoint = {
   },
   admin: {
     login: "/user/login",
-  },
-  order: {
-    buyProduct: "/order",
-    getOrder: '/order'
-  },
-  customer: {
-    checkBoughtProduct: "/customer/check-bought-product",
+    googleLogin: "/user/google-login",
+    facebookLogin: "/user/facebook-login",
+    user: {
+      register: "/user",
+      currentUser: "/user/current-user",
+      updateUser: (userId: number) => `/user/${userId}`,
+      roleAdmin: "/user/role-admin",
+    },
+    shop: {
+      getDetail: (shopId: number) => `/shop/${shopId}`,
+      create: "/shop",
+      getAll: "/shop",
+      lock: (shopId: number) => `/shop/block/${shopId}`,
+      unLock: (shopId: number) => `/shop/unlock/${shopId}`,
+    },
+    seller: {
+      register: "/seller",
+      getAll: "/seller",
+      lock: (userId: number) => `/seller/lock/${userId}`,
+      unLock: (userId: number) => `/seller/un-lock/${userId}`,
+    },
+    address: {
+      currentAddress: "/address/current",
+      updateAddress: (userId: number) => `/user/${userId}`,
+    },
+    product: {
+      productDetail: (productId: string) => `/product/${productId}`,
+      reviews: (productId: string) => `/product/${productId}/reviews`,
+    },
+    cart: {
+      getAllItem: "/cart/products",
+      getByUserId: "/cart",
+    },
+    productCart: {
+      add: "/product-cart",
+      update: "/product-cart",
+    },
+    admin: {
+      login: "/admin/login",
+    },
+    order: {
+      buyProduct: "/order",
+      getOrder: "/order",
+    },
+    customer: {
+      checkBoughtProduct: "/customer/check-bought-product",
+    },
   },
 };
 
