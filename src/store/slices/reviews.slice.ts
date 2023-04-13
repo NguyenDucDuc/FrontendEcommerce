@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { number } from "yup";
 import Api, { endpoint } from "../../configs/Api";
 
 export interface IReview {

@@ -7,7 +7,7 @@ interface Props {
   productList: Array<Product>;
 }
 
-const ProductList: React.FC<Props> = ({ productList }) => {
+const ProductList: React.FC<Props> = ({ productList }) => {  
   return (
     <>
       <Row gutter={[8, 8]}>

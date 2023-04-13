@@ -35,3 +35,9 @@ export interface AttributeGroup {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface ProductDataResponse {
+  listProduct?: Array<Product>,
+  amountPage?: number,
+  amountProduct: number
+}

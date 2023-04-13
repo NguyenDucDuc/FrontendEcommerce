@@ -2,25 +2,50 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Input, Row, Select, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
-import "./add-product.style.scss";
 import { authAxios, axiosClient } from "../../lib/axios/axios.config";
 import { ENDPOINT } from "../../constants/api";
 import { generateOptions } from "../../utils/generateOptions";
-import { Attribute } from "../../models/models";
+import { Attribute, Product } from "../../models/models";
 import { Response } from "../../models/http";
-import { useParams } from "react-router-dom";
+import { endpoint } from "../../configs/Api";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProduct: React.FC = () => {
-  const { shopId } = useParams();
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+const EditProduct: React.FC = () => {
   const [initValue, setInitValue] = useState({
     attributeGroup: [],
     categories: [],
   });
   const [image, setImage] = useState<any>();
   const [attributeList, setAttributeList] = useState<any>({});
+  const [productDetail, setProductDetail] = useState<Product>();
+  const { productId } = useParams();
+
+  const navigate = useNavigate()
 
   const [form] = Form.useForm();
+
+  const handleFetchProductDetail = async (productId: string) => {
+    try {
+      const res: Response = await axiosClient.get(
+        endpoint.product.productDetail(productId)
+      );
+
+      res.data.attributes = res.data.attributes.reduce(
+        (obj: any, item: any) => {
+          obj[item.attributeId] = item;
+          return obj;
+        },
+        {}
+      );
+
+      form.setFieldsValue({ ...res?.data });
+      changeAttributeGroup(res.data?.attributeGroupId);
+      setProductDetail(res.data);
+    } catch (error) {
+      console.log(error);
+      message.error("Đã có lỗi xảy ra !!");
+    }
+  };
 
   const fetchInitValue = async () => {
     const attributeGroup = axiosClient.get(`${ENDPOINT.ATTRIBUTE_GROUP}`);
@@ -54,13 +79,14 @@ const AddProduct: React.FC = () => {
     }
   };
 
-  const generateInput = (attribute: any, key: any) => {
+  const generateInput = (attribute: any) => {
     return (
       <Col span={24}>
         <Form.Item
-          key={key}
+          key={attribute.id}
           label={attribute.name}
-          name={["attributes", `${attribute.id}`]}
+          // name={["attributes", `${attribute.id}`]}
+          name={["attributes", attribute.id, "value"]}
         >
           <Input type={attribute?.frontendInput} />
         </Form.Item>
@@ -69,10 +95,12 @@ const AddProduct: React.FC = () => {
   };
 
   const onFinish = async (values: any) => {
-    const attributes = Object.keys(values.attributes).reduce(
+    const attributes = Object.keys(
+      productDetail?.attributes as Array<Attribute>
+    ).reduce(
       (obj: any, attributeId: any) => {
         const attribute: Attribute = {
-          value: values.attributes[attributeId],
+          value: values.attributes[attributeId]["value"],
           attributeId: attributeId,
           name: attributeList[attributeId]["name"],
           backendType: attributeList[attributeId]["backendType"],
@@ -85,14 +113,18 @@ const AddProduct: React.FC = () => {
       { ids: [], list: [] }
     );
     values.image = image;
-    values.shopId = shopId;
     values.ids = JSON.stringify(attributes.ids);
     values.list = JSON.stringify(attributes.list);
 
-    const { attributes: attributeIgnore, ...dataToServer } = values;
+    const {
+      attributes: attributeIgnore,
+      imageUpdate,
+      ...dataToServer
+    } = values;
+
     try {
-      const res: Response = await authAxios().post(
-        ENDPOINT.ADD_PRODUCT,
+      const res: Response = await authAxios().put(
+        endpoint.product.update(productId as string),
         dataToServer,
         {
           headers: {
@@ -100,9 +132,9 @@ const AddProduct: React.FC = () => {
           },
         }
       );
-      if (res.status === 201) {
+      if (res.status === 200) {
         message.success(res.message);
-        form.resetFields();
+        navigate(-1)
       } else {
         message.error(res.message);
       }
@@ -118,7 +150,8 @@ const AddProduct: React.FC = () => {
 
   useEffect(() => {
     fetchInitValue();
-  }, []);
+    handleFetchProductDetail(productId as string);
+  }, [productId]);
 
   const attributeGroupOptions = generateOptions(initValue.attributeGroup);
   const categoryOptions = generateOptions(initValue.categories);
@@ -132,7 +165,6 @@ const AddProduct: React.FC = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
           layout="horizontal"
-          disabled={componentDisabled}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           style={{ width: "50%" }}
@@ -194,7 +226,7 @@ const AddProduct: React.FC = () => {
                 },
               ]}
             >
-              <Select options={categoryOptions}></Select>
+              <Select options={categoryOptions} disabled></Select>
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -213,16 +245,7 @@ const AddProduct: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item
-              label="Ảnh sản phẩm"
-              name="image"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng thêm ảnh cho sản phẩm",
-                },
-              ]}
-            >
+            <Form.Item label="Ảnh sản phẩm" name="imageUpdate">
               <Input type="file" onChange={(e) => imageChange(e)} />
             </Form.Item>
           </Col>
@@ -239,14 +262,13 @@ const AddProduct: React.FC = () => {
               ]}
             >
               <Select
+                disabled
                 onChange={(option) => changeAttributeGroup(option)}
                 options={attributeGroupOptions}
               ></Select>
             </Form.Item>
           </Col>
-          {Object.values(attributeList).map((item: any, key) =>
-            generateInput(item, key)
-          )}
+          {Object.values(attributeList).map((item: any) => generateInput(item))}
           <Col span={24}>
             <Form.Item style={{ textAlign: "center", width: "100%" }}>
               <Button type="primary" htmlType="submit">
@@ -260,4 +282,4 @@ const AddProduct: React.FC = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;
