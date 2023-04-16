@@ -64,29 +64,38 @@ const OrderManage: React.FC = () => {
   };
 
   const fetchData = async () => {
-    const res = await authAxios().get(endpoint.order.getOrder, {
-      params,
-    });
+    try {
+      const res = await authAxios().get(endpoint.order.getOrder, {
+        params,
+      });
 
-    const result = extractData(res?.data.listOrder, [
-      "id",
-      "userId",
-      "firstName",
-      "lastName",
-      "isActive",
-      "avatar",
-      "status",
-      "payment",
-      "shipAddress",
-      "updatedAt",
-    ]);
+      const result = extractData(res?.data.listOrder, [
+        "id",
+        "userId",
+        "firstName",
+        "lastName",
+        "isActive",
+        "avatar",
+        "status",
+        "payment",
+        "shipAddress",
+        "updatedAt",
+      ]);
 
-    setDataSource(result);
-    setPagination({
-      total: res.data.amountOrder,
-      pageSize: res.data.pageSize,
-      current: res.data.page,
-    });
+      setDataSource(result);
+      setPagination({
+        total: res.data.amountOrder,
+        pageSize: res.data.pageSize,
+        current: res.data.page,
+      });
+    } catch (error) {
+      setDataSource([]);
+      setPagination({
+        total: 0,
+        pageSize: 0,
+        current: 0,
+      });
+    }
   };
 
   useEffect(() => {
