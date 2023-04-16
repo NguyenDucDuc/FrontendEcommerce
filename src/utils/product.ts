@@ -2,6 +2,7 @@ import { message } from "antd";
 import { endpoint } from "../configs/Api";
 import { axiosClient } from "../lib/axios/axios.config";
 import { Params, Response } from "../models/http";
+import { flatten } from "./common";
 
 export const getAllProduct = async (params: Params) => {
   try {
@@ -20,6 +21,7 @@ export const extractData = (
   fieldsName: Array<string>
 ) => {
   return listObj.reduce((list, obj) => {
+    obj = flatten(obj);
     const newObj = fieldsName.reduce((objTemp: any, item) => {
       objTemp[item] = obj[item];
       return objTemp;

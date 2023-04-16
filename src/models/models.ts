@@ -37,7 +37,54 @@ export interface AttributeGroup {
 }
 
 export interface ProductDataResponse {
-  listProduct?: Array<Product>,
-  amountPage?: number,
-  amountProduct: number
+  listProduct?: Array<Product>;
+  amountPage?: number;
+  amountProduct: number;
+}
+
+export interface UserInfo {
+  id?: number;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  isActive?: boolean;
+}
+
+export interface Order {
+  id?: number
+  userId?: number
+  firstName?: string
+  lastName?: string
+  isActive?: boolean
+  avatar?: string
+  status?: string
+  payment?: string
+  shipAddress?: string
+  updatedAt?: string
+}
+
+
+export interface DataTypeOrder {
+  id: number;
+  userId?: number;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  isActive?: boolean;
+  shipAddress: string;
+  status: string;
+  payment: string;
+  updatedAt: string;
+}
+
+export interface DataTypeOrderDetail {
+  id: number;
+  productName?: string;
+  shopName?: string;
+  quantity?: number;
+  unitPrice?: number;
+  discount?: number;
+  productId?: number;
+  orderId?: number;
+  order?: DataTypeOrder;
 }

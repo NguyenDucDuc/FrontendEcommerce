@@ -1,31 +1,55 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Space, Table, Tag, message } from "antd";
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { Avatar, Button, Space, Table, Tag, message } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import React, { useEffect, useState } from "react";
-import { extractData, getAllProduct } from "../../../../utils/product";
+import { extractData } from "../../../../utils/product";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Params, Response } from "../../../../models/http";
 import { authAxios } from "../../../../lib/axios/axios.config";
 import { endpoint } from "../../../../configs/Api";
+import { formatCurrency, formatDateString, getOrderDetail } from "../../../../utils/common";
 import { PAGE_SIZE } from "../../../../constants/product";
+import { ParamsOrderDetail, STATUS_ACTION } from "../../../../constants/order";
+import Modal from "antd/es/modal/Modal";
+import { DataTypeOrder, DataTypeOrderDetail } from "../../../../models/models";
 
-interface DataType {
-  id: number;
-  customerId: number;
-  shipAddress: string;
-  status: string;
-  payment: string;
-  updatedAt: string;
+interface Pagination {
+  total?: number;
+  pageSize?: number;
+  current?: number;
 }
 
 const OrderManage: React.FC = () => {
   const { shopId } = useParams();
   const [params, setParams] = useState<Params>({
     shopId: shopId,
+    pageSize: PAGE_SIZE,
   });
-  const [dataSource, setDataSource] = useState<DataType[]>([]);
-  const [amountOrder, setAmountOrder] = useState<Number>();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [dataSource, setDataSource] = useState<DataTypeOrder[]>([]);
+  const [pagination, setPagination] = useState<Pagination>({
+    current: 1,
+  });
+  const [dataSourceDetail, setDataSourceDetail] = useState<
+    DataTypeOrderDetail[]
+  >([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const navigate = useNavigate();
 
@@ -34,32 +58,43 @@ const OrderManage: React.FC = () => {
       params,
     });
 
-    const result = extractData(res?.data, [
+    const result = extractData(res?.data.listOrder, [
       "id",
-      "customerId",
+      "userId",
+      "firstName",
+      "lastName",
+      "isActive",
+      "avatar",
       "status",
       "payment",
       "shipAddress",
       "updatedAt",
     ]);
-    
+
     setDataSource(result);
+    setPagination({
+      total: res.data.amountOrder,
+      pageSize: res.data.pageSize,
+      current: res.data.page,
+    });
   };
 
   useEffect(() => {
     fetchData();
   }, [params]);
 
-  const handleDeleteProduct = async (productID: number) => {
+  const handleConfirmOrder = async (orderId: number, action: string) => {
     try {
-      const res: Response = await authAxios().delete(
-        `${endpoint.product.main}/${productID}`
+      const res: Response = await authAxios().post(
+        `${endpoint.order.confirmOrder}`,
+        {
+          orderId: orderId,
+          action: action,
+        }
       );
       if (res.status === 200) {
         message.success(res.message);
-        setDataSource((preDataSource) => {
-          return preDataSource.filter((item) => item.id !== productID);
-        });
+        fetchData();
       } else {
         message.info(res.message);
       }
@@ -69,14 +104,34 @@ const OrderManage: React.FC = () => {
     }
   };
 
-  const handleChangeTable = (e: TablePaginationConfig) => {
-    setParams((preParams) => {
-      return { ...preParams, page: e.current };
-    });
-    setCurrentPage(e.current as number);
+  const handleViewOrderDetail = async (params: ParamsOrderDetail) => {
+    const data: Response | boolean = await getOrderDetail(params);
+    if (typeof data !== "boolean") {
+      const result = extractData(data.data.listOrderDetail, [
+        "id",
+        "productName",
+        "shopName",
+        "quantity",
+        "unitPrice",
+        "discount",
+        "productId",
+        "orderId",
+      ]);
+      setDataSourceDetail(result)
+      setIsModalOpen(true)
+    }
   };
 
-  const columns: ColumnsType<DataType> = [
+  const handleChangeTable = (e: TablePaginationConfig) => {    
+    setPagination((pre) => {
+      return { ...pre, current: e.current as number, pageSize: e.pageSize };
+    });
+    setParams((preParams) => {
+      return { ...preParams, page: e.current as number, pageSize: e.pageSize };
+    });
+  };
+
+  const columns: ColumnsType<DataTypeOrder> = [
     {
       title: "ID",
       dataIndex: "id",
@@ -90,7 +145,14 @@ const OrderManage: React.FC = () => {
       key: "name",
       render: (_, record) => {
         return (
-          <Link to={`/product-detail/${record.id}`}>{record.customerId}</Link>
+          // <Link to={`/product-detail/${record.id}`}>
+          //   <Avatar style={{ marginRight: "20px" }} src={record.avatar} />
+          //   {`${record.firstName} ${record.lastName}`}
+          // </Link>
+          <span>
+            <Avatar style={{ marginRight: "20px" }} src={record.avatar} />
+            {`${record.firstName} ${record.lastName}`}
+          </span>
         );
       },
     },
@@ -117,6 +179,7 @@ const OrderManage: React.FC = () => {
       dataIndex: "updatedAt",
       key: "updatedAt",
       align: "center",
+      render: (_, record) => <span>{formatDateString(record.updatedAt)}</span>,
     },
     {
       title: "",
@@ -125,16 +188,63 @@ const OrderManage: React.FC = () => {
         return (
           <Space size="middle">
             <Button
-              onClick={() => navigate(`${record.id}/edit`)}
-              icon={<EditOutlined style={{ color: "green" }} />}
+              // onClick={showModal}
+              onClick={() =>
+                handleViewOrderDetail({
+                  orderId: record.id,
+                  shopId: shopId as string,
+                })
+              }
+              icon={<SearchOutlined style={{ color: "black" }} />}
             ></Button>
             <Button
-              onClick={() => handleDeleteProduct(record.id)}
-              icon={<DeleteOutlined style={{ color: "red" }} />}
+              onClick={() => handleConfirmOrder(record.id, STATUS_ACTION.DONE)}
+              icon={<CheckCircleOutlined style={{ color: "green" }} />}
+            ></Button>
+            <Button
+              onClick={() =>
+                handleConfirmOrder(record.id, STATUS_ACTION.CANCEL)
+              }
+              icon={<CloseCircleOutlined style={{ color: "red" }} />}
             ></Button>
           </Space>
         );
       },
+    },
+  ];
+
+  const columnsOrderDetail: ColumnsType<DataTypeOrderDetail> = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      width: 10,
+      key: "id",
+      render: (id) => <span>{id}</span>,
+    },
+    {
+      title: "Sản phẩm",
+      dataIndex: "productName",
+      key: "productName",
+      render: (_, record) => <Link to={`/product-detail/${record.productId}`}>{record.productName}</Link>
+    },
+    {
+      title: "Cửa hàng",
+      dataIndex: "shopName",
+      key: "shopName",
+      align: "center",
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "center",
+    },
+    {
+      title: "Đơn giá",
+      dataIndex: "unitPrice",
+      key: "unitPrice",
+      align: "right",
+      render: (_, record) => <span>{record.unitPrice && `${formatCurrency(record.unitPrice)} VNĐ`}</span>
     },
   ];
 
@@ -146,11 +256,30 @@ const OrderManage: React.FC = () => {
         onChange={handleChangeTable}
         rowKey={(record) => record.id}
         pagination={{
-          total: 10,
-          defaultPageSize: PAGE_SIZE,
-          current: currentPage,
+          ...pagination,
+          showSizeChanger: true,
+          defaultPageSize: 2,
+          locale: { items_per_page: 'đơn hàng' },
+          pageSizeOptions: ['1', '2'],
         }}
+        
       />
+
+      <Modal
+        title="Chi tiết đơn hàng"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={1000}
+      >
+        <Table
+          columns={columnsOrderDetail}
+          dataSource={dataSourceDetail}
+          rowKey={(record) => record.id}
+          pagination={{
+          }}
+        />
+      </Modal>
     </section>
   );
 };

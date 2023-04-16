@@ -1,7 +1,7 @@
 export interface Response {
   data?: any;
   message?: string;
-  status: number;
+  status?: number;
 }
 
 export interface Params {
@@ -13,4 +13,5 @@ export interface Params {
   order?: string;
   cateId?: number;
   shopId?: string;
+  pageSize?: number;
 }
