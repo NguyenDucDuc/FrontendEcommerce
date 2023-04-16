@@ -275,7 +275,7 @@ const OrderManage: React.FC = () => {
       align: "right",
       render: (_, record) => (
         <span>
-          {record.unitPrice && `${formatCurrency(record.unitPrice)} VNĐ`}
+          {record.unitPrice && formatCurrency(record.unitPrice)}
         </span>
       ),
     },
@@ -290,8 +290,8 @@ const OrderManage: React.FC = () => {
         rowKey={(record) => record.id}
         pagination={{
           ...pagination,
-          showSizeChanger: true,
           defaultPageSize: 2,
+          showSizeChanger: true,
           locale: { items_per_page: "đơn hàng" },
           pageSizeOptions: ["1", "2"],
         }}

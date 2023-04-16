@@ -1,18 +1,19 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Space, Table, Tag, message } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { extractData, getAllProduct } from "../../../../utils/product";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Params, Response } from "../../../../models/http";
-import { authAxios } from "../../../../lib/axios/axios.config";
+import { authAxios, axiosClient } from "../../../../lib/axios/axios.config";
 import { endpoint } from "../../../../configs/Api";
 import { PAGE_SIZE } from "../../../../constants/product";
+import { formatCurrency, randomColor } from "../../../../utils/common";
 
 interface DataType {
   id: number;
   name: string;
-  price: string;
+  price: number;
   rate: number;
   unitOnOrder: number;
   unitInStock: number;
@@ -23,10 +24,17 @@ const ProductManage: React.FC = () => {
   const { shopId } = useParams();
   const [params, setParams] = useState<Params>({
     shopId: shopId,
+    page: 1,
+    pageSize: PAGE_SIZE,
   });
   const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [amountProduct, setAmountProduct] = useState<Number>();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [categories, setCategories] = useState<any>([]);
+
+  const getCategory = useMemo(async () => {
+    const resCate = await axiosClient.get(endpoint.category.getAll);
+    setCategories(resCate.data);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -72,9 +80,8 @@ const ProductManage: React.FC = () => {
 
   const handleChangeTable = (e: TablePaginationConfig) => {
     setParams((preParams) => {
-      return { ...preParams, page: e.current };
+      return { ...preParams, page: e.current, pageSize: e.pageSize };
     });
-    setCurrentPage(e.current as number);
   };
 
   const columns: ColumnsType<DataType> = [
@@ -98,6 +105,7 @@ const ProductManage: React.FC = () => {
       dataIndex: "price",
       key: "price",
       align: "right",
+      render: (_, record) => <span>{formatCurrency(record.price)}</span>,
     },
     {
       title: "Đánh giá",
@@ -122,11 +130,12 @@ const ProductManage: React.FC = () => {
       key: "category",
       dataIndex: "category",
       render: (_, { categoryId }) => {
-        console.log(categoryId);
-        
+        const category = categories.filter(
+          (item: any) => item.id === categoryId
+        )[0];
         return (
-          <Tag color={categoryId === 2 ? "gold" : "red"} key={categoryId}>
-            {categoryId === 2 ? "gold" : "red"}
+          <Tag color={`${randomColor()}`} key={categoryId}>
+            {category.name}
           </Tag>
         );
       },
@@ -161,7 +170,10 @@ const ProductManage: React.FC = () => {
         pagination={{
           total: amountProduct as number,
           defaultPageSize: PAGE_SIZE,
-          current: currentPage,
+          current: params.page,
+          showSizeChanger: true,
+          locale: { items_per_page: "sản phẩm" },
+          pageSizeOptions: ["1", "2"],
         }}
       />
     </section>
