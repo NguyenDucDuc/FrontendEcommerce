@@ -42,6 +42,7 @@ export const endpoint = {
   productCart: {
     add: "/product-cart",
     update: "/product-cart",
+    delete: "/product-cart/delete"
   },
   admin: {
     login: "/admin/login",
@@ -57,7 +58,7 @@ export const endpoint = {
   },
   category: {
     getAll: '/category'
-  }
+  },
 };
 
 export const AuthApi = () => {

@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AuthApi, endpoint } from "../../../configs/Api";
-import { decreaseTotalPrice, decreaseTotalPriceTotalProductPayment, ICartItem, increaseTotalPrice, increaseTotalPriceTotalProductPayment } from "../../../store/slices/cartitem.slice";
+import Api, { AuthApi, endpoint } from "../../../configs/Api";
+import { decreaseCartCount, decreaseTotalPrice, decreaseTotalPriceTotalProductPayment, deleteItemAsyncThunk, ICartItem, increaseTotalPrice, increaseTotalPriceTotalProductPayment } from "../../../store/slices/cartitem.slice";
 import { addItemChecked, ICheckedItem, removeItemChecked, updateQuantityCheckedList } from "../../../store/slices/product-checked.slice";
 import { RootState, useAppDispatch } from "../../../store/store";
 import "./cartitem.style.scss"
@@ -100,6 +100,12 @@ const CartItem: React.FC<IProps> = ({ id, image, desc, price, quantity, name, sh
         }
     }
 
+    const handleDeleteCartItem = async () => {
+        if(id !== undefined){
+            await dispatch(deleteItemAsyncThunk(id))
+        }
+    }
+
     useEffect(() => {
         const getShopInfo = async () => {
             if (shopId !== 0) {
@@ -134,7 +140,7 @@ const CartItem: React.FC<IProps> = ({ id, image, desc, price, quantity, name, sh
                     <InputNumber min={1} max={10} defaultValue={quantity} onChange={handleQuantityChange} onStep={onStep} />
                 </Col>
                 <Col span={3} className="mgt-20">
-                    <Button type="primary" className="btn-danger">Xóa</Button>
+                    <Button type="primary" className="btn-danger" onClick={handleDeleteCartItem}>Xóa</Button>
                 </Col>
                 <Col span={2} className="mgt-20">
                     <Checkbox value={valueCheckBox} onChange={handleCheckboxChange}>

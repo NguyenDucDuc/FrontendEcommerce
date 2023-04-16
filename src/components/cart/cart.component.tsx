@@ -22,8 +22,8 @@ const Cart = () => {
     useEffect( () => {
         dispatch(setNullListProductsChecked())
         dispatch(setNullTotalPriceAndTotalProduct())
-        dispatch(getAllItemAsyncThunk())
         dispatch(setNullListProductsChecked())
+        dispatch(getAllItemAsyncThunk())
     }, [])
     if(status === "pending"){
         return <Spin tip="Loading..." size="large">
@@ -34,9 +34,17 @@ const Cart = () => {
         <div className="cart">
             {
                 listCartItem.listProducts.length > 0 ?
-                    listCartItem.listProducts.map((item, idx) => <LazyLoad>
-                        <CartItem shopId={item.shopId} name={item.name} quantity={item.quantity} price={item.price} image={item.image} desc={item.desc} id={item.id} key={idx} />
-                    </LazyLoad>)
+                    listCartItem.listProducts.map((item, idx) => 
+                        <CartItem 
+                        shopId={item.shopId} 
+                        name={item.name} 
+                        quantity={item.quantity} 
+                        price={item.price} 
+                        image={item.image} 
+                        desc={item.desc} 
+                        id={item.id} 
+                        key={idx} />
+                    )
                     :
                     null
             }

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthApi, endpoint } from "../../configs/Api";
+import Api, { AuthApi, endpoint } from "../../configs/Api";
 
 
 export interface ICartItem {
@@ -40,6 +40,18 @@ export const getAllItemAsyncThunk = createAsyncThunk("cart/getAllItem", async ()
     return res.data.data
 })
 
+export const deleteItemAsyncThunk = createAsyncThunk("cart/deleteItem", async (productId: number) => {
+    // -- Get cart id to delete
+    const resCart = await AuthApi().get(endpoint.cart.getByUserId)
+        
+    const res = await Api.post(endpoint.productCart.delete, {
+        productId: productId,
+        cartId: resCart.data.data.id
+    })
+    console.log(res.data)
+    return res.data.data
+})
+
 const cartItemSlice = createSlice({
     name: "cartItem",
     initialState,
@@ -54,6 +66,9 @@ const cartItemSlice = createSlice({
         },
         updateCartCount: (state) => {
             state.totalProduct++
+        },
+        decreaseCartCount: (state, action) => {
+            state.totalProduct = state.totalProduct - action.payload
         },
         increaseTotalPriceTotalProductPayment: (state, action) => {
             state.totalProductPayment++
@@ -93,6 +108,19 @@ const cartItemSlice = createSlice({
         builder.addCase(getAllItemAsyncThunk.rejected, (state) => {
             state.status = "rejected"
         })
+
+        builder.addCase(deleteItemAsyncThunk.pending, (state) => {
+            state.status = "pending"
+        })
+        builder.addCase(deleteItemAsyncThunk.fulfilled, (state, action: any) => {
+            state.status = "fulfilled"
+            const newListProductItem = state.listProducts.filter((item) => item.id !== action.payload.productId)
+            state.listProducts = newListProductItem
+            state.totalProduct = state.totalProduct - action.payload.quantity
+        })
+        builder.addCase(deleteItemAsyncThunk.rejected, (state) => {
+            state.status = "rejected"
+        })
     }
 })
 
@@ -105,5 +133,6 @@ export const {
     increaseTotalPrice, 
     decreaseTotalPrice,
     setNullTotalPriceAndTotalProduct,
-    setNullCartItem
+    setNullCartItem,
+    decreaseCartCount
 } = cartItemSlice.actions

@@ -38,7 +38,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({totalPrice, testOrder}) => {
                                 </Col>
 
                                 <Col span={12}>
-                                    <p className="txt-bold">Tổng tiền hàng: </p>
+                                    <p className="txt-bold">Tiền vận chuyển: </p>
                                 </Col>
                                 <Col span={12}>
                                     <p className="txt-bold txt-red">
@@ -47,7 +47,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({totalPrice, testOrder}) => {
                                 </Col>
 
                                 <Col span={12}>
-                                    <p className="txt-bold">Tổng tiền hàng: </p>
+                                    <p className="txt-bold">Tổng tiền: </p>
                                 </Col>
                                 <Col span={12}>
                                     <p className="txt-bold txt-red" style={{fontSize: '18px'}}>
