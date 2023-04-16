@@ -1,5 +1,5 @@
 import { AimOutlined } from "@ant-design/icons"
-import { Col, Row } from "antd"
+import { Col, Row, notification } from "antd"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { number, string } from "yup"
@@ -9,19 +9,24 @@ import { RootState, useAppDispatch } from "../../store/store"
 import CardConfirmCheckout from "./card-confirm-checkout/card-confirm-checkout.component"
 import CardProductCheckout from "./card-product-checkout/card-product-checkout.component"
 import "./checkout.style.scss"
+import { useNavigate } from "react-router-dom"
+import { deleteItemAsyncThunk } from "../../store/slices/cartitem.slice"
 
 
 
 const Checkout = () => {
+    const [api, contextHolder] = notification.useNotification()
+    const nav = useNavigate()
     const listProductsChecked = useSelector((state: RootState) => state.productsChecked.listProductsChecked)
     const totalPrice = useSelector((state: RootState) => state.productsChecked.totalPrice)
     const dispatch = useAppDispatch()
     const [currentAddress, setCurrentAddress] = useState<any>()
     const [currentUser, setCurrentUser] = useState<any>()
+    const [cart, setCart] = useState<any>()
     useEffect(() => {
         const calcPrice = () => {
             for (let i = 0; i < listProductsChecked.length; i++) {
-                for(let j=0; j<listProductsChecked[i].products.length; j++){
+                for (let j = 0; j < listProductsChecked[i].products.length; j++) {
                     let total = Number(listProductsChecked[i].products[j].price) * Number(listProductsChecked[i].products[j].quantity) + 40000
                     console.log(total)
                     dispatch(updateTotalPriceCheckedList(total))
@@ -43,12 +48,18 @@ const Checkout = () => {
     }, [])
 
     const testOrder = async () => {
-        if(listProductsChecked.length > 0){
-            
-            for(let i=0; i< listProductsChecked.length; i++){
-                // create order details
+        /**
+         * excample list product checked
+         * {
+         *  shopId: 1,
+         *  products: [...]
+         * }
+         */
+        if (listProductsChecked.length > 0) {
+            for (let i = 0; i < listProductsChecked.length; i++) {
+                // -- create order details
                 let orderDetails = []
-                for(let j=0; j< listProductsChecked[i].products.length; j++){
+                for (let j = 0; j < listProductsChecked[i].products.length; j++) {
                     const newOrderDetail = {
                         quantity: Number(listProductsChecked[i].products[j].quantity),
                         unitPrice: Number(listProductsChecked[i].products[j].price),
@@ -68,10 +79,27 @@ const Checkout = () => {
                 })
                 console.log(res.data)
             }
+                // -- handle delete product cart after comfirm order
+                listProductsChecked.forEach(async (item) => {
+                    item.products.map(async itemProduct => {
+                        if(itemProduct.id !== undefined){
+                            await dispatch(deleteItemAsyncThunk(itemProduct.id))
+                        }
+                    })
+                })
+                api.success({
+                    message: `Thông báo`,
+                    description: "Bạn đã đặt hàng thành công.",
+                    duration: 3,
+                });
+                setTimeout(() => {
+                    nav('/')
+                }, 2000)
         }
     }
     return (
         <div>
+            {contextHolder}
             <div className="address">
                 <div className="address-child">
                     <Row>
@@ -84,20 +112,20 @@ const Checkout = () => {
                     </Row>
                     <Row>
                         {
-                            currentUser !== undefined 
-                            ?
-                            <h4 style={{ marginTop: 20, marginBottom: 20 }}>{`${currentUser.firstName} ${currentUser.lastName} - ${currentUser.phone}`}</h4>
-                            :
-                            null
+                            currentUser !== undefined
+                                ?
+                                <h4 style={{ marginTop: 20, marginBottom: 20 }}>{`${currentUser.firstName} ${currentUser.lastName} - ${currentUser.phone}`}</h4>
+                                :
+                                null
                         }
                     </Row>
                     <Row>
                         {
                             currentAddress !== undefined
-                            ?
+                                ?
                                 <h4>{`${currentAddress.detail} ${currentAddress.street} - ${currentAddress.ward} - ${currentAddress.district} - ${currentAddress.city}`}</h4>
-                            :
-                            null
+                                :
+                                null
                         }
                     </Row>
                 </div>
@@ -111,11 +139,11 @@ const Checkout = () => {
                 } */}
                 {
                     listProductsChecked.length > 0 ?
-                    listProductsChecked.map((item, idx) =>
-                        item.products?.map((item, idx) => <CardProductCheckout shopName={item.shopName} name={item.name} key={idx} desc={item.desc} image={item.image} id={item.id} quantity={item.quantity} unitPrice={item.price} />)
-                    )
-                    : 
-                    null
+                        listProductsChecked.map((item, idx) =>
+                            item.products?.map((item, idx) => <CardProductCheckout shopName={item.shopName} name={item.name} key={idx} desc={item.desc} image={item.image} id={item.id} quantity={item.quantity} unitPrice={item.price} />)
+                        )
+                        :
+                        null
                 }
             </div>
             <div className="confirm-checkout">

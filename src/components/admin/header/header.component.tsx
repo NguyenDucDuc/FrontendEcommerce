@@ -50,7 +50,7 @@ const HeaderAdmin = () => {
         });
         setTimeout(() => {
           nav("/admin/login")
-        },600)
+        }, 600)
       }
     } : null
   ]
