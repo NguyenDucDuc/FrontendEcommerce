@@ -55,6 +55,9 @@ export const endpoint = {
   customer: {
     checkBoughtProduct: "/customer/check-bought-product",
   },
+  category: {
+    getAll: '/category'
+  }
 };
 
 export const AuthApi = () => {

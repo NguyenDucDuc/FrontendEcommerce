@@ -34,4 +34,7 @@ export const getOrderDetail = async (params: ParamsOrderDetail) => {
 };
 
 export const formatCurrency = (currency: number) =>
-  new Intl.NumberFormat().format(currency);
+  `${new Intl.NumberFormat().format(currency)} VNĐ`;
+
+export const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
+  
