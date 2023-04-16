@@ -14,7 +14,7 @@ const ProductList: React.FC<Props> = ({ productList }) => {
         {productList.map((product, id) => {
           return (
             <Col span={4}>
-              <CardProduct key={id} />
+              <CardProduct product={product} key={id}/>
             </Col>
           );
         })}

@@ -49,7 +49,7 @@ interface IProductDetail {
   shopId: number;
 }
 
-const ProductDetail = () => {
+const ProductDetail: React.FC = () => {
   //lazy load
   const [showProductAttribute, setShowProductAttribute] =
     useState<boolean>(false);
