@@ -5,13 +5,22 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Button, Space, Table, Tag, message } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { extractData } from "../../../../utils/product";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Params, Response } from "../../../../models/http";
 import { authAxios } from "../../../../lib/axios/axios.config";
 import { endpoint } from "../../../../configs/Api";
-import { formatCurrency, formatDateString, getOrderDetail } from "../../../../utils/common";
+import {
+  formatCurrency,
+  formatDateString,
+  getOrderDetail,
+} from "../../../../utils/common";
 import { PAGE_SIZE } from "../../../../constants/product";
 import { ParamsOrderDetail, STATUS_ACTION } from "../../../../constants/order";
 import Modal from "antd/es/modal/Modal";
@@ -25,10 +34,17 @@ interface Pagination {
 
 const OrderManage: React.FC = () => {
   const { shopId } = useParams();
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+
   const [params, setParams] = useState<Params>({
     shopId: shopId,
     pageSize: PAGE_SIZE,
+    state: searchParams.get("state")
+      ? (searchParams.get("state") as string)
+      : null,
   });
+
   const [dataSource, setDataSource] = useState<DataTypeOrder[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     current: 1,
@@ -39,10 +55,6 @@ const OrderManage: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -50,8 +62,6 @@ const OrderManage: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const navigate = useNavigate();
 
   const fetchData = async () => {
     const res = await authAxios().get(endpoint.order.getOrder, {
@@ -78,6 +88,12 @@ const OrderManage: React.FC = () => {
       current: res.data.page,
     });
   };
+
+  useEffect(() => {
+    setParams((preParams) => {
+      return { ...preParams, state: searchParams.get("state") };
+    });
+  }, [location]);
 
   useEffect(() => {
     fetchData();
@@ -117,12 +133,12 @@ const OrderManage: React.FC = () => {
         "productId",
         "orderId",
       ]);
-      setDataSourceDetail(result)
-      setIsModalOpen(true)
+      setDataSourceDetail(result);
+      setIsModalOpen(true);
     }
   };
 
-  const handleChangeTable = (e: TablePaginationConfig) => {    
+  const handleChangeTable = (e: TablePaginationConfig) => {
     setPagination((pre) => {
       return { ...pre, current: e.current as number, pageSize: e.pageSize };
     });
@@ -225,7 +241,11 @@ const OrderManage: React.FC = () => {
       title: "Sản phẩm",
       dataIndex: "productName",
       key: "productName",
-      render: (_, record) => <Link to={`/product-detail/${record.productId}`}>{record.productName}</Link>
+      render: (_, record) => (
+        <Link to={`/product-detail/${record.productId}`}>
+          {record.productName}
+        </Link>
+      ),
     },
     {
       title: "Cửa hàng",
@@ -244,7 +264,11 @@ const OrderManage: React.FC = () => {
       dataIndex: "unitPrice",
       key: "unitPrice",
       align: "right",
-      render: (_, record) => <span>{record.unitPrice && `${formatCurrency(record.unitPrice)} VNĐ`}</span>
+      render: (_, record) => (
+        <span>
+          {record.unitPrice && `${formatCurrency(record.unitPrice)} VNĐ`}
+        </span>
+      ),
     },
   ];
 
@@ -259,10 +283,9 @@ const OrderManage: React.FC = () => {
           ...pagination,
           showSizeChanger: true,
           defaultPageSize: 2,
-          locale: { items_per_page: 'đơn hàng' },
-          pageSizeOptions: ['1', '2'],
+          locale: { items_per_page: "đơn hàng" },
+          pageSizeOptions: ["1", "2"],
         }}
-        
       />
 
       <Modal
@@ -276,8 +299,7 @@ const OrderManage: React.FC = () => {
           columns={columnsOrderDetail}
           dataSource={dataSourceDetail}
           rowKey={(record) => record.id}
-          pagination={{
-          }}
+          pagination={{}}
         />
       </Modal>
     </section>
