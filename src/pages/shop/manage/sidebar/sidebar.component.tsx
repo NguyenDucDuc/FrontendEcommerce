@@ -28,9 +28,9 @@ const items: MenuProps['items'] = [
 
   getItem('Quản lý đơn hàng', 'order', <AppstoreOutlined />, [
     getItem((<Link to="orders">Tất cả</Link>), '3'),
-    getItem((<Link to="products">Đang giao hàng</Link>), '4'),
-    getItem((<Link to="products">Hoàn tất</Link>), '5'),
-    getItem((<Link to="products">Đã hủy</Link>), '6'),
+    getItem((<Link to="orders?state=3">Đang giao hàng</Link>), '4'),
+    getItem((<Link to="orders?state=4">Hoàn tất</Link>), '5'),
+    getItem((<Link to="orders?state=0">Đã hủy</Link>), '6'),
   ]),
 
 ];

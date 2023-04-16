@@ -14,4 +14,5 @@ export interface Params {
   cateId?: number;
   shopId?: string;
   pageSize?: number;
+  state?: string | null
 }
