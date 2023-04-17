@@ -11,20 +11,21 @@ import { currentUserAsyncThunk, logout } from "../../store/slices/user.slice";
 import MiniCartItem from "./mini-cart-item/minicartitem.component";
 import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice";
+import { logoutAdmin } from "../../store/slices/user-admin.slice";
 
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
-    const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct )
+    const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct)
     const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
     const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
     const [statusLogin, setStatusLogin] = useState<any>({
-        
+
     })
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
-    useEffect( () => {
+    useEffect(() => {
         const getCurrentUser = () => {
             dispatch(currentUserAsyncThunk())
         }
@@ -32,8 +33,8 @@ const Header = () => {
             dispatch(getAllItemAsyncThunk())
         }
         const checkLogin = () => {
-            if(localStorage.getItem('accessToken')){
-                
+            if (localStorage.getItem('accessToken')) {
+
             }
         }
         getCurrentUser()
@@ -59,7 +60,7 @@ const Header = () => {
             key: 'home',
             icon: <MailOutlined />,
             style: {
-                color: "#884dff"
+                color: "black"
             }
         },
         !localStorage.getItem('accessToken') ? {
@@ -67,16 +68,16 @@ const Header = () => {
             key: 'login',
             icon: <AppstoreOutlined />,
             style: {
-                color: "#884dff"
+                color: "black"
             }
-            
+
         } : null,
         {
             label: (<Link to="/admin/home">Quản trị</Link>),
             key: 'admin',
             icon: <SettingOutlined />,
             style: {
-                color: "#884dff"
+                color: "black"
             }
         },
         {
@@ -84,7 +85,7 @@ const Header = () => {
             key: 'username',
             icon: <UserOutlined />,
             style: {
-                color: "#884dff",
+                color: "black",
 
             },
             children: [
@@ -94,25 +95,26 @@ const Header = () => {
                     onClick: () => {
                         localStorage.removeItem("accessToken")
                         dispatch(logout())
+                        dispatch(logoutAdmin())
                         nav("/login")
                         dispatch(setNullCartItem())
                     },
                     style: {
-                        color: "#884dff"
+                        color: "black"
                     }
                 },
                 {
                     label: (<Link to="/user/profile">Hồ sơ</Link>),
                     key: 'profile',
                     style: {
-                        color: "#884dff"
+                        color: "black"
                     }
                 },
                 {
                     label: (<Link to="/register-seller">Đăng ký đối tác</Link>),
                     key: 'registerSeller',
                     style: {
-                        color: "#884dff"
+                        color: "black"
                     }
                 }
             ]
@@ -121,14 +123,14 @@ const Header = () => {
             label: (<Link to="/register">Đăng ký</Link>),
             key: "register",
             style: {
-                color: "#884dff"
+                color: "black"
             }
         },
         {
             label: (<Link to="/shop-create">Tạo shop</Link>),
             key: "shopCreate",
             style: {
-                color: "#884dff"
+                color: "black"
             }
         }
     ];
@@ -149,7 +151,7 @@ const Header = () => {
             <div className="header-child">
                 <Row>
                     <Col span={10}>
-                        <h1 style={{ color: "#884dff" }}>Ecommerce</h1>
+                        <h1 style={{ color: "#00cc99" }}>Ecommerce</h1>
                     </Col>
                     <Col span={14}>
                         <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
@@ -160,21 +162,19 @@ const Header = () => {
                     </Col>
                     <Col span={8}>
                         <Search
-                            placeholder="Tìm kiếm"
-                            allowClear
-                            enterButton="Search"
-                            size="large"
+                            placeholder="input search text"
                             onSearch={onSearch}
-
-                        />
+                            style={{ width: 400,borderColor: '#00cc99' }}
+                            size="large" />
+                            
                     </Col>
                     <Col span={6}>
                         <Row justify="space-between">
                             <Col span={4}>
                             </Col>
-                            <Col  span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
+                            <Col span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
                                 <Badge count={cartCount} className="cs-pointer">
-                                    <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
+                                    <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
                                 </Badge>
                                 {
                                     isShowCartMini === true
@@ -189,9 +189,9 @@ const Header = () => {
                                         null
                                 }
                             </Col>
-                            <Col  span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
+                            <Col span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
                                 <Badge count={100} className="cs-pointer">
-                                    <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#884dff" }} className="icon-color cs-pointer" />
+                                    <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
                                 </Badge>
                                 {
                                     isShowNotifi === true
