@@ -18,6 +18,7 @@ const ProductAttribute: React.FC<IProps> = ({ attributes }) => {
                     <Col span={20}><p style={{color:'red'}}>{attributes}</p></Col>
                 </Row>)} */}
                 {
+                    attributes !== undefined ?
                     attributes.map((item, idx) => 
                         <Row key={idx}>
                             <Col span={4}>
@@ -28,6 +29,8 @@ const ProductAttribute: React.FC<IProps> = ({ attributes }) => {
                             </Col>
                         </Row>
                     )
+                    :
+                    null
                 }
 
 

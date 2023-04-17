@@ -11,6 +11,7 @@ import { GiftOutlined, WarningOutlined } from "@ant-design/icons"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice"
+import LazyLoad from "react-lazy-load"
 
 
 interface IResponseGoogleLogin {
@@ -157,7 +158,7 @@ const Login = () => {
                     </Col>
                 </Row>
             </div>
-
+            
         </div>
     )
 }

@@ -138,7 +138,7 @@ const ProductDetail: React.FC = () => {
       )}
 
       {/* Shop Information */}
-      <LazyLoad onContentVisible={() => setShowShopInfo(true)}>
+      {/* <LazyLoad onContentVisible={() => setShowShopInfo(true)}>
         {shop !== undefined ? (
           <LazyLoad>
             {showShopInfo === true ? (
@@ -156,7 +156,13 @@ const ProductDetail: React.FC = () => {
             )}
           </LazyLoad>
         ) : null}
-      </LazyLoad>
+      </LazyLoad> */}
+      {
+        shop !== undefined ? <ShopInfo 
+        handleShowChatBox={handleChangeShowChatBox}
+        shopName={shop.shopName}
+         /> : null
+      }
       <LazyLoad onContentVisible={() => setShowProductAttribute(true)}>
         {showProductAttribute === true ? (
           <ProductAttribute attributes={attributes} />
