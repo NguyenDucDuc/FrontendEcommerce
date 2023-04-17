@@ -59,6 +59,9 @@ export const endpoint = {
   category: {
     getAll: '/category'
   },
+  review: {
+    create: '/review/create-v2'
+  }
 };
 
 export const AuthApi = () => {

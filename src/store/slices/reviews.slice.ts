@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import Api, { endpoint } from "../../configs/Api";
+import Api, { AuthApi, endpoint } from "../../configs/Api";
 
 export interface IReview {
     id: number;
@@ -39,6 +39,15 @@ export const getAllReviewAsyncThunk = createAsyncThunk("reviews/getAll", async (
     return res.data.data
 })
 
+export const createReviewAsyncThunk = createAsyncThunk("review/create", async (body: any) => {
+    const res = await AuthApi().post(endpoint.review.create, {
+        rate: body.rate, 
+        content: body.content,
+        productId: body.productId
+    })
+    return res.data.data
+})
+
 const reviewSlice = createSlice({
     name: "reviews",
     initialState,
@@ -56,6 +65,17 @@ const reviewSlice = createSlice({
             state.amountReview = action.payload.amountReview
         })
         builder.addCase(getAllReviewAsyncThunk.rejected, (state) => {
+            state.status = "rejected"
+        })
+
+        builder.addCase(createReviewAsyncThunk.pending, (state) => {
+            state.status = "pending"
+        })
+        builder.addCase(createReviewAsyncThunk.fulfilled, (state, action) => {
+            state.status = "fulfilled"
+            state.listReviews = [...state.listReviews, action.payload]
+        })
+        builder.addCase(createReviewAsyncThunk.rejected, (state) => {
             state.status = "rejected"
         })
     }
