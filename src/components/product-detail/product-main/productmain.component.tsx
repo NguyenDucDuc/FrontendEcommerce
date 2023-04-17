@@ -269,8 +269,6 @@ const ProductMain: React.FC<IProps> = ({ productName, img, desc, rateCount, sale
                             <Button onClick={handleAddToCart} className="btn-color" type="primary" size="large" icon={<ShoppingCartOutlined />}>Thêm vào giỏ hàng</Button>
                         </Col>
                     </Row>
-
-
                 </Col>
             </Row>
         </div>
