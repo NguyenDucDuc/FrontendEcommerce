@@ -23,6 +23,10 @@ import { endpoint } from "../../configs/Api";
 import { Params, Response } from "../../models/http";
 import ProductList from "../product-list/product-list";
 import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../store/store";
+import { getAllMessageAsyncThunk } from "../../store/slices/message.slice";
+import { MessageSender } from "../message/message.component";
+import { MessageReceiver } from "../message/message-receiver.component";
 
 interface ProductDataSearch {
   listProduct: any;
@@ -53,7 +57,9 @@ const ShopProfile = () => {
   const [current, setCurrent] = useState("all");
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [isShowOwner, setIsShowOwner] = useState<boolean>(false);
-  const currentUser = useSelector((state: any) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
+  const listMessage = useSelector((state: RootState) => state.message.listMessage)
+  const dispatch = useAppDispatch()
   const [resProducts, setResProducts] = useState<ProductDataSearch>({
     listProduct: [],
     amountPage: 0,
@@ -103,6 +109,11 @@ const ShopProfile = () => {
 
   const handleShowChatBox = () => {
     setShowChatBox(true);
+    dispatch(getAllMessageAsyncThunk({
+      senderId: currentUser.id,
+      receiverId: 2
+    }))
+
   };
   const handleHideChatBox = () => {
     setShowChatBox(false);
@@ -124,7 +135,7 @@ const ShopProfile = () => {
               <Col span={17} style={{ marginTop: "20px" }}>
                 <h3>Hades Studio</h3>
                 <Button
-                  style={{marginRight: '10px'}}
+                  style={{ marginRight: '10px' }}
                   className="btn-color txt-btn-color"
                   onClick={handleShowChatBox}
                 >
@@ -182,7 +193,21 @@ const ShopProfile = () => {
               />
             </Col>
           </Row>
-          <div className="message-content"></div>
+          <div className="message-content">
+            <div className="message-content-child">
+              {
+                listMessage.map((item, idx) => {
+                  return (
+                    item.senderId === currentUser.id
+                      ?
+                      <MessageSender key={idx} time={item.createdAt} content={item.content} />
+                      :
+                      <MessageReceiver key={idx} time={item.createdAt} content={item.content} />
+                  )
+                })
+              }
+            </div>
+          </div>
           <Row className="message-input">
             <Col span={17}>
               <Input type="text" />

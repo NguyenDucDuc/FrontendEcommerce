@@ -42,6 +42,10 @@ div.message-content {
     width: 100%;
     height: 330px;
     margin-top: 20px;
+    div.message-content-child {
+        height: 300px;
+        overflow: scroll;
+    }
 }
 
 .LazyLoad {
