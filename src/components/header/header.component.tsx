@@ -102,7 +102,7 @@ const Header = () => {
         return [{ ...data }, ...prev];
       });
     });
-  }, []);
+  }, [socket]);
 
   const items: MenuProps["items"] = [
     {
