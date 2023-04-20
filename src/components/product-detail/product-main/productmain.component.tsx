@@ -89,6 +89,9 @@ const ProductMain: React.FC<IProps> = ({ productName, img, desc, rateCount, sale
         // add to database
         // -- step 1: get cartId
         const resCart = await AuthApi().get(endpoint.cart.getByUserId)
+
+        console.log(resCart);
+        
         // -- step 2: add to database
         const res = await AuthApi().post(endpoint.productCart.add, {
             productId: productId,

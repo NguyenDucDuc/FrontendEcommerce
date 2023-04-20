@@ -60,6 +60,9 @@ export const endpoint = {
   category: {
     getAll: '/category'
   },
+  notification: {
+    base: '/notification'
+  },
   review: {
     create: '/review/create-v2'
   },
