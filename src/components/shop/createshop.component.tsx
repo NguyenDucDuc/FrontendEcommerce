@@ -50,7 +50,7 @@ const ShopCreate = () => {
                     <img src="./images/login-ecommerce.png" />
                 </Col>
                 <Col span={12}>
-                    <h1 className="text-center mgb-40 text-color mgt-20">Crete Your Store</h1>
+                    <h1 className="text-center mgb-40 text-color mgt-20">Tạo cửa hàng của bạn</h1>
                     <Form
                         name="basic"
                         labelCol={{ span: 8 }}
@@ -60,6 +60,7 @@ const ShopCreate = () => {
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
+                        size="large"
                     >
                         <Form.Item
                             label="Tên shop"
@@ -84,13 +85,11 @@ const ShopCreate = () => {
                             <Input type="file" onChange={(e) => imageChange(e)} />
                         </Form.Item>
 
-                        <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                            <Checkbox style={{ accentColor: 'red' }}>Remember me</Checkbox>
-                        </Form.Item>
+                        
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             <Button type="primary" htmlType="submit" className="btn-color">
-                                Submit
+                                Xác nhận
                             </Button>
                         </Form.Item>
                     </Form>

@@ -1,9 +1,10 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, DatePicker, DatePickerProps, Form, Input, InputRef, Row, Select, Upload } from "antd"
+import { Button, Checkbox, Col, DatePicker, DatePickerProps, Form, Input, InputRef, Row, Select, Spin, Upload, notification } from "antd"
 import axios from "axios";
 import { useRef, useState } from "react";
 import Api, { endpoint } from "../../configs/Api";
 import "./register.style.scss"
+import { useNavigate } from "react-router-dom";
 
 
 export const city = [
@@ -865,9 +866,12 @@ export const city = [
 
 
 const Register = () => {
-    const [avatar, setAvatar] = useState<any>([]) 
+    const [api, contextHolder] = notification.useNotification()
+    const nav = useNavigate()
+    const [avatar, setAvatar] = useState<any>([])
     const [wards, setWards] = useState<any>([])
     const [districts, setDistricts] = useState<any>([])
+    const [status, setStaus] = useState<boolean>(false)
     const onFinish = async (values: any) => {
         values.avatar = avatar
         console.log('Success:', values);
@@ -885,11 +889,24 @@ const Register = () => {
         formData.append("street", values.street)
         formData.append("detail", values.detail)
         formData.append("birthDay", values.birthDay)
+        setStaus(true)
         const res = await Api.post(endpoint.user.register, formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         })
+        setStaus(false)
+        if (res.data.status == 201) {
+            api.success({
+                message: `Thông báo`,
+                description: 'Tạo tài khoản thành công.',
+                duration: 3,
+            })
+
+            setTimeout(() => {
+                nav('/login')
+            },2000)
+        }
         console.log(res.data)
 
     };
@@ -903,7 +920,7 @@ const Register = () => {
         }
 
     }
-    
+
     const upload = async () => {
         let formData = new FormData()
         formData.append("avatar", avatar)
@@ -922,7 +939,7 @@ const Register = () => {
         console.log(value)
         const district = city.find(c => c.value === value)
         console.log(district)
-        if(district !== undefined) {
+        if (district !== undefined) {
             setDistricts(district.district)
         }
     }
@@ -931,8 +948,16 @@ const Register = () => {
         console.log(w)
         setWards(w.ward)
     }
+    if (status === true) {
+        return <Spin size="large" tip="Tài khoản của bạn đang được tại, vui lòng chờ trong giây lát!" style={{
+            width: '100%',
+            margin: '0 auto',
+            marginTop: 300
+        }} />
+    }
     return (
         <div className="register">
+            {contextHolder}
             <Row>
                 <Col span={12}>
                     <div className="register-img">

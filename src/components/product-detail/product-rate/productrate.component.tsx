@@ -66,7 +66,7 @@ const ProductRate = () => {
                 <Row>
                     <Col span={9}></Col>
                     <Col span={6}>
-                        <Pagination defaultCurrent={1} total={amountReview} pageSize={2} onChange={handleChangePage} />
+                        <Pagination defaultCurrent={1} total={amountReview} pageSize={6} onChange={handleChangePage} />
                     </Col>
                     <Col span={9}></Col>
                 </Row>

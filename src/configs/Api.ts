@@ -9,6 +9,7 @@ export const endpoint = {
     currentUser: "/user/current-user",
     updateUser: (userId: number) => `/user/${userId}`,
     roleAdmin: "/user/role-admin",
+    getShopOwner: (productId: number) => `/user/get-user-by-productId/${productId}`
   },
   shop: {
     getDetail: (shopId: number) => `/shop/${shopId}`,
@@ -58,6 +59,16 @@ export const endpoint = {
   },
   category: {
     getAll: '/category'
+  },
+  notification: {
+    base: '/notification'
+  },
+  review: {
+    create: '/review/create-v2'
+  },
+  message: {
+    getAll: '/message',
+    create: '/message'
   },
 };
 
