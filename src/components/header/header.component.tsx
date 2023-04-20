@@ -12,6 +12,7 @@ import MiniCartItem from "./mini-cart-item/minicartitem.component";
 import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice";
 import { logoutAdmin } from "../../store/slices/user-admin.slice";
+import { socket } from "../../App";
 
 
 const Header = () => {
@@ -26,8 +27,13 @@ const Header = () => {
     const nav = useNavigate()
     const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
     useEffect(() => {
-        const getCurrentUser = () => {
-            dispatch(currentUserAsyncThunk())
+        const getCurrentUser = async () => {
+            const res = await dispatch(currentUserAsyncThunk())
+            if (res.payload.id) {
+                socket.emit('clientLogin', {
+                    userId: res.payload.id
+                })
+            }
         }
         const getCart = () => {
             dispatch(getAllItemAsyncThunk())
@@ -164,9 +170,9 @@ const Header = () => {
                         <Search
                             placeholder="input search text"
                             onSearch={onSearch}
-                            style={{ width: 400,borderColor: '#00cc99' }}
+                            style={{ width: 400, borderColor: '#00cc99' }}
                             size="large" />
-                            
+
                     </Col>
                     <Col span={6}>
                         <Row justify="space-between">

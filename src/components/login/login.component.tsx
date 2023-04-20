@@ -12,6 +12,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice"
 import LazyLoad from "react-lazy-load"
+import {socket} from '../../App'
 
 
 interface IResponseGoogleLogin {
@@ -38,6 +39,9 @@ const Login = () => {
             password: values.password
         }
         const resLoginAsyncThunk = await dispatch(loginAsyncThunk(reqLogin))
+        socket.emit('clientLogin', {
+            userId: resLoginAsyncThunk.payload.user.id
+        })
         console.log(resLoginAsyncThunk)
         if (resLoginAsyncThunk.type.includes('rejected')) {
             setErrorResponse(resLoginAsyncThunk.payload.errors)

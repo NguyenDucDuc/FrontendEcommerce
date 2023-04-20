@@ -21,7 +21,7 @@ import {
 } from "antd";
 import "./productdetail.style.scss";
 import "../style-commond/commond.style.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductMain from "./product-main/productmain.component";
 import ShopInfo from "./shop-info/shopinfo.component";
@@ -29,9 +29,15 @@ import ProductDesc from "./product-desc/productdesc.component";
 import ProductAttribute from "./product-attribute/productattribute.component";
 import ProductRate from "./product-rate/productrate.component";
 import Api, { endpoint } from "../../configs/Api";
-import { useAppDispatch } from "../../store/store";
+import { RootState, useAppDispatch } from "../../store/store";
 import { getAllReviewAsyncThunk } from "../../store/slices/reviews.slice";
 import LazyLoad from "react-lazy-load";
+import { MessageSender } from "../message/message.component";
+import { MessageReceiver } from "../message/message-receiver.component";
+import { addMessageRedux, createMessageAsyncThunk, getAllMessageAsyncThunk } from "../../store/slices/message.slice";
+import { useSelector } from "react-redux";
+import { currentUserAsyncThunk } from "../../store/slices/user.slice";
+import { socket } from "../../App";
 
 const attributeDemo = {
   Category: "Áo thun",
@@ -40,6 +46,13 @@ const attributeDemo = {
   Height: "75cm",
   Quantity: 90,
 };
+
+interface IShopOwner {
+  id: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+}
 
 interface IProductDetail {
   id: number;
@@ -58,10 +71,15 @@ const ProductDetail: React.FC = () => {
   const [showProductRate, setShowProductRate] = useState<boolean>(false);
   const [showShopInfo, setShowShopInfo] = useState<boolean>(false);
   //
+  const [contentMessage, setContentMessage] = useState<string>("")
+  const messageRef: any = useRef(null)
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [attributes, setAttributes] = useState<any>([]);
   const [shop, setShop] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [shopOwner, setShopOwner] = useState<IShopOwner>()
+  const listMessage = useSelector((state: RootState) => state.message.listMessage)
+  const currentUser = useSelector((state: RootState) => state.user.user)
   const dispatch = useAppDispatch();
 
   const [product, setProduct] = useState<IProductDetail>({
@@ -77,12 +95,44 @@ const ProductDetail: React.FC = () => {
     console.log(values);
   };
   const handleChangeShowChatBox = () => {
+
+    console.log(shopOwner?.id)
+    const reqQuery = {
+      senderId: currentUser.id,
+      receiverId: shopOwner?.id
+    }
     setShowChatBox(true);
-    console.log(showChatBox);
+    console.log(currentUser.id)
+    dispatch(getAllMessageAsyncThunk(reqQuery))
   };
   const handleChangeHideChatBox = () => {
     setShowChatBox(false);
   };
+  const handleSendMessage = async () => {
+    console.log(contentMessage)
+    console.log(shopOwner?.id)
+    if (contentMessage !== "") {
+      const reqBody = {
+        senderId: currentUser.id,
+        content: contentMessage,
+        receiverId: shopOwner?.id
+      }
+      const resMessage = await dispatch(createMessageAsyncThunk(reqBody))
+      // -- emit socket
+      socket.emit('clientSendMessage', resMessage.payload)
+    }
+
+  }
+  const scrollToBottom = () => {
+    messageRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const getShopOwner = async () => {
+    if (productId !== undefined) {
+      const res = await Api.get(endpoint.user.getShopOwner(+productId))
+      setShopOwner(res.data.data)
+    }
+  }
   useEffect(() => {
     const getProductDetail = async () => {
       const res = await Api.get(
@@ -103,10 +153,23 @@ const ProductDetail: React.FC = () => {
       };
       dispatch(getAllReviewAsyncThunk(body));
     };
+    const getCurrentUser = () => {
+      dispatch(currentUserAsyncThunk())
+    }
+
+    getShopOwner();
+    getCurrentUser();
     getProductDetail();
     getListReviews();
     setLoading(true);
   }, []);
+
+  useEffect( () => {
+    socket.off('serverSendMessage').on('serverSendMessage', data => {
+      console.log(data)
+      dispatch(addMessageRedux(data))
+    })
+  }, [socket])
   return (
     <div className="product-detail-father">
       {product.desc !== "" ? (
@@ -158,10 +221,10 @@ const ProductDetail: React.FC = () => {
         ) : null}
       </LazyLoad> */}
       {
-        shop !== undefined ? <ShopInfo 
-        handleShowChatBox={handleChangeShowChatBox}
-        shopName={shop.shopName}
-         /> : null
+        shop !== undefined ? <ShopInfo
+          handleShowChatBox={handleChangeShowChatBox}
+          shopName={shop.shopName}
+        /> : null
       }
       <LazyLoad onContentVisible={() => setShowProductAttribute(true)}>
         {showProductAttribute === true ? (
@@ -207,10 +270,26 @@ const ProductDetail: React.FC = () => {
               />
             </Col>
           </Row>
-          <div className="message-content"></div>
+          <div className="message-content">
+            <div className="message-content-child" ref={messageRef}>
+              {listMessage.length > 0 ?
+                listMessage.map((item, idx) => {
+                  return (
+                    item.senderId === currentUser.id
+                      ?
+                      <MessageReceiver key={idx} time={item.createdAt} content={item.content} />
+                      :
+                      <MessageSender key={idx} time={item.createdAt} content={item.content} />
+                  )
+                })
+                :
+                null
+              }
+            </div>
+          </div>
           <Row className="message-input">
             <Col span={17}>
-              <Input type="text" />
+              <Input onChange={(e) => setContentMessage(e.target.value)} type="text" style={{ marginLeft: 10 }} />
             </Col>
             <Col span={1}></Col>
             <Col span={3}>
@@ -218,8 +297,9 @@ const ProductDetail: React.FC = () => {
                 className="btn-color"
                 style={{ color: "white" }}
                 icon={<SendOutlined />}
+                onClick={handleSendMessage}
               >
-                Send
+                Gửi
               </Button>
             </Col>
           </Row>
@@ -230,3 +310,5 @@ const ProductDetail: React.FC = () => {
 };
 
 export default ProductDetail;
+
+
