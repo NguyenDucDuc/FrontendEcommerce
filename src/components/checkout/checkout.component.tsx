@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteItemAsyncThunk } from "../../store/slices/cartitem.slice";
 import { socket } from "../../utils/socket";
 import { createNotification } from "../../utils/notification";
+import { axiosClient } from "../../lib/axios/axios.config";
 
 const Checkout = () => {
   const [api, contextHolder] = notification.useNotification();
@@ -35,14 +36,12 @@ const Checkout = () => {
             Number(listProductsChecked[i].products[j].price) *
               Number(listProductsChecked[i].products[j].quantity) +
             40000;
-          console.log(total);
           dispatch(updateTotalPriceCheckedList(total));
         }
       }
     };
     const getCurrentAddress = async () => {
       const res = await AuthApi().get(endpoint.address.currentAddress);
-      console.log(res.data.data);
       setCurrentAddress(res.data.data);
     };
     const getCurrentUser = async () => {
@@ -78,15 +77,20 @@ const Checkout = () => {
         });
 
         if (res.status === 200) {
+          const userId = await axiosClient.get(
+            endpoint.shop.getUserByShopID(res.data.data.data.shopId)
+          );
+
           await createNotification({
             content: `${currentUser.userName} vừa mua 1 đơn hàng`,
             type: 1,
-            valueId: res.data.data.data,
+            valueId: res.data.data.data.id,
             creatorId: currentUser.id,
-            userId: 7,
+            userId: userId.data,
             createdAt: new Date(),
             updatedAt: new Date(),
           });
+
           socket.emit("sendNotification", {
             senderName: "customer",
             receiverName: "seller",

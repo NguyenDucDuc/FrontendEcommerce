@@ -9,8 +9,8 @@ import {
 import { Badge, Col, Menu, MenuProps, Row } from "antd";
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store/store";
 import "./header.style.scss";
 import "../style-commond/commond.style.scss";
