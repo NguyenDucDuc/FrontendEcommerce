@@ -67,9 +67,7 @@ const ProductDetail: React.FC = () => {
   const [showProductAttribute, setShowProductAttribute] =
     useState<boolean>(false);
   const [showProductDesc, setShowProductDesc] = useState<boolean>(false);
-  const [showProductMain, setShowProductMain] = useState<boolean>(false);
   const [showProductRate, setShowProductRate] = useState<boolean>(false);
-  const [showShopInfo, setShowShopInfo] = useState<boolean>(false);
   //
   const [contentMessage, setContentMessage] = useState<string>("")
   const messageRef: any = useRef(null)
@@ -224,6 +222,7 @@ const ProductDetail: React.FC = () => {
         shop !== undefined ? <ShopInfo
           handleShowChatBox={handleChangeShowChatBox}
           shopName={shop.shopName}
+          shopId={product.shopId}
         /> : null
       }
       <LazyLoad onContentVisible={() => setShowProductAttribute(true)}>
