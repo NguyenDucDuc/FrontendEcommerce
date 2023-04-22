@@ -50,7 +50,7 @@ const SideBar = () => {
                 defaultOpenKeys={['sub1']}
                 mode="inline"
                 items={items}
-                theme="dark"
+                theme="light"
             />
         </div>
     )
