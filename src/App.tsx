@@ -33,6 +33,7 @@ import MainDashBoard from "./pages/shop/manage/main.component";
 import ProductManage from "./pages/shop/manage/product/product-manage.component";
 import EditProduct from "./components/edit-product/EditProduct";
 import OrderManage from "./pages/shop/manage/order/order-manage.component";
+import { Chat } from "./components/chat/chat.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -45,6 +46,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
+          <Route path="/chat" element={<Chat />} />
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

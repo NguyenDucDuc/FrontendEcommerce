@@ -1,0 +1,19 @@
+div.card-message {
+
+    margin-bottom: 60px;
+    div.card-message-info {
+        width: 300px;
+        height: 60px;
+    }
+    div.card-message-content {
+       
+        div.card-message-content__auto {
+            p {
+                background-color: #e6e6e6;
+                padding: 10px 10px;
+                border-radius: 10px;
+                width: 500px;
+            }
+        }
+    }
+}
