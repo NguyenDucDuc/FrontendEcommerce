@@ -99,8 +99,15 @@ const OrderManage: React.FC = () => {
   };
 
   useEffect(() => {
-    setParams((preParams) => {
-      return { ...preParams, state: searchParams.get("state") };
+    // setParams((preParams) => {
+    //   return { ...preParams, state: searchParams.get("state") };
+    // });
+    setParams({
+      shopId: shopId,
+      pageSize: PAGE_SIZE,
+      state: searchParams.get("state")
+        ? (searchParams.get("state") as string)
+        : null,
     });
   }, [location]);
 
@@ -274,9 +281,7 @@ const OrderManage: React.FC = () => {
       key: "unitPrice",
       align: "right",
       render: (_, record) => (
-        <span>
-          {record.unitPrice && formatCurrency(record.unitPrice)}
-        </span>
+        <span>{record.unitPrice && formatCurrency(record.unitPrice)}</span>
       ),
     },
   ];

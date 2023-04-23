@@ -145,7 +145,8 @@ const Header = () => {
             style: {
                 color: "black"
             }
-        } : null
+        }
+        : null
     ];
 
     const [current, setCurrent] = useState('home');

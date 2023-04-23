@@ -56,7 +56,6 @@ function App() {
             />
             <Route path="/shop-create" element={<ShopCreate />} />
             <Route path="/products" element={<ProductSales />} />
-            <Route path="/shop-profile" element={<ShopProfile />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/user" element={<UserProfile />}>

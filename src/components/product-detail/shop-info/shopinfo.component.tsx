@@ -9,9 +9,10 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 interface IProps {
     handleShowChatBox: any;
     shopName: string;
+    shopId: number
 }
 
-const ShopInfo: React.FC<IProps> = ({handleShowChatBox, shopName}) => {
+const ShopInfo: React.FC<IProps> = ({handleShowChatBox, shopName, shopId}) => {
     const nav = useNavigate()
     const handleOnChangeRate = (values: number) => {
         console.log(values)
@@ -23,7 +24,6 @@ const ShopInfo: React.FC<IProps> = ({handleShowChatBox, shopName}) => {
                         <Row>
                             <Col span={7}>
                                 <div className="avt-shop">
-                                    {/* <img src="https://res.cloudinary.com/djbju13al/image/upload/v1676826995/Avatar/1676826993120.jpg" /> */}
                                     <LazyLoadImage src="https://res.cloudinary.com/djbju13al/image/upload/v1676826995/Avatar/1676826993120.jpg"  />
                                 </div>
                             </Col>
@@ -34,7 +34,7 @@ const ShopInfo: React.FC<IProps> = ({handleShowChatBox, shopName}) => {
                                         <Button className="btn-color" type="primary" icon={<SendOutlined />} onClick={handleShowChatBox}>Nhắn tin</Button>
                                     </Col>
                                     <Col span={12}>
-                                        <Button className="btn-color" type="primary" icon={<EyeOutlined />} onClick={() => nav("/shop-profile")}>Xem shop</Button>
+                                        <Button className="btn-color" type="primary" icon={<EyeOutlined />} onClick={() => nav(`/shop/${shopId}`)}>Xem shop</Button>
                                     </Col>
                                 </Row>
                             </Col>
