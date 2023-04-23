@@ -14,7 +14,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { Params, Response } from "../../../../models/http";
-import { authAxios } from "../../../../lib/axios/axios.config";
+import { authAxios, axiosClient } from "../../../../lib/axios/axios.config";
 import { endpoint } from "../../../../configs/Api";
 import {
   formatCurrency,
@@ -79,6 +79,7 @@ const OrderManage: React.FC = () => {
         "status",
         "payment",
         "shipAddress",
+        "chargeId",
         "updatedAt",
       ]);
 
@@ -124,15 +125,35 @@ const OrderManage: React.FC = () => {
           action: action,
         }
       );
+
       if (res.status === 200) {
         message.success(res.message);
+        if (action === STATUS_ACTION.CANCEL) {
+          const refund: any = await axiosClient.post(endpoint.payment.refund, {
+            chargeId: res.data.chargeId,
+          });
+          if (refund) {
+            const shopUpdate = await axiosClient.put(
+              endpoint.shop.update(res.data.shopId),
+              {
+                amount: -refund.amount,
+              }
+            );
+            if (shopUpdate.status === 200) {
+              message.info(
+                `Tài khoản của bạn sẽ được hoàn lại ${formatCurrency(
+                  refund.amount
+                )}.`
+              );
+            }
+          }
+        }
         fetchData();
       } else {
         message.info(res.message);
       }
     } catch (error) {
       console.log(error);
-      message.error("Đã có lỗi xảy ra !!");
     }
   };
 

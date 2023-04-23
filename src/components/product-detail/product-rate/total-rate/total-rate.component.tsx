@@ -8,10 +8,11 @@ import { RootState, useAppDispatch } from "../../../../store/store"
 import "./total-rate.style.scss"
 import { createReviewAsyncThunk } from "../../../../store/slices/reviews.slice"
 
+interface Props {
+    rate?: number
+}
 
-
-
-const TotalRate = () => {
+const TotalRate:React.FC<Props> = ({}) => {
     const user = useSelector((state: RootState) => state.user.user)
     const [reviewContent, setReviewContent] = useState<string>("")
     const [rate, setRate] = useState<number>(0)
@@ -48,7 +49,7 @@ const TotalRate = () => {
             <div className="total-rate__margin">
                 <Row>
                     <Col span={6} >
-                        <h1>4.0 trên 5</h1>
+                        <h1>{rate} trên 5</h1>
                         <Rate value={4} />
                     </Col>
                     <Col span={18}>
