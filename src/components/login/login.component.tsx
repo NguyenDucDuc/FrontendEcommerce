@@ -56,11 +56,10 @@ const Login = () => {
         } else {
             setErrorResponse("")
             localStorage.setItem("accessToken", resLoginAsyncThunk.payload.accessToken)
-            notification.open({
-                message: 'Login success',
-                description: '',
-                icon: <GiftOutlined style={{ color: 'green' }} />,
-                duration: 5
+            notification.success({
+                message: 'Thông báo',
+                description: 'Đăng nhập thành công',
+                duration: 4
             });
             // dispatch to get product in cart for user
             dispatch(getAllItemAsyncThunk())

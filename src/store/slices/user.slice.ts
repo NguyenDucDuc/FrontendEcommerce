@@ -117,7 +117,7 @@ const userSlice = createSlice({
     initialState: initialUser,
     reducers: {
         logout: (state) => {
-            state.user.userName = "Guest"
+            state.user.userName = ""
             state.user.passWord = ""
             state.user.avatar = ""
             state.user.firstName = "Guest"

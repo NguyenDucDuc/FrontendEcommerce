@@ -78,6 +78,7 @@ const Header = () => {
             }
 
         } : null,
+        user.userName !== "" ?
         {
             label: (<Link to="/admin/home">Quản trị</Link>),
             key: 'admin',
@@ -85,7 +86,8 @@ const Header = () => {
             style: {
                 color: "black"
             }
-        },
+        } : null,
+        user.userName !== "" ? 
         {
             label: `${user.firstName} ${user.lastName}`,
             key: 'username',
@@ -124,7 +126,11 @@ const Header = () => {
                     }
                 }
             ]
-        },
+        } : null,
+        user.userName 
+        ?
+        null 
+        :
         {
             label: (<Link to="/register">Đăng ký</Link>),
             key: "register",
@@ -132,13 +138,14 @@ const Header = () => {
                 color: "black"
             }
         },
+        user.userName !== "" ?
         {
             label: (<Link to="/shop-create">Tạo shop</Link>),
             key: "shopCreate",
             style: {
                 color: "black"
             }
-        }
+        } : null
     ];
 
     const [current, setCurrent] = useState('home');
