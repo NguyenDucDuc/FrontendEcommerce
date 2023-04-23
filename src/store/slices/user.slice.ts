@@ -128,22 +128,22 @@ const initialUser: IUser = {
 };
 
 const userSlice = createSlice({
-  name: "user",
-  initialState: initialUser,
-  reducers: {
-    logout: (state) => {
-      state.user.userName = "Guest";
-      state.user.passWord = "";
-      state.user.avatar = "";
-      state.user.firstName = "Guest";
-      state.user.lastName = "";
-      state.user.phone = "";
-      state.accessToken = "";
-      state.status = "fulfilled";
-    },
-    updateStatusFulfilled: (state) => {
-      state.status = "fulfilled";
-    },
+    name: "user",
+    initialState: initialUser,
+    reducers: {
+        logout: (state) => {
+            state.user.userName = ""
+            state.user.passWord = ""
+            state.user.avatar = ""
+            state.user.firstName = "Guest"
+            state.user.lastName = ""
+            state.user.phone = ""
+            state.accessToken = ""
+            state.status = "fulfilled"
+        },
+        updateStatusFulfilled: (state) => {
+            state.status = "fulfilled"
+        }
   },
   extraReducers: (builder) => {
     // normal login
