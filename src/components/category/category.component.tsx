@@ -31,8 +31,8 @@ const CategoryList: React.FC = () => {
             <Col className="category-item" span={3}>
               <div className="category-item__img">
                 <img
-                  src="https://cf.shopee.vn/file/687f3967b7c2fe6a134a2c11894eea4b_tn"
-                  alt="image"
+                  src={item.image}
+                  alt="Ảnh thể loại"
                 />
               </div>
               <p className="category-item__name">{item.name}</p>

@@ -20,11 +20,15 @@ interface IPropsReview {
 
 
 interface IProps {
-    listReviews: IPropsReview[]
+    listReviews: IPropsReview[];
 }
 
+interface Props {
+    rate?: number
 
-const ProductRate = () => {
+}
+
+const ProductRate:React.FC<Props> = ({ rate}) => {
     const listReviews = useSelector((state: RootState) => state.reviews.listReviews)
     const amountPage = useSelector((state: RootState) => state.reviews.amountPage)
     const amountReview = useSelector((state: RootState) => state.reviews.amountReview)
@@ -45,7 +49,7 @@ const ProductRate = () => {
             <h2 className="mgl-25" style={{ paddingTop: '40px' }}>Đánh giá sản phẩm</h2>
             <hr></hr>
             
-            <TotalRate />
+            <TotalRate rate={rate} />
             
             <div className="user-rate">
                 {/* Comment */}

@@ -1,7 +1,6 @@
 .home-category-list {
     background: white;
     border-radius: 10px;
-    
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     .category__header {
         align-items: center;
@@ -34,5 +33,9 @@
     .category-item__name {
         text-align: center;
         margin-bottom: 10px;
+    }
+
+    .category__content{
+        margin-top: 10px;
     }
 }

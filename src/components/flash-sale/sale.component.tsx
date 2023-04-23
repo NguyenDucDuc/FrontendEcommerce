@@ -6,6 +6,7 @@ import "./style.scss";
 import { Product } from "../../models/models";
 import { getAllProduct } from "../../utils/product";
 import { formatCurrency } from "../../utils/common";
+import { Link } from "react-router-dom";
 
 const FlashSale: React.FC = () => {
   const [position, setPosition] = useState<number>(1);
@@ -68,6 +69,7 @@ const FlashSale: React.FC = () => {
           >
             {productData.map((item) => (
               <Col className="flash-sale-item" span={4}>
+                <Link to={`/product-detail/${item.id}`}>
                 <div className="flash-sale-item__img">
                   <img src={item.image} alt="Ảnh sản phẩm" />
                 </div>
@@ -84,6 +86,8 @@ const FlashSale: React.FC = () => {
                     <div className="process"></div>
                   </div>
                 </div>
+                </Link>
+
               </Col>
             ))}
           </Row>

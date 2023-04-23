@@ -17,6 +17,20 @@ export interface Product {
   attributes?: Array<Attribute>;
 }
 
+export interface Shop {
+  id?: number;
+  shopName?: string;
+  rate?: number;
+  totalPrice?: number;
+  desc?: string;
+  image?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isBlock?: boolean;
+  sellerId?: number;
+  amountProduct?: number;
+}
+
 export interface Attribute {
   id?: number;
   value: string | number;
@@ -51,18 +65,17 @@ export interface UserInfo {
 }
 
 export interface Order {
-  id?: number
-  userId?: number
-  firstName?: string
-  lastName?: string
-  isActive?: boolean
-  avatar?: string
-  status?: string
-  payment?: string
-  shipAddress?: string
-  updatedAt?: string
+  id?: number;
+  userId?: number;
+  firstName?: string;
+  lastName?: string;
+  isActive?: boolean;
+  avatar?: string;
+  status?: string;
+  payment?: string;
+  shipAddress?: string;
+  updatedAt?: string;
 }
-
 
 export interface DataTypeOrder {
   id: number;
@@ -71,6 +84,7 @@ export interface DataTypeOrder {
   lastName?: string;
   avatar?: string;
   isActive?: boolean;
+  chargeId?: number;
   shipAddress: string;
   status: string;
   payment: string;
