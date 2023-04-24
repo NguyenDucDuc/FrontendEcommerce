@@ -86,7 +86,7 @@ const ShopProfile = () => {
       const res: Response = await axiosClient.get(
         endpoint.shop.getUserByShopID(shopId)
       );
-      setIsShowOwner(res.data === currentUser.id);
+      setIsShowOwner(res.data.id === currentUser.id);
     } catch (error) {
       console.log(error);
       message.error("Đã có lỗi xảy ra !!");

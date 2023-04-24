@@ -78,7 +78,7 @@ const Checkout = () => {
           orderDetails,
         });
         if (res.status === 200) {
-          const userId = await axiosClient.get(
+          const user = await axiosClient.get(
             endpoint.shop.getUserByShopID(res.data.data.data.shopId)
           );
 
@@ -87,16 +87,16 @@ const Checkout = () => {
             type: 1,
             valueId: res.data.data.data.id,
             creatorId: currentUser.id,
-            userId: userId.data,
+            userId: user.data.id,
             createdAt: new Date(),
             updatedAt: new Date(),
           });
 
           socket.emit("sendNotification", {
-            senderName: "customer",
-            receiverName: "seller",
-            content: "customer mua hàng",
-            valueId: res.data.data.data,
+            senderName: currentUser.userName,
+            receiverName: user.data.userName,
+            content: `${currentUser.userName} vừa mua 1 đơn hàng`,
+            valueId: res.data.data.data.id,
           });
         }
       }
