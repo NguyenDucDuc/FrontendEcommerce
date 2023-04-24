@@ -12,8 +12,10 @@ import MiniCartItem from "./mini-cart-item/minicartitem.component";
 import MiniCardNotification from "../notification/mini-card-notification/minicardnotification.component";
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice";
 import { logoutAdmin } from "../../store/slices/user-admin.slice";
-import { socket } from "../../App";
-
+// import { socket } from "../../App";
+import { endpoint } from "../../configs/Api";
+import { authAxios } from "../../lib/axios/axios.config";
+import { socket } from "../../utils/socket";
 
 const Header = () => {
     const user = useSelector((state: RootState) => state.user.user)
@@ -23,6 +25,7 @@ const Header = () => {
     const [statusLogin, setStatusLogin] = useState<any>({
 
     })
+    const [notification, setNotification] = useState<any[]>([]);
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
@@ -60,6 +63,39 @@ const Header = () => {
         setIsShowNotifi(false)
     }
     const accessToken = localStorage.getItem('accessToken')
+
+    const loadNotification = async () => {
+        try {
+          const res = await authAxios().get(endpoint.notification.base);
+    
+          if (res.status === 200) {
+            const listNotif = res.data.map((item: any) => {
+              return { content: item.content, valueId: item.valueId };
+            });
+            setNotification(listNotif);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      useEffect(() => {
+        if (accessToken) {
+          loadNotification();
+        } else {
+          setNotification([]);
+        }
+      }, [accessToken]);
+    
+      useEffect(() => {
+        socket.off("getNotification").on("getNotification", (data: any) => {
+          console.log("getNotification");
+          setNotification((prev) => {
+            return [{ ...data }, ...prev];
+          });
+        });
+      }, [socket]);
+
     const items: MenuProps['items'] = [
         {
             label: (<Link to="/" >Trang chủ</Link>),
@@ -204,20 +240,19 @@ const Header = () => {
                                 }
                             </Col>
                             <Col span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
-                                <Badge count={100} className="cs-pointer">
+                                <Badge count={notification.length} className="cs-pointer">
                                     <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
                                 </Badge>
-                                {
-                                    isShowNotifi === true
-                                        ?
-                                        <div className="cart-mini notification">
-                                            <MiniCardNotification />
-                                            <MiniCardNotification />
-                                            <MiniCardNotification />
-                                        </div>
-                                        :
-                                        null
-                                }
+                                {isShowNotifi === true ? (
+                                    <div className="cart-mini notification">
+                                        {notification.map((item: any) => (
+                                        <MiniCardNotification
+                                            content={item.content}
+                                            valueId={item.valueId}
+                                        />
+                                        ))}
+                                    </div>
+                                    ) : null}
                             </Col>
                             <Col span={8}></Col>
                         </Row>
