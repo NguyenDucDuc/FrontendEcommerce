@@ -18,6 +18,7 @@ export const endpoint = {
     lock: (shopId: number) => `/shop/block/${shopId}`,
     unLock: (shopId: number) => `/shop/unlock/${shopId}`,
     getUserByShopID: (shopId: number) => `/shop/${shopId}/get-user`,
+    update: (shopId: number) => `/shop/${shopId}`,
   },
   seller: {
     register: "/seller",
@@ -69,6 +70,10 @@ export const endpoint = {
   message: {
     getAll: (conversationId: string) => `/message/${conversationId}`,
     create: '/message'
+  },
+  payment: {
+    checkout: '/checkout/payment',
+    refund: '/checkout/refund'
   },
   conversation: {
     getAll: '/conversation'

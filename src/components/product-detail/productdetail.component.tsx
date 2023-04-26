@@ -34,9 +34,16 @@ import { getAllReviewAsyncThunk } from "../../store/slices/reviews.slice";
 import LazyLoad from "react-lazy-load";
 import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
+import {
+  addMessageRedux,
+  createMessageAsynkThunk,
+  getAllMessageAsyncThunk,
+} from "../../store/slices/message.slice";
 import { useSelector } from "react-redux";
 import { currentUserAsyncThunk } from "../../store/slices/user.slice";
 import { socket } from "../../App";
+import { Product, Shop } from "../../models/models";
+import { axiosClient } from "../../lib/axios/axios.config";
 
 const attributeDemo = {
   Category: "Áo thun",
@@ -56,8 +63,11 @@ interface IShopOwner {
 interface IProductDetail {
   id: number;
   desc: string;
+  sku?: string;
   price: number;
+  rate?: number;
   name: string;
+  image: string;
   shopId: number;
 }
 
@@ -68,88 +78,70 @@ const ProductDetail: React.FC = () => {
   const [showProductDesc, setShowProductDesc] = useState<boolean>(false);
   const [showProductRate, setShowProductRate] = useState<boolean>(false);
   //
-  const [contentMessage, setContentMessage] = useState<string>("")
-  const messageRef: any = useRef(null)
+  const [contentMessage, setContentMessage] = useState<string>("");
+  const messageRef: any = useRef(null);
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [attributes, setAttributes] = useState<any>([]);
-  const [shop, setShop] = useState<any>();
+  const [shop, setShop] = useState<Shop>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [shopOwner, setShopOwner] = useState<IShopOwner>()
-  const currentUser = useSelector((state: RootState) => state.user.user)
+  const [shopOwner, setShopOwner] = useState<IShopOwner>();
+  const listMessage = useSelector(
+    (state: RootState) => state.message.listMessage
+  );
+  const currentUser = useSelector((state: RootState) => state.user.user);
   const dispatch = useAppDispatch();
 
-  const [product, setProduct] = useState<IProductDetail>({
-    price: 0,
-    desc: "",
-    id: 0,
-    name: "",
-    shopId: 0,
-  });
+  const [product, setProduct] = useState<Product>({});
   const { productId } = useParams();
   const nav = useNavigate();
-  const handleOnChangeRate = (values: number) => {
-    console.log(values);
-  };
+  const handleOnChangeRate = (values: number) => {};
   const handleChangeShowChatBox = () => {
-
-    console.log(shopOwner?.id)
-    const reqQuery = {
-      senderId: currentUser.id,
-      receiverId: shopOwner?.id
-    }
+    
     setShowChatBox(true);
-    console.log(currentUser.id)
   };
   const handleChangeHideChatBox = () => {
     setShowChatBox(false);
   };
   const handleSendMessage = async () => {
-    console.log(contentMessage)
-    console.log(shopOwner?.id)
-    if (contentMessage !== "") {
-      const reqBody = {
-        senderId: currentUser.id,
-        content: contentMessage,
-        receiverId: shopOwner?.id
-      }
-      // -- emit socket
-    }
-
-  }
+    
+  };
   const scrollToBottom = () => {
-    messageRef.current.scrollIntoView({ behavior: "smooth" })
-  }
+    messageRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   const getShopOwner = async () => {
     if (productId !== undefined) {
-      const res = await Api.get(endpoint.user.getShopOwner(+productId))
-      setShopOwner(res.data.data)
+      const res = await Api.get(endpoint.user.getShopOwner(+productId));
+      setShopOwner(res.data.data);
     }
-  }
-  useEffect(() => {
-    const getProductDetail = async () => {
-      const res = await Api.get(
-        endpoint.product.productDetail(productId || "")
-      );
-      console.log(res.data.data);
-      const resShop = await Api.get(
-        endpoint.shop.getDetail(res.data.data.shopId)
-      );
-      setShop(resShop.data.data);
-      setProduct(res.data.data);
-      setAttributes(res.data.data.attributes);
-    };
-    const getListReviews = async () => {
-      const body = {
-        productId: productId,
-        page: 1,
-      };
-      dispatch(getAllReviewAsyncThunk(body));
-    };
-    const getCurrentUser = () => {
-      dispatch(currentUserAsyncThunk())
-    }
+  };
 
+  const getProductDetail = async () => {
+    const res = await axiosClient.get(
+      endpoint.product.productDetail(productId as string)
+    );
+    const resShop = await axiosClient.get(
+      endpoint.shop.getDetail(res.data.shopId)
+    );
+    console.log({ res, resShop });
+
+    setShop(resShop.data);
+    setProduct(res.data);
+    setAttributes(res.data.attributes);
+  };
+
+  const getListReviews = async () => {
+    const body = {
+      productId: productId,
+      page: 1,
+    };
+    dispatch(getAllReviewAsyncThunk(body));
+  };
+  const getCurrentUser = () => {
+    dispatch(currentUserAsyncThunk());
+  };
+
+  useEffect(() => {
     getShopOwner();
     getCurrentUser();
     getProductDetail();
@@ -157,38 +149,18 @@ const ProductDetail: React.FC = () => {
     setLoading(true);
   }, []);
 
-  useEffect( () => {
-    socket.off('serverSendMessage').on('serverSendMessage', data => {
-      console.log(data)
-    })
-  }, [socket])
+  useEffect(() => {
+    socket.off("serverSendMessage").on("serverSendMessage", (data) => {
+      dispatch(addMessageRedux(data));
+    });
+  }, [socket]);
   return (
     <div className="product-detail-father">
       {product.desc !== "" ? (
-        <ProductMain
-          img="https://cf.shopee.vn/file/189172eea31b4fa7a18dd7a17e0813e1"
-          desc={product.desc}
-          rateCount={329}
-          saleCount={1208}
-          size={["S", "M", "L", "XL"]}
-          price={product?.price}
-          productId={product.id}
-          productName={product.name}
-          shopId={product.shopId}
-        />
+        <ProductMain product={product} />
       ) : (
         <Spin tip="Loading..." size="large">
-          <ProductMain
-            img="https://cf.shopee.vn/file/189172eea31b4fa7a18dd7a17e0813e1"
-            desc={product.desc}
-            rateCount={329}
-            saleCount={1208}
-            size={["S", "M", "L", "XL"]}
-            price={product?.price}
-            productId={product.id}
-            productName={product.name}
-            shopId={product.shopId}
-          />
+          <ProductMain product={product} />
         </Spin>
       )}
 
@@ -212,13 +184,11 @@ const ProductDetail: React.FC = () => {
           </LazyLoad>
         ) : null}
       </LazyLoad> */}
-      {
-        shop !== undefined ? <ShopInfo
-          handleShowChatBox={handleChangeShowChatBox}
-          shopName={shop.shopName}
-          shopId={product.shopId}
-        /> : null
-      }
+
+      {shop !== undefined ? (
+        <ShopInfo handleShowChatBox={handleChangeShowChatBox} shop={shop} />
+      ) : null}
+
       <LazyLoad onContentVisible={() => setShowProductAttribute(true)}>
         {showProductAttribute === true ? (
           <ProductAttribute attributes={attributes} />
@@ -232,19 +202,19 @@ const ProductDetail: React.FC = () => {
       <LazyLoad onContentVisible={() => setShowProductDesc(true)}>
         {showProductDesc === false ? (
           <Spin tip="Loading..." size="large">
-            <ProductDesc />
+            <ProductDesc desc={product.desc}/>
           </Spin>
         ) : (
-          <ProductDesc />
+          <ProductDesc desc={product.desc}/>
         )}
       </LazyLoad>
 
       <LazyLoad onContentVisible={() => setShowProductRate(true)}>
         {showProductRate === true ? (
-          <ProductRate />
+          <ProductRate rate={product.rate as number} />
         ) : (
           <Spin tip="Loading...">
-            <ProductRate />
+          <ProductRate rate={product.rate as number} />
           </Spin>
         )}
       </LazyLoad>
@@ -270,7 +240,11 @@ const ProductDetail: React.FC = () => {
           </div>
           <Row className="message-input">
             <Col span={17}>
-              <Input onChange={(e) => setContentMessage(e.target.value)} type="text" style={{ marginLeft: 10 }} />
+              <Input
+                onChange={(e) => setContentMessage(e.target.value)}
+                type="text"
+                style={{ marginLeft: 10 }}
+              />
             </Col>
             <Col span={1}></Col>
             <Col span={3}>
@@ -291,5 +265,3 @@ const ProductDetail: React.FC = () => {
 };
 
 export default ProductDetail;
-
-

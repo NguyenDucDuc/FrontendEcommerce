@@ -14,7 +14,6 @@ import { deleteItemAsyncThunk } from "../../store/slices/cartitem.slice";
 import { socket } from "../../utils/socket";
 import { createNotification } from "../../utils/notification";
 import { axiosClient } from "../../lib/axios/axios.config";
-
 const Checkout = () => {
   const [api, contextHolder] = notification.useNotification();
   const nav = useNavigate();
@@ -27,6 +26,7 @@ const Checkout = () => {
   const dispatch = useAppDispatch();
   const [currentAddress, setCurrentAddress] = useState<any>();
   const [currentUser, setCurrentUser] = useState<any>();
+  const [shopId, setShopId] = useState<number>();
   const [cart, setCart] = useState<any>();
   useEffect(() => {
     const calcPrice = () => {
@@ -51,9 +51,10 @@ const Checkout = () => {
     calcPrice();
     getCurrentAddress();
     getCurrentUser();
+    setShopId(listProductsChecked[0].shopId as number);
   }, []);
 
-  const testOrder = async () => {
+  const testOrder = async (chargeId?: string) => {
     if (listProductsChecked.length > 0) {
       for (let i = 0; i < listProductsChecked.length; i++) {
         // -- create order details
@@ -73,11 +74,11 @@ const Checkout = () => {
           shopId: listProductsChecked[i].shopId,
           payment: "Thanh toán khi nhận hàng",
           state: 1,
+          chargeId: chargeId || 0,
           orderDetails,
         });
-
         if (res.status === 200) {
-          const userId = await axiosClient.get(
+          const user = await axiosClient.get(
             endpoint.shop.getUserByShopID(res.data.data.data.shopId)
           );
 
@@ -86,16 +87,16 @@ const Checkout = () => {
             type: 1,
             valueId: res.data.data.data.id,
             creatorId: currentUser.id,
-            userId: userId.data,
+            userId: user.data.id,
             createdAt: new Date(),
             updatedAt: new Date(),
           });
 
           socket.emit("sendNotification", {
-            senderName: "customer",
-            receiverName: "seller",
-            content: "customer mua hàng",
-            valueId: res.data.data.data,
+            senderName: currentUser.userName,
+            receiverName: user.data.userName,
+            content: `${currentUser.userName} vừa mua 1 đơn hàng`,
+            valueId: res.data.data.data.id,
           });
         }
       }
@@ -112,10 +113,6 @@ const Checkout = () => {
         description: "Bạn đã đặt hàng thành công.",
         duration: 3,
       });
-
-      //   setTimeout(() => {
-      //     nav("/");
-      //   }, 1000);
     }
   };
   return (
@@ -171,7 +168,11 @@ const Checkout = () => {
       </div>
       <div className="confirm-checkout">
         {totalPrice !== 0 ? (
-          <CardConfirmCheckout testOrder={testOrder} totalPrice={totalPrice} />
+          <CardConfirmCheckout
+            testOrder={testOrder}
+            totalPrice={totalPrice}
+            shopId={shopId as number}
+          />
         ) : null}
       </div>
     </div>

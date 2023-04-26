@@ -19,7 +19,7 @@ const DashBoardShop = () => {
         endpoint.shop.getUserByShopID(shopId)
       );
       
-      if (currentUser.id !== 88 && res.data !== currentUser.id) {
+      if (currentUser.id !== 88 && res.data.id !== currentUser.id) {
         navigate('/')
         message.warning('Bạn không có quyền truy cập')
       }

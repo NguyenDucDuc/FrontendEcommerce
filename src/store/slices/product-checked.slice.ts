@@ -42,13 +42,11 @@ const productsCheckedSlice = createSlice({
                 products: []
             }
             newOrder.products?.push(action.payload)
-            console.log(newOrder)
-            if (index === -1) {
+            if(index === -1){
                 state.listProductsChecked = [...state.listProductsChecked, newOrder]
             } else {
                 state.listProductsChecked[index].products?.push(action.payload)
             }
-            // state.listProductsChecked = [...state.listProductsChecked, action.payload]
         },
         removeItemChecked: (state, action: PayloadAction<ICheckedItem>) => {
             const index = state.listProductsChecked.findIndex((item) => item.shopId === action.payload.shopId)
@@ -73,9 +71,8 @@ const productsCheckedSlice = createSlice({
             // }
         },
         updateTotalPriceCheckedList: (state, action) => {
-            state.totalPrice = state.totalPrice + action.payload
-
-        }
+            state.totalPrice = state.totalPrice + action.payload   
+        },
     },
     extraReducers: {
 
