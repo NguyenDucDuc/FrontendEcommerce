@@ -75,6 +75,7 @@ const CartItem: React.FC<IProps> = ({ id, image, desc, price, quantity, name, sh
                 shopName: shop.shopName,
                 shopId: shopId
             }
+            console.log(newItemChecked)
             dispatch(removeItemChecked(newItemChecked))
         }
     }

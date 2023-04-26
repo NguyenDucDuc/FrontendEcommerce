@@ -34,7 +34,6 @@ import { getAllReviewAsyncThunk } from "../../store/slices/reviews.slice";
 import LazyLoad from "react-lazy-load";
 import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
-import { addMessageRedux, createMessageAsyncThunk, getAllMessageAsyncThunk } from "../../store/slices/message.slice";
 import { useSelector } from "react-redux";
 import { currentUserAsyncThunk } from "../../store/slices/user.slice";
 import { socket } from "../../App";
@@ -76,7 +75,6 @@ const ProductDetail: React.FC = () => {
   const [shop, setShop] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
   const [shopOwner, setShopOwner] = useState<IShopOwner>()
-  const listMessage = useSelector((state: RootState) => state.message.listMessage)
   const currentUser = useSelector((state: RootState) => state.user.user)
   const dispatch = useAppDispatch();
 
@@ -101,7 +99,6 @@ const ProductDetail: React.FC = () => {
     }
     setShowChatBox(true);
     console.log(currentUser.id)
-    dispatch(getAllMessageAsyncThunk(reqQuery))
   };
   const handleChangeHideChatBox = () => {
     setShowChatBox(false);
@@ -115,9 +112,7 @@ const ProductDetail: React.FC = () => {
         content: contentMessage,
         receiverId: shopOwner?.id
       }
-      const resMessage = await dispatch(createMessageAsyncThunk(reqBody))
       // -- emit socket
-      socket.emit('clientSendMessage', resMessage.payload)
     }
 
   }
@@ -165,7 +160,6 @@ const ProductDetail: React.FC = () => {
   useEffect( () => {
     socket.off('serverSendMessage').on('serverSendMessage', data => {
       console.log(data)
-      dispatch(addMessageRedux(data))
     })
   }, [socket])
   return (
@@ -271,19 +265,7 @@ const ProductDetail: React.FC = () => {
           </Row>
           <div className="message-content">
             <div className="message-content-child" ref={messageRef}>
-              {listMessage.length > 0 ?
-                listMessage.map((item, idx) => {
-                  return (
-                    item.senderId === currentUser.id
-                      ?
-                      <MessageReceiver key={idx} time={item.createdAt} content={item.content} />
-                      :
-                      <MessageSender key={idx} time={item.createdAt} content={item.content} />
-                  )
-                })
-                :
-                null
-              }
+              
             </div>
           </div>
           <Row className="message-input">

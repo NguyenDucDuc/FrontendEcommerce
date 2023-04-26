@@ -1,4 +1,4 @@
-import { AppstoreOutlined, BellOutlined, DownOutlined, MailOutlined, NotificationFilled, NotificationOutlined, SettingOutlined, ShoppingCartOutlined, ShoppingFilled, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, BellOutlined, DownOutlined, MailOutlined, MessageOutlined, NotificationFilled, NotificationOutlined, SettingOutlined, ShoppingCartOutlined, ShoppingFilled, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
 import { Badge, Button, Col, Dropdown, Menu, MenuProps, Row, Space, Spin, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
@@ -185,6 +185,9 @@ const Header = () => {
                     <Col span={6}>
                         <Row justify="space-between">
                             <Col span={4}>
+                            </Col>
+                            <Col span={4} onClick={() => nav("/chat")}>
+                                <MessageOutlined style={{ fontSize: '20px', color: "#00cc99", cursor: 'pointer' }} />
                             </Col>
                             <Col span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
                                 <Badge count={cartCount} className="cs-pointer">

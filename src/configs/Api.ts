@@ -67,9 +67,12 @@ export const endpoint = {
     create: '/review/create-v2'
   },
   message: {
-    getAll: '/message',
+    getAll: (conversationId: string) => `/message/${conversationId}`,
     create: '/message'
   },
+  conversation: {
+    getAll: '/conversation'
+  }
 };
 
 export const AuthApi = () => {

@@ -43,7 +43,7 @@ const productsCheckedSlice = createSlice({
             }
             newOrder.products?.push(action.payload)
             console.log(newOrder)
-            if(index === -1){
+            if (index === -1) {
                 state.listProductsChecked = [...state.listProductsChecked, newOrder]
             } else {
                 state.listProductsChecked[index].products?.push(action.payload)
@@ -52,10 +52,9 @@ const productsCheckedSlice = createSlice({
         },
         removeItemChecked: (state, action: PayloadAction<ICheckedItem>) => {
             const index = state.listProductsChecked.findIndex((item) => item.shopId === action.payload.shopId)
-            if(index !== -1){
-                state.listProductsChecked[index].products?.filter((item) => item.id !== action.payload.id)
+            if (index !== -1) {
+                state.listProductsChecked[index].products = state.listProductsChecked[index].products.filter(item => item.id !== action.payload.id)
             }
-            // state.listProductsChecked = state.listProductsChecked.filter((item) => item.id !== action.payload.id)
         },
         setNullListProductsChecked: (state) => {
             state.listProductsChecked = []
@@ -63,7 +62,7 @@ const productsCheckedSlice = createSlice({
         updateQuantityCheckedList: (state, action) => {
             const indexShopId = state.listProductsChecked.findIndex((item) => item.shopId === action.payload.shopId)
             console.log(indexShopId)
-            if(indexShopId !== -1){
+            if (indexShopId !== -1) {
                 console.log("update quantity")
                 const indexProductId = state.listProductsChecked[indexShopId].products?.findIndex((item) => item.id === action.payload.productId)
                 console.log(state.listProductsChecked[indexShopId].products[indexProductId])
@@ -75,7 +74,7 @@ const productsCheckedSlice = createSlice({
         },
         updateTotalPriceCheckedList: (state, action) => {
             state.totalPrice = state.totalPrice + action.payload
-            
+
         }
     },
     extraReducers: {
@@ -90,5 +89,5 @@ export const {
     setNullListProductsChecked,
     updateQuantityCheckedList,
     updateTotalPriceCheckedList
-    
+
 } = productsCheckedSlice.actions
