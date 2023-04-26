@@ -4,13 +4,14 @@ div.chat {
     margin-top: 20px;
     div.chat-left {
         width: 100%;
-        height: 500px;
+        height: 470px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         border-radius: 10px;
+        overflow-y: scroll;
     }
     div.chat-right {
         width: 100%;
-        height: 500px;
+        height: 470px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         border-radius: 10px;
         overflow-y: scroll;
@@ -28,9 +29,10 @@ div.chat {
         margin-top: 10px;
     }
     .input-message {
-        width: 90%;
-        margin-left: 20px;
         height: 40px;
+        width: 95%;
+        border: 2px solid #cccccc;
+        border-radius: 5px;
         outline: none;
         
     }

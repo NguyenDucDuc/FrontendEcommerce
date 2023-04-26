@@ -36,7 +36,7 @@ import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
 import {
   addMessageRedux,
-  createMessageAsyncThunk,
+  createMessageAsynkThunk,
   getAllMessageAsyncThunk,
 } from "../../store/slices/message.slice";
 import { useSelector } from "react-redux";
@@ -96,27 +96,14 @@ const ProductDetail: React.FC = () => {
   const nav = useNavigate();
   const handleOnChangeRate = (values: number) => {};
   const handleChangeShowChatBox = () => {
-    const reqQuery = {
-      senderId: currentUser.id,
-      receiverId: shopOwner?.id,
-    };
+    
     setShowChatBox(true);
-    dispatch(getAllMessageAsyncThunk(reqQuery));
   };
   const handleChangeHideChatBox = () => {
     setShowChatBox(false);
   };
   const handleSendMessage = async () => {
-    if (contentMessage !== "") {
-      const reqBody = {
-        senderId: currentUser.id,
-        content: contentMessage,
-        receiverId: shopOwner?.id,
-      };
-      const resMessage = await dispatch(createMessageAsyncThunk(reqBody));
-      // -- emit socket
-      socket.emit("clientSendMessage", resMessage.payload);
-    }
+    
   };
   const scrollToBottom = () => {
     messageRef.current.scrollIntoView({ behavior: "smooth" });
@@ -248,23 +235,7 @@ const ProductDetail: React.FC = () => {
           </Row>
           <div className="message-content">
             <div className="message-content-child" ref={messageRef}>
-              {listMessage.length > 0
-                ? listMessage.map((item, idx) => {
-                    return item.senderId === currentUser.id ? (
-                      <MessageReceiver
-                        key={idx}
-                        time={item.createdAt}
-                        content={item.content}
-                      />
-                    ) : (
-                      <MessageSender
-                        key={idx}
-                        time={item.createdAt}
-                        content={item.content}
-                      />
-                    );
-                  })
-                : null}
+              
             </div>
           </div>
           <Row className="message-input">

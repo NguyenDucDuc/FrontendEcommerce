@@ -5,6 +5,7 @@ import productCheckedSlice from './slices/product-checked.slice'
 import reviewSlice from './slices/reviews.slice'
 import userAdminSlice from './slices/user-admin.slice'
 import userSlice from './slices/user.slice'
+import conversationSlice from './slices/conversation.slice'
 import messageSlice from './slices/message.slice'
 
 
@@ -15,6 +16,7 @@ const store = configureStore({
         reviews: reviewSlice,
         productsChecked: productCheckedSlice,
         userAdmin: userAdminSlice,
+        conversation: conversationSlice,
         message: messageSlice
     }
 })

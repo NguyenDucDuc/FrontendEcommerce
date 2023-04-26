@@ -60,7 +60,7 @@ const productsCheckedSlice = createSlice({
         updateQuantityCheckedList: (state, action) => {
             const indexShopId = state.listProductsChecked.findIndex((item) => item.shopId === action.payload.shopId)
             console.log(indexShopId)
-            if(indexShopId !== -1){
+            if (indexShopId !== -1) {
                 console.log("update quantity")
                 const indexProductId = state.listProductsChecked[indexShopId].products?.findIndex((item) => item.id === action.payload.productId)
                 console.log(state.listProductsChecked[indexShopId].products[indexProductId])
@@ -86,5 +86,5 @@ export const {
     setNullListProductsChecked,
     updateQuantityCheckedList,
     updateTotalPriceCheckedList
-    
+
 } = productsCheckedSlice.actions

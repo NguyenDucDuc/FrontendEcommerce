@@ -24,7 +24,6 @@ import { Params, Response } from "../../models/http";
 import ProductList from "../product-list/product-list";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
-import { getAllMessageAsyncThunk } from "../../store/slices/message.slice";
 import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
 
@@ -58,7 +57,6 @@ const ShopProfile = () => {
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [isShowOwner, setIsShowOwner] = useState<boolean>(false);
   const currentUser = useSelector((state: RootState) => state.user.user);
-  const listMessage = useSelector((state: RootState) => state.message.listMessage)
   const dispatch = useAppDispatch()
   const [resProducts, setResProducts] = useState<ProductDataSearch>({
     listProduct: [],
@@ -109,10 +107,7 @@ const ShopProfile = () => {
 
   const handleShowChatBox = () => {
     setShowChatBox(true);
-    dispatch(getAllMessageAsyncThunk({
-      senderId: currentUser.id,
-      receiverId: 2
-    }))
+    
 
   };
   const handleHideChatBox = () => {
@@ -195,17 +190,7 @@ const ShopProfile = () => {
           </Row>
           <div className="message-content">
             <div className="message-content-child">
-              {
-                listMessage.map((item, idx) => {
-                  return (
-                    item.senderId === currentUser.id
-                      ?
-                      <MessageSender key={idx} time={item.createdAt} content={item.content} />
-                      :
-                      <MessageReceiver key={idx} time={item.createdAt} content={item.content} />
-                  )
-                })
-              }
+              
             </div>
           </div>
           <Row className="message-input">
