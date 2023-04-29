@@ -22,8 +22,8 @@ const Header = () => {
     const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct)
     const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
     const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
+    const listConversation = useSelector((state: RootState) => state.conversation.listConversation)
     const [statusLogin, setStatusLogin] = useState<any>({
-
     })
     const [notification, setNotification] = useState<any[]>([]);
     const dispatch = useAppDispatch()
@@ -66,35 +66,35 @@ const Header = () => {
 
     const loadNotification = async () => {
         try {
-          const res = await authAxios().get(endpoint.notification.base);
-    
-          if (res.status === 200) {
-            const listNotif = res.data.map((item: any) => {
-              return { content: item.content, valueId: item.valueId };
-            });
-            setNotification(listNotif);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      };
+            const res = await authAxios().get(endpoint.notification.base);
 
-      useEffect(() => {
-        if (accessToken) {
-          loadNotification();
-        } else {
-          setNotification([]);
+            if (res.status === 200) {
+                const listNotif = res.data.map((item: any) => {
+                    return { content: item.content, valueId: item.valueId };
+                });
+                setNotification(listNotif);
+            }
+        } catch (error) {
+            console.log(error);
         }
-      }, [accessToken]);
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
+        if (accessToken) {
+            loadNotification();
+        } else {
+            setNotification([]);
+        }
+    }, [accessToken]);
+
+    useEffect(() => {
         socket.off("getNotification").on("getNotification", (data: any) => {
-          console.log("getNotification");
-          setNotification((prev) => {
-            return [{ ...data }, ...prev];
-          });
+            console.log("getNotification");
+            setNotification((prev) => {
+                return [{ ...data }, ...prev];
+            });
         });
-      }, [socket]);
+    }, [socket]);
 
     const items: MenuProps['items'] = [
         {
@@ -115,74 +115,74 @@ const Header = () => {
 
         } : null,
         user.userName !== "" ?
-        {
-            label: (<Link to="/admin/home">Quản trị</Link>),
-            key: 'admin',
-            icon: <SettingOutlined />,
-            style: {
-                color: "black"
-            }
-        } : null,
-        user.userName !== "" ? 
-        {
-            label: `${user.firstName} ${user.lastName}`,
-            key: 'username',
-            icon: <UserOutlined />,
-            style: {
-                color: "black",
-
-            },
-            children: [
-                {
-                    label: "Đăng xuất",
-                    key: 'logout',
-                    onClick: () => {
-                        localStorage.removeItem("accessToken")
-                        dispatch(logout())
-                        dispatch(logoutAdmin())
-                        nav("/login")
-                        dispatch(setNullCartItem())
-                    },
-                    style: {
-                        color: "black"
-                    }
-                },
-                {
-                    label: (<Link to="/user/profile">Hồ sơ</Link>),
-                    key: 'profile',
-                    style: {
-                        color: "black"
-                    }
-                },
-                {
-                    label: (<Link to="/register-seller">Đăng ký đối tác</Link>),
-                    key: 'registerSeller',
-                    style: {
-                        color: "black"
-                    }
+            {
+                label: (<Link to="/admin/home">Quản trị</Link>),
+                key: 'admin',
+                icon: <SettingOutlined />,
+                style: {
+                    color: "black"
                 }
-            ]
-        } : null,
-        user.userName 
-        ?
-        null 
-        :
-        {
-            label: (<Link to="/register">Đăng ký</Link>),
-            key: "register",
-            style: {
-                color: "black"
-            }
-        },
+            } : null,
         user.userName !== "" ?
-        {
-            label: (<Link to="/shop-create">Tạo shop</Link>),
-            key: "shopCreate",
-            style: {
-                color: "black"
+            {
+                label: `${user.firstName} ${user.lastName}`,
+                key: 'username',
+                icon: <UserOutlined />,
+                style: {
+                    color: "black",
+
+                },
+                children: [
+                    {
+                        label: "Đăng xuất",
+                        key: 'logout',
+                        onClick: () => {
+                            localStorage.removeItem("accessToken")
+                            dispatch(logout())
+                            dispatch(logoutAdmin())
+                            nav("/login")
+                            dispatch(setNullCartItem())
+                        },
+                        style: {
+                            color: "black"
+                        }
+                    },
+                    {
+                        label: (<Link to="/user/profile">Hồ sơ</Link>),
+                        key: 'profile',
+                        style: {
+                            color: "black"
+                        }
+                    },
+                    {
+                        label: (<Link to="/register-seller">Đăng ký đối tác</Link>),
+                        key: 'registerSeller',
+                        style: {
+                            color: "black"
+                        }
+                    }
+                ]
+            } : null,
+        user.userName
+            ?
+            null
+            :
+            {
+                label: (<Link to="/register">Đăng ký</Link>),
+                key: "register",
+                style: {
+                    color: "black"
+                }
+            },
+        user.userName !== "" ?
+            {
+                label: (<Link to="/shop-create">Tạo shop</Link>),
+                key: "shopCreate",
+                style: {
+                    color: "black"
+                }
             }
-        }
-        : null
+            : null
     ];
 
     const [current, setCurrent] = useState('home');
@@ -223,7 +223,9 @@ const Header = () => {
                             <Col span={4}>
                             </Col>
                             <Col span={4} onClick={() => nav("/chat")}>
-                                <MessageOutlined style={{ fontSize: '20px', color: "#00cc99", cursor: 'pointer' }} />
+                                <Badge count={listConversation.length} className="cs-pointer">
+                                    <MessageOutlined onClick={() => nav("/cart")} style={{ fontSize: '22px', color: "#00cc99" }} className="icon-color cs-pointer" />
+                                </Badge>
                             </Col>
                             <Col span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
                                 <Badge count={cartCount} className="cs-pointer">
@@ -249,13 +251,13 @@ const Header = () => {
                                 {isShowNotifi === true ? (
                                     <div className="cart-mini notification">
                                         {notification.map((item: any) => (
-                                        <MiniCardNotification
-                                            content={item.content}
-                                            valueId={item.valueId}
-                                        />
+                                            <MiniCardNotification
+                                                content={item.content}
+                                                valueId={item.valueId}
+                                            />
                                         ))}
                                     </div>
-                                    ) : null}
+                                ) : null}
                             </Col>
                             <Col span={8}></Col>
                         </Row>

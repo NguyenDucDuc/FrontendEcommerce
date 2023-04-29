@@ -16,6 +16,7 @@ import {
   Rate,
   Row,
   Skeleton,
+  notification,
 } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -56,19 +57,6 @@ const arrImgs = [
   "https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e",
 ];
 
-// const arrColor = [1, 2, 3];
-// const options = [
-//   { label: "Đỏ", value: "red" },
-//   { label: "Đen", value: "black" },
-//   { label: "Vàng", value: "yellow" },
-// ];
-
-// const optionsSize = [
-//   { label: "S", value: "s" },
-//   { label: "M", value: "m" },
-//   { label: "L", value: "l" },
-//   { label: "XL", value: "xl" },
-// ];
 
 const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const {
@@ -92,6 +80,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const listCartItem = useSelector(
     (state: RootState) => state.cartItem.listProducts
   );
+  const [api, contextHolder] = notification.useNotification();
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [currrentAddress, setCurrentAddress] = useState<any>();
   const [urlMainImage, setUrlMainImage] = useState<string>(image as string);
@@ -120,6 +109,12 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const handleAddToCart = async () => {
     // update cart count in header
     dispatch(updateCartCount());
+    // nofitication
+    api.success({
+      message: 'Thông báo',
+      description: 'Sản phẩm đã được thêm và giỏ hàng!',
+      duration: 4
+    });
     // add to redux cart
     const newCartItem: ICartItem = {
       price: price as number,
@@ -159,6 +154,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   }, []);
   return (
     <div className="product-main">
+      {contextHolder}
       {/* Infomation */}
       <Row className="mgb-40 min-height">
         <Col span={8} className="mgl-25">
