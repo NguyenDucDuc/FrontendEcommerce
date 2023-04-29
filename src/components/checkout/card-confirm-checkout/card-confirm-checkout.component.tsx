@@ -5,6 +5,7 @@ import { formatCurrency } from "../../../utils/common";
 import { useEffect, useState } from "react";
 import { axiosClient } from "../../../lib/axios/axios.config";
 import { endpoint } from "../../../configs/Api";
+import { PAYMENT } from "../../../constants/order";
 
 interface IProps {
   totalPrice: number;
@@ -86,7 +87,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({
             </Col>
             <Col span={6}>
               <Button
-                onClick={() => testOrder()}
+                onClick={() => testOrder(0, PAYMENT.OFFLINE, totalPrice)}
                 type="primary"
                 className="btn-color"
                 size="large"

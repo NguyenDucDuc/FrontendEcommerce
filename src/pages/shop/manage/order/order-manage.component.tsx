@@ -125,10 +125,10 @@ const OrderManage: React.FC = () => {
           action: action,
         }
       );
-
+      
       if (res.status === 200) {
         message.success(res.message);
-        if (action === STATUS_ACTION.CANCEL) {
+        if (action === STATUS_ACTION.CANCEL && res.data.chargeId !== '0') {
           const refund: any = await axiosClient.post(endpoint.payment.refund, {
             chargeId: res.data.chargeId,
           });
@@ -148,7 +148,7 @@ const OrderManage: React.FC = () => {
             }
           }
         }
-        fetchData();
+        await fetchData();
       } else {
         message.info(res.message);
       }

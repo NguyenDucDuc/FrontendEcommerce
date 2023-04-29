@@ -5,14 +5,15 @@ import { endpoint } from "../../configs/Api";
 import "./payment.style.scss";
 import { Button } from "antd";
 import { formatCurrency } from "../../utils/common";
+import { PAYMENT } from "../../constants/order";
 
 interface Props {
   amount?: number;
   shopId: number;
-  testOrder: (chargeId?: string) => void;
+  testOrder: (chargeId?: string, payment?: string, totalPrice?: number) => void;
 }
 
-const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {  
+const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
   const btnRef = useRef<any>(null);
   const [stripeToken, setStripeToken] = useState<any>(null);
 
@@ -24,13 +25,13 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
       amount: amount,
     });
   };
-  const makeRequest = async () => {    
+  const makeRequest = async () => {
     try {
       const res: any = await authAxios().post(endpoint.payment.checkout, {
         token: { id: stripeToken.id },
         amount: amount,
       });
-      await testOrder(res.id as string);
+      await testOrder(res.id as string, PAYMENT.ONLINE, amount);
       await updateTotalPriceShop();
     } catch (error) {
       console.log(error);

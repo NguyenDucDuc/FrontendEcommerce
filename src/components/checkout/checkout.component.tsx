@@ -54,7 +54,11 @@ const Checkout = () => {
     setShopId(listProductsChecked[0].shopId as number);
   }, []);
 
-  const testOrder = async (chargeId?: string) => {
+  const testOrder = async (
+    chargeId?: string,
+    payment: string = "Thanh toán khi nhận hàng",
+    totalPrice?: number
+  ) => {
     if (listProductsChecked.length > 0) {
       for (let i = 0; i < listProductsChecked.length; i++) {
         // -- create order details
@@ -63,7 +67,7 @@ const Checkout = () => {
           const newOrderDetail = {
             quantity: Number(listProductsChecked[i].products[j].quantity),
             unitPrice: Number(listProductsChecked[i].products[j].price),
-            discount: 10.0,
+            discount: 0.1,
             productId: listProductsChecked[i].products[j].id,
             productName: listProductsChecked[i].products[j].name,
           };
@@ -72,9 +76,10 @@ const Checkout = () => {
         const res = await AuthApi().post(endpoint.order.buyProduct, {
           shipAddress: `${currentAddress.detail} ${currentAddress.street} - ${currentAddress.ward} - ${currentAddress.district} - ${currentAddress.city}`,
           shopId: listProductsChecked[i].shopId,
-          payment: "Thanh toán khi nhận hàng",
+          payment: payment,
           state: 1,
           chargeId: chargeId || 0,
+          totalPrice: totalPrice,
           orderDetails,
         });
         if (res.status === 200) {

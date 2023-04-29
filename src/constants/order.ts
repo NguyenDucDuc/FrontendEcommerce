@@ -8,3 +8,8 @@ export interface ParamsOrderDetail {
   orderId: number;
   customerId?: number;
 }
+
+export enum PAYMENT {
+  OFFLINE = "Thanh toán khi nhận hàng",
+  ONLINE = "Thanh toán online",
+}
