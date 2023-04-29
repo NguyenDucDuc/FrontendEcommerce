@@ -93,20 +93,29 @@ const ProductDetail: React.FC = () => {
 
   const [product, setProduct] = useState<Product>({});
   const { productId } = useParams();
+  const [imageList, setImageList] = useState([]);
   const nav = useNavigate();
   const handleOnChangeRate = (values: number) => {};
   const handleChangeShowChatBox = () => {
-    
     setShowChatBox(true);
   };
   const handleChangeHideChatBox = () => {
     setShowChatBox(false);
   };
-  const handleSendMessage = async () => {
-    
-  };
+  const handleSendMessage = async () => {};
   const scrollToBottom = () => {
     messageRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const fetchImage = async (productId: string) => {
+    try {
+      const imageList = await axiosClient.get(
+        endpoint.product.getImages(productId)
+      );
+      setImageList(imageList.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getShopOwner = async () => {
@@ -146,6 +155,7 @@ const ProductDetail: React.FC = () => {
     getCurrentUser();
     getProductDetail();
     getListReviews();
+    fetchImage(productId as string);
     setLoading(true);
   }, []);
 
@@ -157,10 +167,10 @@ const ProductDetail: React.FC = () => {
   return (
     <div className="product-detail-father">
       {product.desc !== "" ? (
-        <ProductMain product={product} />
+        <ProductMain product={product} imageList={imageList} />
       ) : (
         <Spin tip="Loading..." size="large">
-          <ProductMain product={product} />
+          <ProductMain product={product} imageList={imageList}/>
         </Spin>
       )}
 
@@ -202,10 +212,10 @@ const ProductDetail: React.FC = () => {
       <LazyLoad onContentVisible={() => setShowProductDesc(true)}>
         {showProductDesc === false ? (
           <Spin tip="Loading..." size="large">
-            <ProductDesc desc={product.desc}/>
+            <ProductDesc desc={product.desc} />
           </Spin>
         ) : (
-          <ProductDesc desc={product.desc}/>
+          <ProductDesc desc={product.desc} />
         )}
       </LazyLoad>
 
@@ -214,7 +224,7 @@ const ProductDetail: React.FC = () => {
           <ProductRate rate={product.rate as number} />
         ) : (
           <Spin tip="Loading...">
-          <ProductRate rate={product.rate as number} />
+            <ProductRate rate={product.rate as number} />
           </Spin>
         )}
       </LazyLoad>
@@ -234,9 +244,7 @@ const ProductDetail: React.FC = () => {
             </Col>
           </Row>
           <div className="message-content">
-            <div className="message-content-child" ref={messageRef}>
-              
-            </div>
+            <div className="message-content-child" ref={messageRef}></div>
           </div>
           <Row className="message-input">
             <Col span={17}>
