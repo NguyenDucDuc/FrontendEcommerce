@@ -64,6 +64,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
   const nav = useNavigate();
   const [check, setCheck] = useState<boolean>();
   const listProductChecked = useSelector((state: RootState) => state.productsChecked.listProductsChecked)
+
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     console.log(e.target.checked);
     
@@ -113,6 +114,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
 
   };
 
+  
   const handleQuantityChange = async (value: number | string | null) => {
     setInputNumber(Number(value));
     // update into checked list product

@@ -36,6 +36,7 @@ export const endpoint = {
     productDetail: (productId: string) => `/product/${productId}`,
     reviews: (productId: string) => `/product/${productId}/reviews`,
     update: (productId: string) => `product/${productId}`,
+    getImages: (productId: string) => `product/${productId}/images`
   },
   cart: {
     getAllItem: "/cart/products",

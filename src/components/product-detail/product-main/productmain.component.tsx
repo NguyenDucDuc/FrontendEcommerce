@@ -47,6 +47,7 @@ interface IProps {
 
 interface Props {
   product: Product;
+  imageList?: any[];
 }
 
 const arrImgs = [
@@ -69,7 +70,7 @@ const arrImgs = [
 //   { label: "XL", value: "xl" },
 // ];
 
-const ProductMain: React.FC<Props> = ({ product }) => {
+const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const {
     id,
     name,
@@ -163,13 +164,13 @@ const ProductMain: React.FC<Props> = ({ product }) => {
         <Col span={8} className="mgl-25">
           <img src={urlMainImage} alt="Ảnh sản phẩm" />
           <div className="group-img">
-            <Row justify="space-around">
-              {arrImgs.map((img, idx) => (
-                <Col key={idx} span={7}>
+            <Row justify="start">
+              {imageList?.map((img, idx) => (
+                <Col key={idx} span={6}>
                   <LazyLoadImage
                     effect="opacity"
-                    src={img}
-                    onClick={() => handleClickImage(img)}
+                    src={img.value}
+                    onClick={() => handleClickImage(img.value)}
                   />
                 </Col>
               ))}
