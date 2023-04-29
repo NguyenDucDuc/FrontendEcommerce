@@ -173,7 +173,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
           </div>
         </Col>
         <Col span={6}>
-          <h4>{name}</h4>
+          <h4 style={{textTransform: 'capitalize'}}>{name}</h4>
         </Col>
         <Col span={3} style={{}}>
           <p className="txt-red txt-bold">{formatCurrency(price as number)}</p>

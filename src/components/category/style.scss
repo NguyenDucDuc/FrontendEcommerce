@@ -13,13 +13,12 @@
     }
 
     .category-item {
-        height: 150px;
-
+        height: 120px;
         color: rgba(0, 0, 0, 0.87);
         border-right: 1px solid rgba(0, 0, 0, 0.05);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         cursor: pointer;
-
+        
         &:hover {
             transform: translateZ(0);
             z-index: 1;
@@ -28,11 +27,15 @@
         }
     }
     .category-item__img {
-        height: 70%;
+        margin: auto;
+        height: 60%;
+        width: 60%;
     }
     .category-item__name {
         text-align: center;
         margin-bottom: 10px;
+        margin-top: 5px;
+        text-transform: capitalize;
     }
 
     .category__content{
