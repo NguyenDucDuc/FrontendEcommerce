@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Row, Spin } from "antd";
+import { Button, Checkbox, Col, Row, Spin, notification } from "antd";
 import { useEffect, useState } from "react";
 import LazyLoad from "react-lazy-load";
 import { useSelector } from "react-redux";
@@ -12,9 +12,12 @@ import { RootState, useAppDispatch } from "../../store/store";
 import CartItem from "./cart-item/cartitem.component";
 import "./cart.style.scss";
 import { formatCurrency } from "../../utils/common";
+import { count } from "console";
 
 const Cart = () => {
+  const [api, contextHolder] = notification.useNotification();
   const listCartItem = useSelector((state: RootState) => state.cartItem);
+  const listProductCheked = useSelector((state: RootState) => state.productsChecked.listProductsChecked)
   const totalProduct = useSelector(
     (state: RootState) => state.cartItem.totalProduct
   );
@@ -40,8 +43,34 @@ const Cart = () => {
       </Spin>
     );
   }
+  const handleGoToCheckout = () => {
+    let isOnly = true
+    for(let i=0; i< listProductCheked.length; i++){
+      if(i > 0){
+        isOnly = false
+        break
+      }
+    }
+    if(!isOnly){
+      api.warning({
+        message: 'Thông báo!',
+        description: 'Chỉ được thanh toán 1 shop!',
+      });
+      isOnly = true
+      return
+    }
+    if(listProductCheked.length > 0) {
+      nav('/checkout')
+    } else {
+      api.warning({
+        message: 'Thông báo!',
+        description: 'Bạn chưa chọn sản phẩm!',
+      });
+    }
+  }
   return (
     <div className="cart">
+      {contextHolder}
       {listCartItem.listProducts.length > 0
         ? listCartItem.listProducts.map((item) => (
             <CartItem product={item} key={item.id} quantity={1} />
@@ -67,7 +96,7 @@ const Cart = () => {
                 <Button
                   type="primary"
                   className="btn-color"
-                  onClick={() => nav("/checkout")}
+                  onClick={handleGoToCheckout}
                 >
                   Thanh toán
                 </Button>
