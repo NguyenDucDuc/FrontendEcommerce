@@ -38,10 +38,9 @@ const Profile = () => {
     
     return (
         <div className="profile">
-            <h1>Hồ Sơ Của Tôi</h1>
-            <p>Bạn có thể cập nhật thông tin cá nhân của mình.</p>
+            <h1 style={{marginLeft: '20px'}}>Hồ Sơ Của Tôi</h1>
+            <p style={{marginLeft: '20px'}}>Bạn có thể cập nhật thông tin cá nhân của mình.</p>
             <div className="profile-child">
-                <p>Tên đăng nhập: {user.userName}</p>
                 <Form
                     name="basic"
                     labelCol={{ span: 8 }}
@@ -52,13 +51,19 @@ const Profile = () => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                     size="large"
-                >
+                    >
                     <Form.Item
+                    label="Tên tài khoản"
+                    name="userName"
+                    >
+                        <Input placeholder={user.userName} disabled />
+                    </Form.Item>
+                    {/* <Form.Item
                         label="Mật khẩu"
                         name="passWord"
                     >
                         <Input.Password placeholder={user.passWord} />
-                    </Form.Item>
+                    </Form.Item> */}
 
                     <Form.Item
                         label="Họ, tên đệm"

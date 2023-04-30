@@ -7,6 +7,7 @@ export interface ParamsOrderDetail {
   shopId?: string;
   orderId: number;
   customerId?: number;
+  userId?: number;
 }
 
 export enum PAYMENT {

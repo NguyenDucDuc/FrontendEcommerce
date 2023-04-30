@@ -24,11 +24,14 @@ function getItem(
 
 
 const items: MenuProps['items'] = [
-    getItem('Navigation One', 'sub1', <MailOutlined />, [
-        getItem((<Link to="/user/profile">Hồ sơ</Link>), '1'),
-        getItem((<Link to="/user/address">Địa chỉ</Link>), '2'),
-    ]),
-
+    getItem((<Link to="/user/profile">Hồ sơ</Link>), '1'),
+    getItem((<Link to="/user/address">Địa chỉ</Link>), '2'),
+    getItem('Quản lý đơn hàng', 'order', <AppstoreOutlined />, [
+        getItem((<Link to="orders">Tất cả</Link>), '3'),
+        getItem((<Link to="orders?state=3">Đang giao hàng</Link>), '4'),
+        getItem((<Link to="orders?state=4">Hoàn tất</Link>), '5'),
+        getItem((<Link to="orders?state=0">Đã hủy</Link>), '6'),
+        ]),
 ];
 
 
@@ -42,14 +45,12 @@ const UserProfile = () => {
                 <Col span={5}>
                     <Menu
                         onClick={onClick}
-                        style={{ width: 256 }}
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}
                         mode="inline"
                         items={items}
                     />
                 </Col>
-                <Col span={1}></Col>
                 <Col span={18}>
                     <Outlet />
                 </Col>

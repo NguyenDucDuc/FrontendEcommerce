@@ -6,25 +6,24 @@ import {
 import { Avatar, Button, Space, Table, Tag, message } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import React, { useEffect, useMemo, useState } from "react";
-import { extractData } from "../../../../utils/product";
 import {
   Link,
   useLocation,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { Params, Response } from "../../../../models/http";
-import { authAxios, axiosClient } from "../../../../lib/axios/axios.config";
-import { endpoint } from "../../../../configs/Api";
-import {
-  formatCurrency,
-  formatDateString,
-  getOrderDetail,
-} from "../../../../utils/common";
-import { PAGE_SIZE } from "../../../../constants/product";
-import { ParamsOrderDetail, STATUS_ACTION } from "../../../../constants/order";
+
 import Modal from "antd/es/modal/Modal";
-import { DataTypeOrder, DataTypeOrderDetail } from "../../../../models/models";
+import { Params, Response } from "../../../models/http";
+import { PAGE_SIZE } from "../../../constants/product";
+import { RootState } from "../../../store/store";
+import { useSelector } from "react-redux";
+import { DataTypeOrder, DataTypeOrderDetail } from "../../../models/models";
+import { endpoint } from "../../../configs/Api";
+import { authAxios, axiosClient } from "../../../lib/axios/axios.config";
+import { extractData } from "../../../utils/product";
+import { ParamsOrderDetail, STATUS_ACTION } from "../../../constants/order";
+import { formatCurrency, formatDateString, getOrderDetail } from "../../../utils/common";
 
 interface Pagination {
   total?: number;
@@ -32,13 +31,14 @@ interface Pagination {
   current?: number;
 }
 
-const OrderManage: React.FC = () => {
-  const { shopId } = useParams();
+const OrderUser: React.FC = () => {
+  const user = useSelector((state: RootState) => state.user.user);
+
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
   const [params, setParams] = useState<Params>({
-    shopId: shopId,
+    userId: user.id,
     pageSize: PAGE_SIZE,
     state: searchParams.get("state")
       ? (searchParams.get("state") as string)
@@ -100,11 +100,8 @@ const OrderManage: React.FC = () => {
   };
 
   useEffect(() => {
-    // setParams((preParams) => {
-    //   return { ...preParams, state: searchParams.get("state") };
-    // });
     setParams({
-      shopId: shopId,
+      userId: user.id,
       pageSize: PAGE_SIZE,
       state: searchParams.get("state")
         ? (searchParams.get("state") as string)
@@ -116,19 +113,19 @@ const OrderManage: React.FC = () => {
     fetchData();
   }, [params]);
 
-  const handleConfirmOrder = async (orderId: number, action: string) => {
+  const handleConfirmOrder = async (orderId: number, action: string, url?: string) => {
     try {
       const res: Response = await authAxios().post(
-        `${endpoint.order.confirmOrder}`,
+        `${url || endpoint.order.confirmOrder}`,
         {
           orderId: orderId,
           action: action,
         }
       );
-      
+
       if (res.status === 200) {
         message.success(res.message);
-        if (action === STATUS_ACTION.CANCEL && res.data.chargeId !== '0') {
+        if (action === STATUS_ACTION.CANCEL && res.data.chargeId !== "0") {
           const refund: any = await axiosClient.post(endpoint.payment.refund, {
             chargeId: res.data.chargeId,
           });
@@ -158,6 +155,8 @@ const OrderManage: React.FC = () => {
   };
 
   const handleViewOrderDetail = async (params: ParamsOrderDetail) => {
+    const customer = await axiosClient.get(endpoint.customer.getDetail(params.userId as number))
+    params.customerId = customer.data.id
     const data: Response | boolean = await getOrderDetail(params);
     if (typeof data !== "boolean") {
       const result = extractData(data.data.listOrderDetail, [
@@ -245,18 +244,14 @@ const OrderManage: React.FC = () => {
               onClick={() =>
                 handleViewOrderDetail({
                   orderId: record.id,
-                  shopId: shopId as string,
+                  userId: user.id,
                 })
               }
               icon={<SearchOutlined style={{ color: "black" }} />}
             ></Button>
             <Button
-              onClick={() => handleConfirmOrder(record.id, STATUS_ACTION.DONE)}
-              icon={<CheckCircleOutlined style={{ color: "green" }} />}
-            ></Button>
-            <Button
               onClick={() =>
-                handleConfirmOrder(record.id, STATUS_ACTION.CANCEL)
+                handleConfirmOrder(record.id, STATUS_ACTION.CANCEL, endpoint.order.confirmOrderForCustomer)
               }
               icon={<CloseCircleOutlined style={{ color: "red" }} />}
             ></Button>
@@ -341,4 +336,4 @@ const OrderManage: React.FC = () => {
   );
 };
 
-export default OrderManage;
+export default OrderUser;
