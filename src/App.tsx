@@ -34,6 +34,7 @@ import ProductManage from "./pages/shop/manage/product/product-manage.component"
 import EditProduct from "./components/edit-product/EditProduct";
 import OrderManage from "./pages/shop/manage/order/order-manage.component";
 import { Chat } from "./components/chat/chat.component";
+import OrderUser from "./components/user-profile/manage-order/order-user";
 
 export const socket = io("http://localhost:5000");
 
@@ -61,6 +62,7 @@ function App() {
             <Route path="/user" element={<UserProfile />}>
               <Route path="/user/profile" element={<Profile />} />
               <Route path="/user/address" element={<Address />} />
+              <Route path="orders" element={<OrderUser />} />
             </Route>
             <Route path="/register-seller" element={<RegisterSeller />} />
             <Route path="/checkout" element={<Checkout />} />

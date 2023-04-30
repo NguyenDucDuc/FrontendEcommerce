@@ -201,7 +201,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
           </div>
         </Col>
         <Col span={14} className="mgl-40">
-          <h2>{`${name}`}</h2>
+          <h2 style={{textTransform: 'capitalize'}}>{`${name}`}</h2>
           <Row className="mgt-10">
             <Col span={5}>
               <Rate onChange={(values) => handleOnChangeRate(values)} />
