@@ -86,8 +86,13 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const [urlMainImage, setUrlMainImage] = useState<string>(image as string);
   //   const [value4, setValue4] = useState("Apple");
   const [isHeart, setIsHeart] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1)
   const nav = useNavigate();
   const dispatch = useAppDispatch();
+  const handleChangeQuantity = (value: any) => {
+    console.log(value)
+    setQuantity(value)
+  }
 
   const handleOnChangeRate = (values: number) => {
     console.log(values);
@@ -121,7 +126,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
       id: id,
       image: image,
       desc: desc,
-      quantity: 1,
+      quantity: quantity,
       shopId: shopId as number,
     };
     dispatch(addItem(newCartItem));
@@ -135,7 +140,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
     const res = await AuthApi().post(endpoint.productCart.add, {
       productId: id,
       cartId: resCart.data.data.id,
-      quantity: 1,
+      quantity: quantity,
       unitPrice: price,
     });
     console.log(res.data);
@@ -349,7 +354,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
               <p>Số lượng: </p>
             </Col>
             <Col span={3}>
-              <InputNumber min={1} max={unitInStock} defaultValue={1} />
+              <InputNumber min={1} max={unitInStock} defaultValue={1} onChange={handleChangeQuantity} />
             </Col>
             <Col span={6} style={{ marginLeft: "10px", color: "#8c8c8c" }}>
               <p>{unitInStock} sản phẩm có sẵn</p>

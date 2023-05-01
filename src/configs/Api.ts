@@ -80,7 +80,13 @@ export const endpoint = {
   },
   conversation: {
     getAll: '/conversation'
-  }
+  },
+  promotion: {
+    getAll: (shopId: number) => `promotion/${shopId}/get-all`,
+    delete: (promotionId: number) => `promotion/${promotionId}/delete`,
+    create: '/promotion',
+    update: (promotionId: number) => `promotion/${promotionId}/update`
+  },
 };
 
 export const AuthApi = () => {
