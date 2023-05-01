@@ -73,7 +73,7 @@ const Cart = () => {
       {contextHolder}
       {listCartItem.listProducts.length > 0
         ? listCartItem.listProducts.map((item) => (
-            <CartItem product={item} key={item.id} quantity={1} />
+            <CartItem product={item} key={item.id} quantity={item.quantity} />
           ))
         : null}
       <div className="cart-payment">

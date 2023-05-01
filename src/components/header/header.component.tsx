@@ -18,254 +18,256 @@ import { authAxios } from "../../lib/axios/axios.config";
 import { socket } from "../../utils/socket";
 
 const Header = () => {
-    const user = useSelector((state: RootState) => state.user.user)
-    const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct)
-    const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
-    const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
-    const listConversation = useSelector((state: RootState) => state.conversation.listConversation)
-    const [statusLogin, setStatusLogin] = useState<any>({
-    })
-    const [notification, setNotification] = useState<any[]>([]);
-    const dispatch = useAppDispatch()
-    const nav = useNavigate()
-    const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
-    useEffect(() => {
-        const getCurrentUser = async () => {
-            const res = await dispatch(currentUserAsyncThunk())
-            if (res.payload.id) {
-                socket.emit('clientLogin', {
-                    userId: res.payload.id
-                })
-            }
-        }
-        const getCart = () => {
-            dispatch(getAllItemAsyncThunk())
-        }
-        const checkLogin = () => {
-            if (localStorage.getItem('accessToken')) {
-
-            }
-        }
-        getCurrentUser()
-        getCart()
-        checkLogin()
-    }, [])
-    const handleMouseEnterCartMini = () => {
-        setIsShowCartMini(true)
+  const user = useSelector((state: RootState) => state.user.user)
+  const listProductCart = useSelector((state: RootState) => state.cartItem.listProducts)
+  const cartCount = useSelector((state: RootState) => state.cartItem.totalProduct)
+  const [isShowCartMini, setIsShowCartMini] = useState<boolean>(false)
+  const [isShowNotifi, setIsShowNotifi] = useState<boolean>(false)
+  const listConversation = useSelector((state: RootState) => state.conversation.listConversation)
+  const [statusLogin, setStatusLogin] = useState<any>({
+  })
+  const [notification, setNotification] = useState<any[]>([]);
+  const dispatch = useAppDispatch()
+  const nav = useNavigate()
+  const totalProductCart = useSelector((state: RootState) => state.cartItem.totalProduct)
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const res = await dispatch(currentUserAsyncThunk())
+      if (res.payload.id) {
+        socket.emit('clientLogin', {
+          userId: res.payload.id
+        })
+      }
     }
-    const handleMouseLeaveCartMini = () => {
-        setIsShowCartMini(false)
+    const getCart = () => {
+      dispatch(getAllItemAsyncThunk())
     }
-    const handleMouseEnterNotification = () => {
-        setIsShowNotifi(true)
+    const checkLogin = () => {
+      if (localStorage.getItem('accessToken')) {
+
+      }
     }
-    const handleMouseLeaveNotification = () => {
-        setIsShowNotifi(false)
-    }
-    const accessToken = localStorage.getItem('accessToken')
+    getCurrentUser()
+    getCart()
+    checkLogin()
+  }, [])
+  const handleMouseEnterCartMini = () => {
+    setIsShowCartMini(true)
+  }
+  const handleMouseLeaveCartMini = () => {
+    setIsShowCartMini(false)
+  }
+  const handleMouseEnterNotification = () => {
+    setIsShowNotifi(true)
+  }
+  const handleMouseLeaveNotification = () => {
+    setIsShowNotifi(false)
+  }
+  const accessToken = localStorage.getItem('accessToken')
 
-    const loadNotification = async () => {
-        try {
-            const res = await authAxios().get(endpoint.notification.base);
+  const loadNotification = async () => {
+    try {
+      const res = await authAxios().get(endpoint.notification.base);
 
-            if (res.status === 200) {
-                const listNotif = res.data.map((item: any) => {
-                    return { content: item.content, valueId: item.valueId };
-                });
-                setNotification(listNotif);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        if (accessToken) {
-            loadNotification();
-        } else {
-            setNotification([]);
-        }
-    }, [accessToken]);
-
-    useEffect(() => {
-        socket.off("getNotification").on("getNotification", (data: any) => {
-            console.log("getNotification");
-            setNotification((prev) => {
-                return [{ ...data }, ...prev];
-            });
+      if (res.status === 200) {
+        const listNotif = res.data.map((item: any) => {
+          return { content: item.content, valueId: item.valueId };
         });
-    }, [socket]);
-
-    const items: MenuProps['items'] = [
-        {
-            label: (<Link to="/" >Trang chủ</Link>),
-            key: 'home',
-            icon: <MailOutlined />,
-            style: {
-                color: "black"
-            }
-        },
-        !localStorage.getItem('accessToken') ? {
-            label: <Link to='/login'>Đăng nhập</Link>,
-            key: 'login',
-            icon: <AppstoreOutlined />,
-            style: {
-                color: "black"
-            }
-
-        } : null,
-        user.userName !== "" ?
-            {
-                label: (<Link to="/admin/home">Quản trị</Link>),
-                key: 'admin',
-                icon: <SettingOutlined />,
-                style: {
-                    color: "black"
-                }
-            } : null,
-        user.userName !== "" ?
-            {
-                label: `${user.firstName} ${user.lastName}`,
-                key: 'username',
-                icon: <UserOutlined />,
-                style: {
-                    color: "black",
-
-                },
-                children: [
-                    {
-                        label: "Đăng xuất",
-                        key: 'logout',
-                        onClick: () => {
-                            localStorage.removeItem("accessToken")
-                            dispatch(logout())
-                            dispatch(logoutAdmin())
-                            nav("/login")
-                            dispatch(setNullCartItem())
-                        },
-                        style: {
-                            color: "black"
-                        }
-                    },
-                    {
-                        label: (<Link to="/user/profile">Hồ sơ</Link>),
-                        key: 'profile',
-                        style: {
-                            color: "black"
-                        }
-                    },
-                    {
-                        label: (<Link to="/register-seller">Đăng ký đối tác</Link>),
-                        key: 'registerSeller',
-                        style: {
-                            color: "black"
-                        }
-                    }
-                ]
-            } : null,
-        user.userName
-            ?
-            null
-            :
-            {
-                label: (<Link to="/register">Đăng ký</Link>),
-                key: "register",
-                style: {
-                    color: "black"
-                }
-            },
-        user.userName !== "" ?
-            {
-                label: (<Link to="/shop-create">Tạo shop</Link>),
-                key: "shopCreate",
-                style: {
-                    color: "black"
-                }
-            }
-            : null
-    ];
-
-    const [current, setCurrent] = useState('home');
-
-    const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
-    };
-    const onSearch = (value: string) => {
-        console.log(value)
+        setNotification(listNotif);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  useEffect(() => {
+    if (accessToken) {
+      loadNotification();
+    } else {
+      setNotification([]);
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    socket.off("getNotification").on("getNotification", (data: any) => {
+      console.log("getNotification");
+      setNotification((prev) => {
+        return [{ ...data }, ...prev];
+      });
+    });
+  }, [socket]);
+
+  const items: MenuProps['items'] = [
+    {
+      label: (<Link to="/" >Trang chủ</Link>),
+      key: 'home',
+      icon: <MailOutlined />,
+      style: {
+        color: "black"
+      }
+    },
+    !localStorage.getItem('accessToken') ? {
+      label: <Link to='/login'>Đăng nhập</Link>,
+      key: 'login',
+      icon: <AppstoreOutlined />,
+      style: {
+        color: "black"
+      }
+
+    } : null,
+    user.userName !== "" ?
+      {
+        label: (<Link to="/admin/home">Quản trị</Link>),
+        key: 'admin',
+        icon: <SettingOutlined />,
+        style: {
+          color: "black"
+        }
+      } : null,
+    user.userName !== "" ?
+      {
+        label: `${user.firstName} ${user.lastName}`,
+        key: 'username',
+        icon: <UserOutlined />,
+        style: {
+          color: "black",
+
+        },
+        children: [
+          {
+            label: "Đăng xuất",
+            key: 'logout',
+            onClick: () => {
+              localStorage.removeItem("accessToken")
+              dispatch(logout())
+              dispatch(logoutAdmin())
+              nav("/login")
+              dispatch(setNullCartItem())
+            },
+            style: {
+              color: "black"
+            }
+          },
+          {
+            label: (<Link to="/user/profile">Hồ sơ</Link>),
+            key: 'profile',
+            style: {
+              color: "black"
+            }
+          },
+          {
+            label: (<Link to="/register-seller">Đăng ký đối tác</Link>),
+            key: 'registerSeller',
+            style: {
+              color: "black"
+            }
+          }
+        ]
+      } : null,
+    user.userName
+      ?
+      null
+      :
+      {
+        label: (<Link to="/register">Đăng ký</Link>),
+        key: "register",
+        style: {
+          color: "black"
+        }
+      },
+    user.userName !== "" ?
+      {
+        label: (<Link to="/shop-create">Tạo shop</Link>),
+        key: "shopCreate",
+        style: {
+          color: "black"
+        }
+      }
+      : null
+  ];
+
+  const [current, setCurrent] = useState('home');
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+    setCurrent(e.key);
+  };
+  const onSearch = (value: string) => {
+    console.log(value)
+  }
 
 
-    return (
-        <div className="header">
-            <div className="header-child">
-                <Row>
-                    <Col span={10}>
-                        <h1 style={{ color: "#00cc99" }}>Ecommerce</h1>
-                    </Col>
-                    <Col span={14}>
-                        <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
-                    </Col>
-                </Row>
-                <Row style={{ marginTop: '20px', marginLeft: '25px' }}>
-                    <Col span={10}>
-                    </Col>
-                    <Col span={8}>
-                        <Search
-                            placeholder="input search text"
-                            onSearch={onSearch}
-                            style={{ width: 400, borderColor: '#00cc99' }}
-                            size="large" />
+  return (
+    <div className="header">
+      <div className="header-child">
+        <Row>
+          <Col span={10}>
+            <h1 style={{ color: "#00cc99" }}>Ecommerce</h1>
+          </Col>
+          <Col span={14}>
+            <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+          </Col>
+        </Row>
+        <Row style={{ marginTop: '20px', marginLeft: '25px' }}>
+          <Col span={10}>
+          </Col>
+          <Col span={8}>
+            <Search
+              placeholder="input search text"
+              onSearch={onSearch}
+              style={{ width: 400, borderColor: '#00cc99' }}
+              size="large" />
 
-                    </Col>
-                    <Col span={6}>
-                        <Row justify="space-between">
-                            <Col span={4}>
-                            </Col>
-                            <Col span={4} onClick={() => nav("/chat")}>
-                                <Badge count={listConversation.length} className="cs-pointer">
-                                    <MessageOutlined onClick={() => nav("/cart")} style={{ fontSize: '22px', color: "#00cc99" }} className="icon-color cs-pointer" />
-                                </Badge>
-                            </Col>
-                            <Col span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
-                                <Badge count={cartCount} className="cs-pointer">
-                                    <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
-                                </Badge>
-                                {
-                                    isShowCartMini === true
-                                        ?
-                                        <div className="cart-mini">
-                                            <MiniCartItem />
-                                            <MiniCartItem />
-                                            <MiniCartItem />
-                                            <MiniCartItem />
-                                        </div>
-                                        :
-                                        null
-                                }
-                            </Col>
-                            <Col span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
-                                <Badge count={notification.length} className="cs-pointer">
-                                    <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
-                                </Badge>
-                                {isShowNotifi === true ? (
-                                    <div className="cart-mini notification">
-                                        {notification.map((item: any) => (
-                                            <MiniCardNotification
-                                                content={item.content}
-                                                valueId={item.valueId}
-                                            />
-                                        ))}
-                                    </div>
-                                ) : null}
-                            </Col>
-                            <Col span={8}></Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </div>
-        </div>
-    )
+          </Col>
+          <Col span={6}>
+            <Row justify="space-between">
+              <Col span={4}>
+              </Col>
+              <Col span={4} onClick={() => nav("/chat")}>
+                <Badge count={listConversation.length} className="cs-pointer">
+                  <MessageOutlined onClick={() => nav("/cart")} style={{ fontSize: '22px', color: "#00cc99" }} className="icon-color cs-pointer" />
+                </Badge>
+              </Col>
+              <Col span={4} onMouseEnter={handleMouseEnterCartMini} onMouseLeave={handleMouseLeaveCartMini} onClick={() => nav("/cart")}>
+                <Badge count={cartCount} className="cs-pointer">
+                  <ShoppingCartOutlined onClick={() => nav("/cart")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
+                </Badge>
+                {
+                  isShowCartMini === true
+                    ?
+                    <div className="cart-mini">
+                      {listProductCart.length > 0 ? 
+                        listProductCart.map((item) => <MiniCartItem image={item.image} name={item.name} price={item.price} />)
+                        :
+                        null
+                      }
+                    </div>
+                    :
+                    null
+                }
+              </Col>
+              <Col span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
+                <Badge count={notification.length} className="cs-pointer">
+                  <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
+                </Badge>
+                {isShowNotifi === true ? (
+                  <div className="cart-mini notification">
+                    {notification.map((item: any) => (
+                      <MiniCardNotification
+                        content={item.content}
+                        valueId={item.valueId}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+              </Col>
+              <Col span={8}></Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    </div>
+  )
 }
 
 export default Header

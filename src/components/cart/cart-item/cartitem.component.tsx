@@ -179,7 +179,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
           <InputNumber
             min={1}
             max={unitInStock}
-            defaultValue={1}
+            defaultValue={quantity}
             onChange={handleQuantityChange}
             onStep={onStep}
           />

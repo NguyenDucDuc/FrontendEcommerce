@@ -35,6 +35,9 @@ import EditProduct from "./components/edit-product/EditProduct";
 import OrderManage from "./pages/shop/manage/order/order-manage.component";
 import { Chat } from "./components/chat/chat.component";
 import OrderUser from "./components/user-profile/manage-order/order-user";
+import { Promotion } from "./components/promotion/promotion.component";
+import { PromotionManager } from "./components/promotion/promotion-manager/promotion-manager";
+import { PromotionCreate } from "./components/promotion/promotion-create/promotion-create.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -47,7 +50,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-          <Route path="/chat" element={<Chat />} />
+            <Route path="/chat" element={<Chat />} />
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -88,8 +91,14 @@ function App() {
               <Route path="stats-by-product" element={<Stats />} />
               <Route path="stats-by-cate" element={<StatsByCate />} /> */}
             </Route>
+            
+            <Route path="/promotion/:shopId" element={<Promotion />}>
+            <Route path="/promotion/:shopId/manager" element={<PromotionManager />} />
+            <Route path="/promotion/:shopId/create" element={<PromotionCreate />} />
+          </Route>
           </Route>
         </Routes>
+
         {/* Route Admin */}
         <Routes>
           <Route path="/admin" element={<Admin />}>
