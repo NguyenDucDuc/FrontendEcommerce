@@ -1,13 +1,14 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { useAppDispatch } from "../../../store/store";
 import { createPromotionAsyncThunk } from "../../../store/slices/promotion.slice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 
 export const PromotionCreate = () => {
     const [api, contextHolder] = notification.useNotification();
     const dispatch = useAppDispatch()
+    const nav = useNavigate()
     const { shopId } = useParams()
     const onFinish = async (values: any) => {
         console.log(values)
@@ -17,8 +18,11 @@ export const PromotionCreate = () => {
                 api.success({
                     message: `Thông báo`,
                     description: 'Tạo phiếu giảm giá thành công',
-                    duration: 3
+                    duration: 4
                 });
+                setTimeout(() => {
+                    nav(`/shop/${shopId}/dashboard/promotion-manager`)
+                },1500)
             }
             console.log(res)
         }
