@@ -1,4 +1,4 @@
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, MailOutlined, SettingOutlined, TagOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd"
 import { Link } from "react-router-dom";
 
@@ -31,6 +31,11 @@ const items: MenuProps['items'] = [
     getItem((<Link to="orders?state=3">Đang giao hàng</Link>), '4'),
     getItem((<Link to="orders?state=4">Hoàn tất</Link>), '5'),
     getItem((<Link to="orders?state=0">Đã hủy</Link>), '6'),
+  ]),
+
+  getItem('Quản lý phiếu giảm giá', 'promotion', <TagOutlined />, [
+    getItem((<Link to="promotion-manager">Quản lý </Link>), '7'),
+    getItem((<Link to="promotion-create">Tạo mới</Link>), '8'),
   ]),
 
 ];
