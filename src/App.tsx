@@ -38,6 +38,7 @@ import OrderUser from "./components/user-profile/manage-order/order-user";
 import { Promotion } from "./components/promotion/promotion.component";
 import { PromotionManager } from "./components/promotion/promotion-manager/promotion-manager";
 import { PromotionCreate } from "./components/promotion/promotion-create/promotion-create.component";
+import Main from "./pages/main/main";
 
 export const socket = io("http://localhost:5000");
 
@@ -52,6 +53,7 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route path="/chat" element={<Chat />} />
             <Route index element={<Home />} />
+            <Route path="/categories/:cateId" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route

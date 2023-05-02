@@ -13,8 +13,8 @@ const ProductList: React.FC<Props> = ({ productList }) => {
       <Row gutter={[8, 8]}>
         {productList.map((product, id) => {
           return (
-            <Col span={4}>
-              <CardProduct product={product} key={id}/>
+            <Col key={product.id} span={4}>
+              <CardProduct product={product} key={product.id}/>
             </Col>
           );
         })}
