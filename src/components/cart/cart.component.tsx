@@ -12,7 +12,6 @@ import { RootState, useAppDispatch } from "../../store/store";
 import CartItem from "./cart-item/cartitem.component";
 import "./cart.style.scss";
 import { formatCurrency } from "../../utils/common";
-import { count } from "console";
 
 const Cart = () => {
   const [api, contextHolder] = notification.useNotification();
