@@ -146,7 +146,6 @@ export const PromotionManager = () => {
   return (
     <div className="promotion-manager">
       {
-        listPromotion.length > 0 ?
           <>
             <Table columns={columns} dataSource={data} pagination={false} />
             <Modal title="Basic Modal" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
@@ -192,8 +191,7 @@ export const PromotionManager = () => {
               </Form>
             </Modal>
           </>
-          :
-          null
+          
       }
     </div>
   )

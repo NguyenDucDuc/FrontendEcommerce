@@ -81,7 +81,10 @@ function App() {
                   element={<EditProduct />}
                 />
                 <Route path="orders" element={<OrderManage />}></Route>
+                <Route path="promotion-manager" element={<PromotionManager />}></Route>
+                <Route path="promotion-create" element={<PromotionCreate />}></Route>
               </Route>
+
 
               {/* <Route index element={<ProductShop />} />
             <Route path="manage" element={<ManageShop />}>
@@ -91,11 +94,11 @@ function App() {
               <Route path="stats-by-product" element={<Stats />} />
               <Route path="stats-by-cate" element={<StatsByCate />} /> */}
             </Route>
-            
-            <Route path="/promotion/:shopId" element={<Promotion />}>
-            <Route path="/promotion/:shopId/manager" element={<PromotionManager />} />
-            <Route path="/promotion/:shopId/create" element={<PromotionCreate />} />
-          </Route>
+
+            {/* <Route path="/promotion/:shopId" element={<Promotion />}>
+              <Route path="/promotion/:shopId/manager" element={<PromotionManager />} />
+              <Route path="/promotion/:shopId/create" element={<PromotionCreate />} />
+            </Route> */}
           </Route>
         </Routes>
 

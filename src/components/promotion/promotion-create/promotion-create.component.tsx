@@ -1,23 +1,28 @@
 import { Button, Checkbox, Form, Input, notification } from "antd";
 import { useAppDispatch } from "../../../store/store";
 import { createPromotionAsyncThunk } from "../../../store/slices/promotion.slice";
+import { useParams } from "react-router-dom";
 
 
 
 export const PromotionCreate = () => {
     const [api, contextHolder] = notification.useNotification();
     const dispatch = useAppDispatch()
+    const { shopId } = useParams()
     const onFinish = async (values: any) => {
         console.log(values)
-        const res = await dispatch(createPromotionAsyncThunk({...values, shopId: 3}))
-        if(res.meta.requestStatus === 'fulfilled'){
-            api.success({
-                message: `Thông báo`,
-                description: 'Tạo phiếu giảm giá thành công',
-                duration: 3
-              });
+        if (shopId) {
+            const res = await dispatch(createPromotionAsyncThunk({ ...values, shopId: +shopId }))
+            if (res.meta.requestStatus === 'fulfilled') {
+                api.success({
+                    message: `Thông báo`,
+                    description: 'Tạo phiếu giảm giá thành công',
+                    duration: 3
+                });
+            }
+            console.log(res)
         }
-        console.log(res)
+        
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -25,7 +30,7 @@ export const PromotionCreate = () => {
     };
     return (
         <div className="promotion-create">
-             {contextHolder}
+            {contextHolder}
             <h2>Tạo phiếu giảm giá cho cửa hàng của bạn</h2>
             <Form
                 size="large"
