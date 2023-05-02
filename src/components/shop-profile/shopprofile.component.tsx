@@ -27,7 +27,7 @@ import { RootState, useAppDispatch } from "../../store/store";
 import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
 
-interface ProductDataSearch {
+export interface ProductDataSearch {
   listProduct: any;
   amountPage: number;
   amountProduct: number;
