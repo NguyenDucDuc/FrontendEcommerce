@@ -187,13 +187,15 @@ const Header = () => {
   ];
 
   const [current, setCurrent] = useState('home');
+  const [kw, setKw] = useState('')
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
   const onSearch = (value: string) => {
-    console.log(value)
+    nav(`/categories/1?kw=${value}`)
+    setKw('')
   }
 
 
@@ -213,8 +215,10 @@ const Header = () => {
           </Col>
           <Col span={8}>
             <Search
-              placeholder="input search text"
+              placeholder="Nhập từ khóa ..."
               onSearch={onSearch}
+              value={kw}
+              onChange={(e) => setKw(e.target.value)}
               style={{ width: 400, borderColor: '#00cc99' }}
               size="large" />
 

@@ -59,7 +59,7 @@ const CardProductCheckout: React.FC<IProps> = ({
           </Col>
         </Row>
         <hr style={{ marginBottom: 20, marginTop: 20 }} color="#e6e6e6"></hr>
-        <Row align='middle' justify='space-between'>
+        {/* <Row align='middle' justify='space-between'>
           <Col span={8}>
             <Input
               type="text"
@@ -97,7 +97,7 @@ const CardProductCheckout: React.FC<IProps> = ({
               </span>
             </h4>
           </div>
-        </Row>
+        </Row> */}
       </div>
     </div>
   );

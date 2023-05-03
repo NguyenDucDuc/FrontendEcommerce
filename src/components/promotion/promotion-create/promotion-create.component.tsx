@@ -35,7 +35,7 @@ export const PromotionCreate = () => {
     return (
         <div className="promotion-create">
             {contextHolder}
-            <h2>Tạo phiếu giảm giá cho cửa hàng của bạn</h2>
+            <h2 style={{margin: '10px'}}>Tạo phiếu giảm giá cho cửa hàng của bạn</h2>
             <Form
                 size="large"
                 name="basic"

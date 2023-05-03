@@ -10,15 +10,15 @@ div.header-child {
     position: relative;
     div.cart-mini {
         width: 400px;
-        height: 400px;
+        max-height: 300px;
+        overflow: auto;
         position: absolute;
-        right: 50px;
-        top: 30px;
+        right: 40px;
+        top: 25px;
         z-index: 10;
         border-radius: 5px;
         box-shadow: 10px 10px 15px #cccccc;
         background-color: #ffffff;
-        overflow: hidden;
         animation-name: animationShow;
         animation-duration: 0.8s;
         animation-timing-function: ease-in-out;

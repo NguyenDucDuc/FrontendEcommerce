@@ -63,10 +63,12 @@ const ProductAll = () => {
     const fP = searchParams.get("fP");
     const tP = searchParams.get("tP");
     const rate = searchParams.get("rate");
+    const kw = searchParams.get('kw')
     setParams({
       ...params,
       page: 1,
       cateId: Number(cateId),
+      name: kw || '',
       fP: fP as string,
       tP: tP as string,
       rate: Number(rate),
