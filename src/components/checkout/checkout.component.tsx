@@ -1,5 +1,5 @@
 import { AimOutlined } from "@ant-design/icons";
-import { Col, Row, notification } from "antd";
+import { Col, Input, Row, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { number, string } from "yup";
@@ -14,6 +14,8 @@ import { deleteItemAsyncThunk } from "../../store/slices/cartitem.slice";
 import { socket } from "../../utils/socket";
 import { createNotification } from "../../utils/notification";
 import { axiosClient } from "../../lib/axios/axios.config";
+import { FEE_SHIP } from "../../constants/order";
+import { formatCurrency } from "../../utils/common";
 const Checkout = () => {
   const [api, contextHolder] = notification.useNotification();
   const nav = useNavigate();
@@ -34,8 +36,7 @@ const Checkout = () => {
         for (let j = 0; j < listProductsChecked[i].products.length; j++) {
           let total =
             Number(listProductsChecked[i].products[j].price) *
-              Number(listProductsChecked[i].products[j].quantity) +
-            40000;
+            Number(listProductsChecked[i].products[j].quantity);
           dispatch(updateTotalPriceCheckedList(total));
         }
       }
@@ -170,6 +171,37 @@ const Checkout = () => {
               ))
             )
           : null}
+
+        <hr style={{ marginBottom: 20, marginTop: 20 }} color="#e6e6e6"></hr>
+        <Row align="middle" justify="space-between">
+          <Col span={8}>
+            <Input
+              type="text"
+              size="large"
+              placeholder="Lời nhắn cho shop"
+              style={{ border: "1.5px solid #a6a6a6" }}
+            />
+          </Col>
+          <Col span={11}>
+            <Row>
+              <Col span={8}>
+                <p className="">Đơn vị vận chuyển</p>
+              </Col>
+              <Col span={8}>
+                <h4 className="">GHN.VN Giao Hàng Nhanh</h4>
+              </Col>
+              <Col span={8}>
+                <p className="">
+                  Phí vận chuyển:{" "}
+                  <span style={{ color: "red", fontWeight: "bold" }}>
+                    {formatCurrency(FEE_SHIP.NGOAI_THANH)}
+                  </span>
+                </p>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <hr style={{ marginBottom: 20, marginTop: 20 }} color="#e6e6e6"></hr>
       </div>
       <div className="confirm-checkout">
         {totalPrice !== 0 ? (

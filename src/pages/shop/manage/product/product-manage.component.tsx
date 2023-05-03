@@ -97,7 +97,7 @@ const ProductManage: React.FC = () => {
       dataIndex: "name",
       key: "name",
       render: (_, record) => {
-        return <Link to={`/product-detail/${record.id}`}>{record.name}</Link>;
+        return <Link style={{textTransform: 'capitalize'}} to={`/product-detail/${record.id}`}>{record.name}</Link>;
       },
     },
     {
@@ -134,7 +134,7 @@ const ProductManage: React.FC = () => {
           (item: any) => item.id === categoryId
         )[0];
         return (
-          <Tag color={`${randomColor()}`} key={categoryId}>
+          <Tag style={{textTransform: 'capitalize'}} color={`${randomColor()}`} key={categoryId}>
             {category.name}
           </Tag>
         );

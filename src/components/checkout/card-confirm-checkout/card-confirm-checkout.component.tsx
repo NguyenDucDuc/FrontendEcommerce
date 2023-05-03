@@ -5,13 +5,12 @@ import { formatCurrency } from "../../../utils/common";
 import { useEffect, useState } from "react";
 import { axiosClient } from "../../../lib/axios/axios.config";
 import { endpoint } from "../../../configs/Api";
-import { PAYMENT } from "../../../constants/order";
+import { FEE_SHIP, PAYMENT } from "../../../constants/order";
 
 interface IProps {
   totalPrice: number;
   testOrder: any;
   shopId: number;
-  totalShip?: number;
 }
 
 const CardConfirmCheckout: React.FC<IProps> = ({
@@ -62,7 +61,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({
                   <p className="txt-bold">Tiền vận chuyển: </p>
                 </Col>
                 <Col span={12}>
-                  <p className="txt-bold txt-red">40.000 VND</p>
+                  <p className="txt-bold txt-red">{formatCurrency(FEE_SHIP.NGOAI_THANH)}</p>
                 </Col>
 
                 <Col span={12}>
@@ -70,7 +69,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({
                 </Col>
                 <Col span={12}>
                   <p className="txt-bold txt-red" style={{ fontSize: "18px" }}>
-                    {formatCurrency(totalPrice)}
+                    {formatCurrency(totalPrice + FEE_SHIP.NGOAI_THANH)}
                   </p>
                 </Col>
               </Row>
@@ -87,7 +86,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({
             </Col>
             <Col span={6}>
               <Button
-                onClick={() => testOrder(0, PAYMENT.OFFLINE, totalPrice)}
+                onClick={() => testOrder(0, PAYMENT.OFFLINE, totalPrice + FEE_SHIP.NGOAI_THANH)}
                 type="primary"
                 className="btn-color"
                 size="large"
@@ -96,7 +95,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({
                 Đặt hàng
               </Button>
               <Stripe
-                amount={totalPrice}
+                amount={totalPrice + FEE_SHIP.NGOAI_THANH}
                 shopId={shopId}
                 testOrder={testOrder}
               />
