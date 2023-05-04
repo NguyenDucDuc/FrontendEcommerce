@@ -1,4 +1,4 @@
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, HomeOutlined, MailOutlined, SettingOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd"
 import { Link } from "react-router-dom";
 
@@ -23,26 +23,17 @@ function getItem(
 }
 
 const items: MenuProps['items'] = [
+
+  getItem((<Link to='/admin/home'>Tổng quan</Link>), 'home', <HomeOutlined />),
+
   getItem('Quản lý user', 'user', <MailOutlined />, [
     getItem((<Link to="/admin/sellers">Quản lý khác hàng</Link>), '1'),
     getItem((<Link to="/admin/shops">Quản lý shop</Link>), '2'),
   ]),
 
   getItem('Quản lý sản phẩm', 'product', <AppstoreOutlined />, [
-    getItem('Tổng quan', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
   ]),
 
-  { type: 'divider' },
-
-  getItem('Navigation Three', 'sub4', <SettingOutlined />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
-
-  getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
 ];
 
 
@@ -55,12 +46,12 @@ const SideBar = () => {
         <div>
             <Menu
                 onClick={onClick}
-                style={{ width: 256 }}
+                style={{ width: 300, marginTop: 50 }}
                 defaultSelectedKeys={['1']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
                 items={items}
-                theme="dark"
+                theme="light"
             />
         </div>
     )
