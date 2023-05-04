@@ -87,6 +87,11 @@ export const endpoint = {
     create: '/promotion',
     update: (promotionId: number) => `promotion/${promotionId}/update`
   },
+  stats: {
+    statsShop: '/stats/stats-shop',
+    countShopByMonth: '/stats/count-shop-by-month',
+    countUserByMonth: '/stats/count-user-by-month'
+  }
 };
 
 export const AuthApi = () => {

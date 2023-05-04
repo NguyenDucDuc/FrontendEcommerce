@@ -39,6 +39,9 @@ import { Promotion } from "./components/promotion/promotion.component";
 import { PromotionManager } from "./components/promotion/promotion-manager/promotion-manager";
 import { PromotionCreate } from "./components/promotion/promotion-create/promotion-create.component";
 import Main from "./pages/main/main";
+import { HomeAdminV2 } from "./components/admin/home/home-v2/home-admin-v2.component";
+import AdminCustomer from "./components/admin/seller.component";
+import SellerAdmin from "./components/admin/seller.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -108,8 +111,8 @@ function App() {
         <Routes>
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/login" element={<LoginAdmin />} />
-            <Route path="/admin/home" element={<HomeAdmin />} />
-            <Route path="/admin/sellers" element={<AdminSeller />} />
+            <Route path="/admin/home" element={<HomeAdminV2 />} />
+            <Route path="/admin/sellers" element={<SellerAdmin />} />
             <Route path="/admin/shops" element={<AdminShop />} />
             <Route path="/admin/forbidden" element={<Forbidden />} />
           </Route>

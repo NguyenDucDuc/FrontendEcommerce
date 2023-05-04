@@ -57,7 +57,7 @@ const HeaderAdmin = () => {
 
   const items2: MenuProps['items'] = [
     {
-      label: (<h1>ADMIN MANAGER</h1>),
+      label: (<h1 onClick={() => nav('/admin/home')}>ADMIN MANAGER</h1>),
       key: 'title',
     }
   ]
