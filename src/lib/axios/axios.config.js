@@ -56,3 +56,37 @@ export const authAxios = () => {
 
   return newInstance;
 };
+
+export const adminAxios = () => {
+  const newInstance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  newInstance.interceptors.request.use(
+    async (config) => {
+      if (localStorage.getItem("accessTokenAdmin")) {
+        config.headers["authorization"] = `Bearer ${localStorage.getItem(
+          "accessTokenAdmin"
+        )}`;
+      } else {
+        console.log("Not find accessTokenAdmin");
+      }
+      return config;
+    },
+    (err) => Promise.reject(err)
+  );
+
+  newInstance.interceptors.response.use(
+    async (response) => {
+      if (response && response.data) {
+        return response.data;
+      }
+      return response;
+    },
+    (err) => {
+      throw err;
+    }
+  );
+
+  return newInstance;
+};

@@ -43,6 +43,7 @@ import { HomeAdminV2 } from "./components/admin/home/home-v2/home-admin-v2.compo
 import AdminCustomer from "./components/admin/seller.component";
 import SellerAdmin from "./components/admin/seller.component";
 import Stats from "./components/stats/stats.component";
+import StatsAdmin from "./components/stats-admin/stats-admin.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -122,6 +123,7 @@ function App() {
             <Route path="/admin/sellers" element={<SellerAdmin />} />
             <Route path="/admin/shops" element={<AdminShop />} />
             <Route path="/admin/forbidden" element={<Forbidden />} />
+            <Route path="/admin/stats" element={<StatsAdmin />} />
           </Route>
         </Routes>
       </BrowserRouter>
