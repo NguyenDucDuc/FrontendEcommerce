@@ -48,6 +48,7 @@ export const endpoint = {
     delete: "/product-cart/delete"
   },
   admin: {
+    main: '/admin',
     login: "/admin/login",
   },
   order: {
