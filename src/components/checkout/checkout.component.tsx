@@ -89,7 +89,7 @@ const Checkout = () => {
           );
 
           await createNotification({
-            content: `${currentUser.userName} vừa mua 1 đơn hàng`,
+            content: `${currentUser.userName} vừa đặt 1 đơn hàng`,
             type: 1,
             valueId: res.data.data.data.id,
             creatorId: currentUser.id,
@@ -101,7 +101,7 @@ const Checkout = () => {
           socket.emit("sendNotification", {
             senderName: currentUser.userName,
             receiverName: user.data.userName,
-            content: `${currentUser.userName} vừa mua 1 đơn hàng`,
+            content: `${currentUser.userName} vừa đặt 1 đơn hàng`,
             valueId: res.data.data.data.id,
           });
         }
