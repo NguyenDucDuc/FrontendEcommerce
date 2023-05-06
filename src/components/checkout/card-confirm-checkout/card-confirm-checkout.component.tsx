@@ -90,7 +90,7 @@ const CardConfirmCheckout: React.FC<IProps> = ({
                 type="primary"
                 className="btn-color"
                 size="large"
-                style={{ width: "100%" }}
+                style={{ width: "100%", marginBottom: '20px' }}
               >
                 Đặt hàng
               </Button>

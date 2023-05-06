@@ -7,11 +7,14 @@ import {
   Menu,
   MenuProps,
   Pagination,
+  Radio,
   Row,
   message,
 } from "antd";
 import {
   AppstoreOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
   CloseOutlined,
   SendOutlined,
   StarOutlined,
@@ -26,6 +29,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../store/store";
 import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
+import Search from "antd/es/input/Search";
 
 export interface ProductDataSearch {
   listProduct: any;
@@ -39,25 +43,21 @@ const items: MenuProps["items"] = [
     key: "all",
     icon: <StarOutlined />,
   },
-  {
-    label: "Quần áo",
-    key: "clothes",
-    icon: <AppstoreOutlined />,
-  },
-  {
-    label: "Giày dép",
-    key: "footweart",
-    icon: <AppstoreOutlined />,
-  },
 ];
 const ShopProfile = () => {
   const { shopId } = useParams();
-  const [params, setParams] = useState<Params>({ shopId: shopId });
+  const [params, setParams] = useState<Params>({
+    page: 1,
+    pageSize: 10,
+    shopId: shopId,
+  });
   const [current, setCurrent] = useState("all");
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
+  const [arrowUp, setArrowUp] = useState(false);
   const [isShowOwner, setIsShowOwner] = useState<boolean>(false);
   const currentUser = useSelector((state: RootState) => state.user.user);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const [kw, setKw] = useState("");
   const [resProducts, setResProducts] = useState<ProductDataSearch>({
     listProduct: [],
     amountPage: 0,
@@ -91,6 +91,14 @@ const ShopProfile = () => {
     }
   };
 
+  const onSearch = (value: string) => {
+    navigate(`?kw=${value}`);
+    setParams((pre) => {
+      return { ...pre, name: kw };
+    });
+    setKw("");
+  };
+
   useEffect(() => {
     console.log("useEffect Shop Profile");
     getProductByShopId(params);
@@ -107,14 +115,12 @@ const ShopProfile = () => {
 
   const handleShowChatBox = () => {
     setShowChatBox(true);
-    
-
   };
   const handleHideChatBox = () => {
     setShowChatBox(false);
   };
   const handleChange = (page: number, pageSize?: number) => {
-    setParams({ ...params, page: page });
+    setParams({ ...params, page: page, pageSize: pageSize });
   };
   return (
     <div className="shop-profile mgt-40">
@@ -130,13 +136,19 @@ const ShopProfile = () => {
               <Col span={17} style={{ marginTop: "20px" }}>
                 <h3>Hades Studio</h3>
                 <Button
-                  style={{ marginRight: '10px' }}
+                  style={{ marginRight: "10px" }}
                   className="btn-color txt-btn-color"
                   onClick={handleShowChatBox}
                 >
                   Chat ngay
                 </Button>
-                {isShowOwner && <Button onClick={() => navigate(`${location.pathname}/dashboard`)}>Quản lý</Button>}
+                {isShowOwner && (
+                  <Button
+                    onClick={() => navigate(`${location.pathname}/dashboard`)}
+                  >
+                    Quản lý
+                  </Button>
+                )}
               </Col>
             </Row>
           </div>
@@ -189,9 +201,7 @@ const ShopProfile = () => {
             </Col>
           </Row>
           <div className="message-content">
-            <div className="message-content-child">
-              
-            </div>
+            <div className="message-content-child"></div>
           </div>
           <Row className="message-input">
             <Col span={17}>
@@ -211,7 +221,7 @@ const ShopProfile = () => {
         </div>
       ) : null}
       {/* Nav category */}
-      <div className="shop-profile-nav nav-category">
+      {/* <div className="shop-profile-nav nav-category">
         <Row className="mgt-40">
           <Col span={24}>
             <Menu
@@ -222,7 +232,79 @@ const ShopProfile = () => {
             />
           </Col>
         </Row>
-      </div>
+      </div> */}
+      <Row
+        align={"middle"}
+        justify={"start"}
+        style={{ padding: "10px 0", background: "#ededed" }}
+      >
+        <Col style={{ margin: "0 10px" }}>Sắp xếp theo: </Col>
+        <Radio.Group style={{ display: "flex" }} defaultValue={1}>
+          <Col style={{ marginRight: "10px" }}>
+            <Radio.Button
+              value={1}
+              onClick={() =>
+                setParams((pre) => {
+                  return { ...pre, sortBy: "id", order: "desc" };
+                })
+              }
+            >
+              Mới nhất
+            </Radio.Button>
+          </Col>
+          <Col style={{ marginRight: "10px" }}>
+            <Radio.Button
+              value={2}
+              onClick={() =>
+                setParams((pre) => {
+                  return { ...pre, sortBy: "unitInStock", order: "desc" };
+                })
+              }
+            >
+              Phổ biến
+            </Radio.Button>
+          </Col>
+          <Col style={{ marginRight: "10px" }}>
+            <Radio.Button
+              value={3}
+              onClick={() =>
+                setParams((pre) => {
+                  return { ...pre, sortBy: "unitOnOrder", order: "desc" };
+                })
+              }
+            >
+              Bán chạy
+            </Radio.Button>
+          </Col>
+          <Col style={{ marginRight: "10px" }}>
+            <Radio.Button
+              value={4}
+              onClick={() => {
+                setParams((pre) => {
+                  return {
+                    ...pre,
+                    sortBy: "price",
+                    order: `${arrowUp ? "desc" : "asc"}`,
+                  };
+                });
+                setArrowUp(!arrowUp);
+              }}
+            >
+              Giá {arrowUp ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+            </Radio.Button>
+          </Col>
+        </Radio.Group>
+        <Col>
+          <Search
+            placeholder="Nhập từ khóa ..."
+            onSearch={onSearch}
+            value={kw}
+            onChange={(e) => setKw(e.target.value)}
+            style={{ width: 400, borderColor: "#00cc99" }}
+            size="large"
+          />
+        </Col>
+      </Row>
 
       {/* Products */}
 
@@ -234,9 +316,11 @@ const ShopProfile = () => {
         <Col span={6}>
           <Pagination
             defaultCurrent={1}
-            pageSize={2}
             total={resProducts.amountProduct}
             onChange={handleChange}
+            pageSize={params.pageSize}
+            showSizeChanger
+            pageSizeOptions={[5, 10, 15, 20]}
           />
         </Col>
         <Col span={9}></Col>
