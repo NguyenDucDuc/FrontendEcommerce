@@ -36,5 +36,24 @@ export const getOrderDetail = async (params: ParamsOrderDetail) => {
 export const formatCurrency = (currency: number) =>
   `${new Intl.NumberFormat().format(currency)} VNĐ`;
 
-export const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`
-  
+export const randomColor = () =>
+  `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+
+export const capitalizeText = (text: string) => {
+  const arr = text.split(" ");
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+  }
+  return arr.join(" ");
+};
+
+export const removeUndefine: any = (obj: any) => {
+  return Object.fromEntries(
+    Object.entries(obj)
+      .filter(([_, value]) => value != undefined)
+      .map(([key, value]) => [
+        key,
+        value === Object(value) ? removeUndefine(value) : value,
+      ])
+  );
+};

@@ -42,6 +42,7 @@ import Main from "./pages/main/main";
 import { HomeAdminV2 } from "./components/admin/home/home-v2/home-admin-v2.component";
 import AdminCustomer from "./components/admin/seller.component";
 import SellerAdmin from "./components/admin/seller.component";
+import Stats from "./components/stats/stats.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -86,10 +87,16 @@ function App() {
                   element={<EditProduct />}
                 />
                 <Route path="orders" element={<OrderManage />}></Route>
-                <Route path="promotion-manager" element={<PromotionManager />}></Route>
-                <Route path="promotion-create" element={<PromotionCreate />}></Route>
+                <Route
+                  path="promotion-manager"
+                  element={<PromotionManager />}
+                ></Route>
+                <Route
+                  path="promotion-create"
+                  element={<PromotionCreate />}
+                ></Route>
+                <Route path="stats" element={<Stats />}></Route>
               </Route>
-
 
               {/* <Route index element={<ProductShop />} />
             <Route path="manage" element={<ManageShop />}>

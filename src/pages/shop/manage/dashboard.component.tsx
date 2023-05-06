@@ -35,7 +35,7 @@ const DashBoardShop = () => {
 
   return (
     <>
-      <section>
+      <section className="dashboard-shop">
         <Row>
           <Col span={4}>
             <SideBar />
