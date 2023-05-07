@@ -30,6 +30,7 @@ import { RootState, useAppDispatch } from "../../store/store";
 import { MessageSender } from "../message/message.component";
 import { MessageReceiver } from "../message/message-receiver.component";
 import Search from "antd/es/input/Search";
+import { formatDateString } from "../../utils/common";
 
 export interface ProductDataSearch {
   listProduct: any;
@@ -55,6 +56,7 @@ const ShopProfile = () => {
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [arrowUp, setArrowUp] = useState(false);
   const [isShowOwner, setIsShowOwner] = useState<boolean>(false);
+  const [shop, setShop] = useState<any>();
   const currentUser = useSelector((state: RootState) => state.user.user);
   const dispatch = useAppDispatch();
   const [kw, setKw] = useState("");
@@ -65,6 +67,15 @@ const ShopProfile = () => {
   });
   const navigate = useNavigate();
   const location = useLocation();
+
+  const fetchShop = async () => {
+    const res = await axiosClient.get(endpoint.shop.getDetail(Number(shopId)));
+    setShop(res.data);
+  };
+
+  useEffect(() => {
+    fetchShop()
+  }, [])
 
   const getProductByShopId = async (params: Params) => {
     try {
@@ -134,7 +145,7 @@ const ShopProfile = () => {
                 </div>
               </Col>
               <Col span={17} style={{ marginTop: "20px" }}>
-                <h3>Hades Studio</h3>
+                <h3>{shop?.shopName}</h3>
                 <Button
                   style={{ marginRight: "10px" }}
                   className="btn-color txt-btn-color"
@@ -159,13 +170,13 @@ const ShopProfile = () => {
             <Row className="shop-stats">
               <Col span={12}>
                 <h4>
-                  Sản phẩm: <span className="txt-red">150</span>
+                  Sản phẩm: <span className="txt-red">{shop?.amountProduct}</span>
                 </h4>
                 <h4>
                   Đang theo dõi: <span className="txt-red">2</span>
                 </h4>
                 <h4>
-                  Ngày tham gia: <span className="txt-red">23-09-2022</span>
+                  Ngày tham gia: <span className="txt-red">{shop?.createdAt && formatDateString(shop.createdAt)}</span>
                 </h4>
               </Col>
               <Col span={12}>
@@ -173,7 +184,7 @@ const ShopProfile = () => {
                   Số đánh giá: <span className="txt-red">420</span>
                 </h4>
                 <h4>
-                  Tỷ lệ đánh giá: <span className="txt-red">4/5</span>
+                  Tỷ lệ đánh giá: <span className="txt-red">{shop?.rate}</span>
                 </h4>
                 <h4>
                   Số lượt thích: <span className="txt-red">1.290</span>
