@@ -119,6 +119,10 @@ const Checkout = () => {
         description: "Bạn đã đặt hàng thành công.",
         duration: 3,
       });
+      
+      setTimeout(() => {
+        nav('/')
+      }, 1500)
     }
   };
   return (
