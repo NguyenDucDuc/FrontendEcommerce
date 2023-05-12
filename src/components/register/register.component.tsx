@@ -905,7 +905,7 @@ const Register = () => {
 
             setTimeout(() => {
                 nav('/login')
-            },2000)
+            },500)
         }
         console.log(res.data)
 
@@ -949,7 +949,7 @@ const Register = () => {
         setWards(w.ward)
     }
     if (status === true) {
-        return <Spin size="large" tip="Tài khoản của bạn đang được tại, vui lòng chờ trong giây lát!" style={{
+        return <Spin size="large" tip="Tài khoản của bạn đang được tạo, vui lòng chờ trong giây lát!" style={{
             width: '100%',
             margin: '0 auto',
             marginTop: 300
@@ -1040,6 +1040,13 @@ const Register = () => {
                         <Form.Item
                             label="Đường"
                             name="street"
+                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Số nhà"
+                            name="detail"
                             rules={[{ required: true, message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>

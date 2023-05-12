@@ -44,14 +44,14 @@ const AdminShop = () => {
     const [statsShop, setStatsShop] = useState<any>(null)
     const [dataChart, setDataChart] = useState<any>(null)
     const handleLockShop = async (record: DataType) => {
-        const res = await AuthApi().patch(endpoint.shop.lock(record.id))
+        const res = await AuthAdminApi().patch(endpoint.shop.lock(record.id))
         console.log(res.data)
         if (res.data.status === 200) {
             setReload(!reload)
         }
     }
     const handleUnLockShop = async (record: DataType) => {
-        const res = await AuthApi().patch(endpoint.shop.unLock(record.id))
+        const res = await AuthAdminApi().patch(endpoint.shop.unLock(record.id))
         console.log(res.data)
         if (res.data.status === 200) {
             setReload(!reload)
