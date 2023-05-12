@@ -50,11 +50,11 @@ const SellerAdmin = () => {
   const [dataChart, setDataChart] = useState<any[]>([])
 
   const handleBlockUser = async (record: DataType) => {
-    const res = await Api.patch(endpoint.seller.lock(record.id))
+    const res = await AuthAdminApi().patch(endpoint.seller.lock(record.id))
     setReload(!reload)
   }
   const handleUnLock = async (recode: DataType) => {
-    const res = await Api.patch(endpoint.seller.unLock(recode.id))
+    const res = await AuthAdminApi().patch(endpoint.seller.unLock(recode.id))
     console.log(res.data)
     setReload(!reload)
   }

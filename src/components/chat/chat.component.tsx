@@ -73,7 +73,7 @@ export const Chat = () => {
           <div className="chat-left">
             {listConversation.length > 0 ?
               listConversation.map((item, idx) =>
-                <CardChatUser _id={item._id} isSelect={false} fullName={item.name} content={item.lastMessage !== null ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
+                <CardChatUser _id={item._id} isSelect={false} fullName={item.name} content={item.lastMessage !== undefined ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
               )
               :
               null
