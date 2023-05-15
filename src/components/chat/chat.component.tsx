@@ -22,6 +22,7 @@ export const Chat = () => {
   const [messageContent, setMessageContent] = useState<string>("")
   let [searchParams, setSearchParams] = useSearchParams();
   const scrollableDiv = useRef<any>(null);
+  const refContent = useRef<any>(null)
 
   const scrollToBottom = () => {
     const { scrollHeight, clientHeight } = scrollableDiv.current;
@@ -40,6 +41,8 @@ export const Chat = () => {
       const { scrollHeight, clientHeight } = scrollableDiv.current;
       const scrollPosition = scrollHeight - clientHeight;
       scrollableDiv.current.scrollTo({ top: scrollPosition, behavior: "smooth" });
+      dispatch(getAllConversationAsyncThunk())
+      refContent.current.value = ''
     }
 
   }
@@ -73,7 +76,7 @@ export const Chat = () => {
           <div className="chat-left">
             {listConversation.length > 0 ?
               listConversation.map((item, idx) =>
-                <CardChatUser _id={item._id} isSelect={false} fullName={item.name} content={item.lastMessage !== undefined ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
+                <CardChatUser index={idx} _id={item._id} isSelect={item.isSelect} fullName={item.name} avatar={item.avatar} content={item.lastMessage !== undefined ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
               )
               :
               null
@@ -108,7 +111,7 @@ export const Chat = () => {
           <div className="chat-input" ref={scrollableDiv}>
             <Row>
               <Col span={20}>
-                <input type="text" className="input-message" onChange={(e) => setMessageContent(e.target.value)} />
+                <input ref={refContent} type="text" className="input-message" onChange={(e) => setMessageContent(e.target.value)} />
               </Col>
               <Col span={4}>
                 <Button onClick={handleSendMessage} type="primary" className="" style={{

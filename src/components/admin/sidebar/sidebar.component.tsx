@@ -32,6 +32,7 @@ const items: MenuProps["items"] = [
   getItem("Quản lý user", "user", <MailOutlined />, [
     getItem(<Link to="/admin/sellers">Quản lý khách hàng</Link>, "1"),
     getItem(<Link to="/admin/shops">Quản lý shop</Link>, "2"),
+    getItem(<Link to="/admin/confirm-seller">Xác nhận đối tác</Link>, "3"),
   ]),
 
   getItem("Quản lý sản phẩm", "product", <AppstoreOutlined />, []),
