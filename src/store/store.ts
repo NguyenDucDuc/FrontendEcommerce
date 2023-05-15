@@ -8,6 +8,7 @@ import userSlice from './slices/user.slice'
 import conversationSlice from './slices/conversation.slice'
 import messageSlice from './slices/message.slice'
 import promotionSlice from './slices/promotion.slice'
+import productCompareSlice from './slices/product-compare.slice'
 
 
 const store = configureStore({
@@ -19,7 +20,8 @@ const store = configureStore({
         userAdmin: userAdminSlice,
         conversation: conversationSlice,
         message: messageSlice,
-        promotion: promotionSlice
+        promotion: promotionSlice,
+        productCompare: productCompareSlice
     }
 })
 

@@ -1,15 +1,21 @@
-import { Link } from "react-router-dom";
-import { StarFilled } from "@ant-design/icons";
-import "../style-commond/commond.style.scss";
-import "./card.style.scss";
-import { Product } from "../../models/models";
-import { formatCurrency } from "../../utils/common";
+import { Link, useLocation } from 'react-router-dom';
+import { PlusCircleOutlined, StarFilled } from '@ant-design/icons';
+import '../style-commond/commond.style.scss';
+import './card.style.scss';
+import { Product } from '../../models/models';
+import { formatCurrency } from '../../utils/common';
+import { Button } from 'antd';
+import { useAppDispatch } from '../../store/store';
+import { addProduct } from '../../store/slices/product-compare.slice';
 
 interface Props {
   product?: Product;
 }
 
 const CardProduct: React.FC<Props> = ({ product }) => {
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <div className="home-product-item">
@@ -37,6 +43,23 @@ const CardProduct: React.FC<Props> = ({ product }) => {
           </span>
           <span className="line-bulkhead"></span>
           <span className="home-product-item__sold">{`Đã bán ${product?.unitOnOrder}`}</span>
+          {location.pathname.includes('categories') && (
+            <span style={{ marginLeft: 10 }}>
+              <Button
+                style={{
+                  padding: '2px 4px',
+                  fontSize: 12,
+                  borderColor: 'transparent',
+                }}
+                onClick={() => {
+                  dispatch(addProduct(product as Product));
+                }}
+              >
+                <PlusCircleOutlined />
+                So sánh
+              </Button>
+            </span>
+          )}
         </div>
         {/* <div className="home-product-item__origin">
           <span className="home-product-item__brand">HanoiComputer</span>

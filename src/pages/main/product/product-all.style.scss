@@ -1,0 +1,30 @@
+.button__compare {
+  position: fixed;
+  left: 24px;
+  bottom: 30px;
+}
+
+.container__product-compare {
+  background-color: whitesmoke;
+  z-index: 999;
+  height: 100px;
+  position: fixed;
+  left: 100px;
+  bottom: 2px;
+  min-width: 60%;
+
+  .item {
+    position: relative;
+    border-right: 1px solid #e0e0e0;
+    .close {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      color: #999999;
+    }
+  }
+
+  button {
+    padding: 5px 10px;
+  }
+}
