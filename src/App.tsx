@@ -46,6 +46,7 @@ import Stats from "./components/stats/stats.component";
 import StatsAdmin from "./components/stats-admin/stats-admin.component";
 import { ForbiddenV2 } from "./components/shop/forbidden.component";
 import { ConfirmSeller } from "./components/admin/confirm/confirm-seller.component";
+import ProductCompare from "./components/compare-product/product-compare.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -67,6 +68,7 @@ function App() {
               path="/product-detail/:productId"
               element={<ProductDetail />}
             />
+            <Route path="/compare-product" element={<ProductCompare/>}/>
             <Route path="/shop-create" element={<ShopCreate />} />
             <Route path="/products" element={<ProductSales />} />
             <Route path="/cart" element={<Cart />} />
