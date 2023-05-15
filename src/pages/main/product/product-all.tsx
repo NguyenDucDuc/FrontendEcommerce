@@ -29,7 +29,11 @@ import {
   SwapOutlined,
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { RootState, useAppDispatch } from '../../../store/store';
+import {
+  removeAll,
+  removeProduct,
+} from '../../../store/slices/product-compare.slice';
 
 const ProductAll = () => {
   const { cateId } = useParams();
@@ -49,9 +53,18 @@ const ProductAll = () => {
   const listProductCompare = useSelector(
     (state: RootState) => state.productCompare.listProduct
   );
+  const dispatch = useAppDispatch();
 
   const location = useLocation();
   const nav = useNavigate();
+
+  const removeProductCompare = (id?: number) => {
+    if (id) {
+      dispatch(removeProduct({ id }));
+    } else {
+      dispatch(removeAll());
+    }
+  };
 
   const getProduct = async (params: Params) => {
     try {
@@ -71,7 +84,9 @@ const ProductAll = () => {
         {listProductCompare[0] && (
           <Col className="item" span={9}>
             <span className="close">
-              <CloseOutlined />
+              <CloseOutlined
+                onClick={() => removeProductCompare(listProductCompare[0].id)}
+              />
             </span>
             <Row>
               <Col span={24} style={{ textAlign: 'center' }}>
@@ -94,7 +109,9 @@ const ProductAll = () => {
         {listProductCompare[1] && (
           <Col className="item" span={9}>
             <span className="close">
-              <CloseOutlined />
+              <CloseOutlined
+                onClick={() => removeProductCompare(listProductCompare[0].id)}
+              />
             </span>
             <Row>
               <Col span={24} style={{ textAlign: 'center' }}>
@@ -122,12 +139,12 @@ const ProductAll = () => {
           }}
         >
           <div style={{ marginBottom: 10, textAlign: 'center' }}>
-            <Button type="primary" onClick={() => nav('/compare-product')}>
+            <Button type="primary" onClick={() => nav('/compare-product')} disabled={listProductCompare.length < 2}>
               So sánh
             </Button>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <Button>Xóa tất cả</Button>
+            <Button onClick={() => removeProductCompare()}>Xóa tất cả</Button>
           </div>
         </Col>
       </Row>
@@ -255,7 +272,7 @@ const ProductAll = () => {
       </Row>
       <Button
         className="button__compare"
-        type="primary"
+        type="primary" 
         onClick={() => setIsCompare(!isCompare)}
       >
         {isCompare ? <CloseCircleOutlined /> : <SwapOutlined />}
