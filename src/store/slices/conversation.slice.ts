@@ -4,10 +4,12 @@ import Api, { AuthApi, endpoint } from "../../configs/Api";
 interface IConversation {
     _id: string;
     name: string;
+    avatar: string;
     lastMessage: {
         content: string;
         createdAt: string;
     }
+    isSelect: boolean | false;
 }
 
 interface IInitialState {
@@ -34,7 +36,17 @@ const conversationSlice = createSlice({
     name: 'conversation',
     initialState,
     reducers: {
+        setNullConversation: (state) => {
+            state.listConversation = []
+        },
+        updateSelectItemConversation: (state, action) => {
+            const index = state.listConversation.findIndex((item) => item.isSelect === true)
+            if(index !== -1){
+                state.listConversation[index].isSelect = false
+            }
+            state.listConversation[action.payload].isSelect = true
 
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllConversationAsyncThunk.pending, (state) => {
@@ -48,3 +60,4 @@ const conversationSlice = createSlice({
 })
 
 export default conversationSlice.reducer
+export const {setNullConversation,updateSelectItemConversation} = conversationSlice.actions

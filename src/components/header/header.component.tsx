@@ -16,6 +16,7 @@ import { logoutAdmin } from "../../store/slices/user-admin.slice";
 import { endpoint } from "../../configs/Api";
 import { authAxios } from "../../lib/axios/axios.config";
 import { socket } from "../../utils/socket";
+import { getAllConversationAsyncThunk, setNullConversation } from "../../store/slices/conversation.slice";
 
 const Header = () => {
   const user = useSelector((state: RootState) => state.user.user)
@@ -97,6 +98,13 @@ const Header = () => {
     });
   }, [socket]);
 
+  useEffect(() => {
+    const getAllConversation = () => {
+      dispatch(getAllConversationAsyncThunk())
+    }
+    getAllConversation()
+  }, [])
+
   const items: MenuProps['items'] = [
     {
       label: (<Link to="/" >Trang chủ</Link>),
@@ -141,8 +149,10 @@ const Header = () => {
               localStorage.removeItem("accessToken")
               dispatch(logout())
               dispatch(logoutAdmin())
+              dispatch(setNullConversation())
               nav("/login")
               dispatch(setNullCartItem())
+              
             },
             style: {
               color: "black"

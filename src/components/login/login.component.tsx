@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom"
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice"
 import LazyLoad from "react-lazy-load"
 import {socket} from '../../App'
+import { getAllConversationAsyncThunk } from "../../store/slices/conversation.slice"
 
 
 interface IResponseGoogleLogin {
@@ -63,6 +64,8 @@ const Login = () => {
             });
             // dispatch to get product in cart for user
             dispatch(getAllItemAsyncThunk())
+            // get conversation
+            dispatch(getAllConversationAsyncThunk())
             nav("/")
         }
     };

@@ -25,6 +25,9 @@ export const endpoint = {
     getAll: "/seller",
     lock: (userId: number) => `/seller/lock/${userId}`,
     unLock: (userId: number) => `/seller/un-lock/${userId}`,
+    checkOfficial: '/seller/check-official',
+    getAllUnOfficial: '/seller/unofficial',
+    confirm: (userId: number) => `/seller/${userId}/confirm`
   },
   address: {
     currentAddress: "/address/current",

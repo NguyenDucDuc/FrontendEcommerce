@@ -1,14 +1,26 @@
 import { WarningOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Api, { AuthApi, endpoint } from "../../configs/Api";
 import "./createshop.style.scss"
+import { useNavigate } from "react-router-dom";
 
 
 
 const ShopCreate = () => {
     const [api, contextHolder] = notification.useNotification();
     const [image, setImage] = useState<any>()
+    const nav = useNavigate()
+    useEffect( () => {
+        const checkSellerOfficial = async () => {
+            const res = await AuthApi().get(endpoint.seller.checkOfficial)
+            console.log(res.data)
+            if(res.data.data.length === 0 || res.data.status === 400){
+                nav('/shop-forbidden')
+            }
+        }
+        checkSellerOfficial()
+    }, [])
     const onFinish = async (values: any) => {
         try {
             console.log('Success:', values);

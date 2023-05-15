@@ -1,6 +1,6 @@
 import { Button, Checkbox, notification } from "antd"
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthApi, endpoint } from "../../configs/Api";
 import "./register-seller.style.scss"
 
@@ -14,27 +14,30 @@ const RegisterSeller = () => {
         console.log(`checked = ${e.target.checked}`);
         setCheck(e.target.checked)
     };
+    useEffect(() => {
+        window.scroll(0,0)
+    }, [])
     const handleRegisterPartner = async () => {
         try {
             if (check === true) {
                 const res = await AuthApi().post(endpoint.seller.register)
                 console.log(res.data)
-                if(res.data.status === 201){
-                    api.open({
+                if (res.data.status === 201) {
+                    api.success({
                         message: 'Thông báo',
                         description: 'Đăng ký thành công.',
                         duration: 4,
                     });
                 }
             } else {
-                api.open({
+                api.error({
                     message: 'Thông báo',
                     description: 'Bạn phải chấp nhận các điều khoản thì với có thể trở thành đối tác của chúng tôi.',
                     duration: 4,
                 });
             }
         } catch (error: any) {
-            api.open({
+            api.warning({
                 message: 'Thông báo',
                 description: `${error.response.data.errors}`,
                 duration: 4,
