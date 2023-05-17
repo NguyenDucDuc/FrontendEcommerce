@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './product-compare.style.scss';
 import { Col, Image, Rate, Row, Table, Typography } from 'antd';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { formatCurrency } from '../../utils/common';
+import { formatCurrency, formatDateString } from '../../utils/common';
+import { Link } from 'react-router-dom';
+import { Response } from '../../models/http';
+import { axiosClient } from '../../lib/axios/axios.config';
+import { endpoint } from '../../configs/Api';
 
 const ProductCompare = () => {
   const [p1, p2] = useSelector(
     (state: RootState) => state.productCompare.listProduct
   );
+
+  const [productCompare, setProductCompare] = useState<any>();
+
+  const fetchData = async () => {
+    const res: Response = await axiosClient.post(endpoint.product.compare, {
+      productId1: p1?.id,
+      productId2: p2?.id,
+    });
+
+    setProductCompare(res.data);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleOnChangeRate = (values: number) => {
     console.log(values);
   };
@@ -29,7 +48,7 @@ const ProductCompare = () => {
     return (
       <>
         {p1 && (
-          <Col span={12}>
+          <Col span={11}>
             <Row>
               <Col style={{ textAlign: 'center' }} span={24}>
                 <Image
@@ -72,6 +91,44 @@ const ProductCompare = () => {
               <Col span={24}>
                 <span>Mô tả: {p1.desc}</span>
               </Col>
+              <Col
+                span={24}
+                style={{
+                  textAlign: 'center',
+                  margin: '10px 0',
+                }}
+              >
+                <span style={{ fontSize: '20px' }}>Cửa hàng</span>
+              </Col>
+              <Col span={24} style={{ textAlign: 'center', marginBottom: 10 }}>
+                <Image src={productCompare?.base?.shop?.image} />
+              </Col>
+              <Col span={24}>
+                <span>
+                  Tên cửa hàng:{' '}
+                  <Link to={`/shop/${productCompare?.base?.shop?.id}`}>
+                    {productCompare?.base?.shop?.shopName}
+                  </Link>
+                </span>
+              </Col>
+              <Col span={24}>
+                <span>
+                  Đánh giá:{' '}
+                  <Rate
+                    defaultValue={productCompare?.base?.shop.rate}
+                    onChange={(values) => handleOnChangeRate(values)}
+                  />
+                </span>
+                <span style={{ marginLeft: 10 }}>
+                  {productCompare?.base?.shop.rate}
+                </span>
+              </Col>
+              <Col span={24} style={{ marginBottom: 10 }}>
+                <span>
+                  Bắt đầu bán:{' '}
+                  {formatDateString(productCompare?.base?.shop.createdAt)}
+                </span>
+              </Col>
               <Col span={24}>
                 <Table
                   dataSource={p1.attributes}
@@ -82,8 +139,13 @@ const ProductCompare = () => {
             </Row>
           </Col>
         )}
+        <Col span={2} style={{ display: 'flex', justifyContent: 'center' }}>
+          <div
+            style={{ backgroundColor: 'gray', width: '2px', height: '100%' }}
+          ></div>
+        </Col>
         {p2 && (
-          <Col span={12}>
+          <Col span={11}>
             <Row>
               <Col style={{ textAlign: 'center' }} span={24}>
                 <Image
@@ -125,6 +187,44 @@ const ProductCompare = () => {
               </Col>
               <Col span={24}>
                 <span>Mô tả: {p2.desc}</span>
+              </Col>
+              <Col
+                span={24}
+                style={{
+                  textAlign: 'center',
+                  margin: '10px 0',
+                }}
+              >
+                <span style={{ fontSize: '20px' }}>Cửa hàng</span>
+              </Col>
+              <Col span={24} style={{ textAlign: 'center', marginBottom: 10 }}>
+                <Image src={productCompare?.compare?.shop?.image} />
+              </Col>
+              <Col span={24}>
+                <span>
+                  Tên cửa hàng:{' '}
+                  <Link to={`/shop/${productCompare?.compare?.shop?.id}`}>
+                    {productCompare?.compare?.shop?.shopName}
+                  </Link>
+                </span>
+              </Col>
+              <Col span={24}>
+                <span>
+                  Đánh giá:{' '}
+                  <Rate
+                    defaultValue={productCompare?.compare?.shop.rate}
+                    onChange={(values) => handleOnChangeRate(values)}
+                  />
+                </span>
+                <span style={{ marginLeft: 10 }}>
+                  {productCompare?.compare?.shop.rate}
+                </span>
+              </Col>
+              <Col span={24} style={{ marginBottom: 10 }}>
+                <span>
+                  Bắt đầu bán:{' '}
+                  {formatDateString(productCompare?.compare?.shop.createdAt)}
+                </span>
               </Col>
               <Col span={24}>
                 <Table
