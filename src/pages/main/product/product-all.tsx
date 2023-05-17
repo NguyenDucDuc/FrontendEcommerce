@@ -110,7 +110,7 @@ const ProductAll = () => {
           <Col className="item" span={9}>
             <span className="close">
               <CloseOutlined
-                onClick={() => removeProductCompare(listProductCompare[0].id)}
+                onClick={() => removeProductCompare(listProductCompare[1].id)}
               />
             </span>
             <Row>
@@ -139,7 +139,11 @@ const ProductAll = () => {
           }}
         >
           <div style={{ marginBottom: 10, textAlign: 'center' }}>
-            <Button type="primary" onClick={() => nav('/compare-product')} disabled={listProductCompare.length < 2}>
+            <Button
+              type="primary"
+              onClick={() => nav('/compare-product')}
+              disabled={listProductCompare.length < 2}
+            >
               So sánh
             </Button>
           </div>
@@ -272,7 +276,7 @@ const ProductAll = () => {
       </Row>
       <Button
         className="button__compare"
-        type="primary" 
+        type="primary"
         onClick={() => setIsCompare(!isCompare)}
       >
         {isCompare ? <CloseCircleOutlined /> : <SwapOutlined />}

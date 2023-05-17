@@ -36,6 +36,7 @@ export const endpoint = {
   product: {
     main: "/product",
     search: "/product",
+    compare: '/product/compare',
     productDetail: (productId: string) => `/product/${productId}`,
     reviews: (productId: string) => `/product/${productId}/reviews`,
     update: (productId: string) => `product/${productId}`,
