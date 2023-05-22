@@ -1,0 +1,9 @@
+.btn-payment {
+    width: 100%;
+    height: 100%;
+    .StripeCheckout{
+        width: 100%;
+        height: 100%;
+        display: none !important;
+    }
+}

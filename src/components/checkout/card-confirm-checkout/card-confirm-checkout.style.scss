@@ -1,0 +1,41 @@
+div.card-confirm-checkout {
+    width: 100%;
+    box-shadow: 10px 10px 15px #d9d9d9;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 50px;
+    div.card-confirm-checkout-child {
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 20px;
+    }
+    div.confirm-order {
+        line-height: 50px;
+    }
+    div.btn-confirm {
+        margin-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.card-confirm-checkout {
+        width: 100%;
+        box-shadow: 10px 10px 15px #d9d9d9;
+        height: auto;
+        border-radius: 10px;
+        margin-top: 50px;
+        div.card-confirm-checkout-child {
+            width: 95%;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        div.confirm-order {
+            line-height: 50px;
+        }
+        div.btn-confirm {
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+    }
+}

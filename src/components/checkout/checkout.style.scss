@@ -1,0 +1,35 @@
+div.address {
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 10px 10px 15px #d9d9d9;
+    height: 150px;
+    border-radius: 10px;
+    margin-top: 50px;
+    div.address-child {
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 20px;
+    }
+}
+
+// div.list-product {
+//     width: 90%;
+//     margin: 0 auto;
+//     box-shadow: 10px 10px 15px #d9d9d9;
+//     height: 180px;
+//     border-radius: 10px;
+//     margin-top: 50px;
+//     div.list-product-child {
+//         width: 95%;
+//         margin: 0 auto;
+//         padding-top: 20px;
+//     }
+// }
+div.list-product {
+    width: 90%;
+    margin: 0 auto;
+}
+div.confirm-checkout {
+    width: 90%;
+    margin: 0 auto;
+}
