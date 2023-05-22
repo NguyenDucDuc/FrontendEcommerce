@@ -12,7 +12,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartitem.slice"
 import LazyLoad from "react-lazy-load"
-import {socket} from '../../App'
+import { socket } from '../../App'
 import { getAllConversationAsyncThunk } from "../../store/slices/conversation.slice"
 
 
@@ -40,11 +40,9 @@ const Login = () => {
             password: values.password
         }
         const resLoginAsyncThunk = await dispatch(loginAsyncThunk(reqLogin))
-        socket.emit('clientLogin', {
-            userId: resLoginAsyncThunk.payload.user.id
-        })
-        console.log(resLoginAsyncThunk)
+
         if (resLoginAsyncThunk.type.includes('rejected')) {
+            console.log('asbdjasbd')
             setErrorResponse(resLoginAsyncThunk.payload.errors)
             // show notification
             notification.open({
@@ -66,6 +64,10 @@ const Login = () => {
             dispatch(getAllItemAsyncThunk())
             // get conversation
             dispatch(getAllConversationAsyncThunk())
+            // emit socket 
+            socket.emit('clientLogin', {
+                userId: resLoginAsyncThunk.payload.user.id
+            })
             nav("/")
         }
     };
@@ -74,11 +76,11 @@ const Login = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const googleLogin = async (acceessToken: string|undefined) => {
+    const googleLogin = async (acceessToken: string | undefined) => {
         console.log(acceessToken)
-        const info: any = jwtDecode(acceessToken||"")
+        const info: any = jwtDecode(acceessToken || "")
         console.log(info)
-        if(info) {
+        if (info) {
             dispatch(setNullCartItem())
             const reqBody: IReqGoogleLogin = {
                 email: info.email,
@@ -87,11 +89,12 @@ const Login = () => {
                 avatar: info.picture
             }
             const resGoogleLogin = await dispatch(googleLoginAsyncThunk(reqBody))
-            if(resGoogleLogin){
-                localStorage.setItem('accessToken',resGoogleLogin.payload.accessToken)
+            if (resGoogleLogin) {
+                localStorage.setItem('accessToken', resGoogleLogin.payload.accessToken)
+                nav("/")
             }
         }
-        
+
     }
     if (status === "pending") {
         return <Spin tip="Loading..." size="large">
@@ -154,7 +157,7 @@ const Login = () => {
                             <Col span={8}></Col>
                             <Col span={16}>
                                 <GoogleLogin
-                                    onSuccess={(credentialResponse) => googleLogin(credentialResponse.credential) }
+                                    onSuccess={(credentialResponse) => googleLogin(credentialResponse.credential)}
                                     onError={() => {
                                         console.log('Login Failed');
                                     }}
@@ -164,7 +167,7 @@ const Login = () => {
                     </Col>
                 </Row>
             </div>
-            
+
         </div>
     )
 }
