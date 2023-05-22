@@ -91,6 +91,7 @@ const Login = () => {
             const resGoogleLogin = await dispatch(googleLoginAsyncThunk(reqBody))
             if (resGoogleLogin) {
                 localStorage.setItem('accessToken', resGoogleLogin.payload.accessToken)
+                console.log("success")
                 nav("/")
             }
         }
