@@ -9,7 +9,8 @@ export const endpoint = {
     currentUser: "/user/current-user",
     updateUser: (userId: number) => `/user/${userId}`,
     roleAdmin: "/user/role-admin",
-    getShopOwner: (productId: number) => `/user/get-user-by-productId/${productId}`
+    getShopOwner: (productId: number) => `/user/get-user-by-productId/${productId}`,
+    resetPassword: "/user/reset-password"
   },
   shop: {
     getDetail: (shopId: number) => `/shop/${shopId}`,
