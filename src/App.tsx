@@ -47,6 +47,7 @@ import StatsAdmin from "./components/stats-admin/stats-admin.component";
 import { ForbiddenV2 } from "./components/shop/forbidden.component";
 import { ConfirmSeller } from "./components/admin/confirm/confirm-seller.component";
 import ProductCompare from "./components/compare-product/product-compare.component";
+import { ResetPassword } from "./components/reset-password/reset-password.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -81,6 +82,7 @@ function App() {
             <Route path="/register-seller" element={<RegisterSeller />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/shop-forbidden" element={<ForbiddenV2 />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* Route Shop */}
             <Route path="/shop/:shopId" element={<Shop />}>
               <Route index element={<ShopProfile />} />
