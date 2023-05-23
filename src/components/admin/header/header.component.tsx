@@ -32,6 +32,9 @@ const HeaderAdmin = () => {
       icon: <UserOutlined />,
       style: {
         fontWeight: 'bold'
+      },
+      onClick: () => {
+        nav('/admin/login')
       }
     },
     user.userName ? {

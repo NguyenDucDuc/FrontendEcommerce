@@ -4,6 +4,7 @@ import { CarryOutOutlined, DollarOutlined, UserOutlined } from '@ant-design/icon
 import Table, { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { AuthAdminApi, AuthApi, endpoint } from '../../../configs/Api';
+import { useNavigate } from 'react-router-dom';
 
 
 interface DataType {
@@ -17,19 +18,20 @@ interface DataType {
 
 
 export const ConfirmSeller = () => {
+  const nav = useNavigate()
   const [api, contextHolder] = notification.useNotification();
-  const [listSellerUnOfficial, setListSellerUnOfficial] = useState<any []>([])
+  const [listSellerUnOfficial, setListSellerUnOfficial] = useState<any[]>([])
   const handleConfirm = async (record: DataType) => {
     const res = await AuthAdminApi().post(endpoint.seller.confirm(record.id))
     console.log(res.data)
-    if(res.data.status === 200){
-        api.success({
-          message: `Thông báo`,
-          description: `Xác nhận thành công.`,
-          duration: 4
-        });
-        const newListSellerUnOfficial = listSellerUnOfficial.filter((item) => item.id !== record.id)
-        setListSellerUnOfficial(newListSellerUnOfficial)
+    if (res.data.status === 200) {
+      api.success({
+        message: `Thông báo`,
+        description: `Xác nhận thành công.`,
+        duration: 4
+      });
+      const newListSellerUnOfficial = listSellerUnOfficial.filter((item) => item.id !== record.id)
+      setListSellerUnOfficial(newListSellerUnOfficial)
     }
   }
   // data
@@ -49,19 +51,23 @@ export const ConfirmSeller = () => {
       key: 'confirm',
       render: (_, record) => (
         <Button type='primary'
-        onClick={() => handleConfirm(record)}
-        style={{
-          background: '#1a8cff'
-        }}>Xác nhận</Button>
+          onClick={() => handleConfirm(record)}
+          style={{
+            background: '#1a8cff'
+          }}>Xác nhận</Button>
       )
     }
   ];
 
   useEffect(() => {
     const getListUserUnOfficial = async () => {
-      const res = await AuthApi().get(endpoint.seller.getAllUnOfficial)
-      console.log(res.data)
-      setListSellerUnOfficial(res.data.data)
+      try {
+        const res = await AuthAdminApi().get(endpoint.seller.getAllUnOfficial)
+        console.log(res.data)
+        setListSellerUnOfficial(res.data.data)
+      } catch (error) {
+        nav("/admin/forbidden")
+      }
     }
 
     getListUserUnOfficial()
