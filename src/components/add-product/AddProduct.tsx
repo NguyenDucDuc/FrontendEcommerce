@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, Row, Select, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, Input, Row, Select, message } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 
-import "./add-product.style.scss";
-import { authAxios, axiosClient } from "../../lib/axios/axios.config";
-import { ENDPOINT } from "../../constants/api";
-import { generateOptions } from "../../utils/generateOptions";
-import { Attribute } from "../../models/models";
-import { Response } from "../../models/http";
-import { useParams } from "react-router-dom";
+import './add-product.style.scss';
+import { authAxios, axiosClient } from '../../lib/axios/axios.config';
+import { ENDPOINT } from '../../constants/api';
+import { generateOptions } from '../../utils/generateOptions';
+import { Attribute } from '../../models/models';
+import { Response } from '../../models/http';
+import { useParams } from 'react-router-dom';
 
 const AddProduct: React.FC = () => {
   const { shopId } = useParams();
@@ -60,7 +60,7 @@ const AddProduct: React.FC = () => {
         <Form.Item
           key={key}
           label={attribute.name}
-          name={["attributes", `${attribute.id}`]}
+          name={['attributes', `${attribute.id}`]}
         >
           <Input type={attribute?.frontendInput} />
         </Form.Item>
@@ -74,9 +74,9 @@ const AddProduct: React.FC = () => {
         const attribute: Attribute = {
           value: values.attributes[attributeId],
           attributeId: attributeId,
-          name: attributeList[attributeId]["name"],
-          backendType: attributeList[attributeId]["backendType"],
-          frontendInput: attributeList[attributeId]["frontendInput"],
+          name: attributeList[attributeId]['name'],
+          backendType: attributeList[attributeId]['backendType'],
+          frontendInput: attributeList[attributeId]['frontendInput'],
         };
         obj.ids.push(parseInt(attributeId));
         obj.list.push(attribute);
@@ -96,7 +96,7 @@ const AddProduct: React.FC = () => {
         dataToServer,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
@@ -107,13 +107,13 @@ const AddProduct: React.FC = () => {
         message.error(res.message);
       }
     } catch (error) {
-      message.error("Đã có lỗi xảy ra !!");
+      message.error('Đã có lỗi xảy ra !!');
     }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    message.error("Đã có lỗi xảy ra !!");
-    console.log("Failed:", errorInfo);
+    message.error('Đã có lỗi xảy ra !!');
+    console.log('Failed:', errorInfo);
   };
 
   useEffect(() => {
@@ -135,7 +135,7 @@ const AddProduct: React.FC = () => {
           disabled={componentDisabled}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          style={{ width: "50%" }}
+          style={{ width: '50%' }}
         >
           <Col span={24}>
             <Form.Item
@@ -145,7 +145,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -160,7 +160,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -175,7 +175,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -190,7 +190,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -205,7 +205,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -219,7 +219,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng thêm ảnh cho sản phẩm",
+                  message: 'Vui lòng thêm ảnh cho sản phẩm',
                 },
               ]}
             >
@@ -234,7 +234,7 @@ const AddProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -248,9 +248,9 @@ const AddProduct: React.FC = () => {
             generateInput(item, key)
           )}
           <Col span={24}>
-            <Form.Item style={{ textAlign: "center", width: "100%" }}>
+            <Form.Item style={{ textAlign: 'center', width: '100%' }}>
               <Button type="primary" htmlType="submit">
-                Submit
+                Xác nhận
               </Button>
             </Form.Item>
           </Col>

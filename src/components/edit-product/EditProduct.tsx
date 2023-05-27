@@ -272,7 +272,7 @@ const EditProduct: React.FC = () => {
           <Col span={24}>
             <Form.Item style={{ textAlign: "center", width: "100%" }}>
               <Button type="primary" htmlType="submit">
-                Submit
+                Cập nhật
               </Button>
             </Form.Item>
           </Col>
