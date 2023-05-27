@@ -11,10 +11,14 @@ export interface Product {
   unitOnOrder?: number;
   shopId?: number;
   categoryId?: number;
+  promotionId?: number;
   attributeGroupId?: number;
   createdAt?: string;
   updatedAt?: string;
+  promotion?: any;
+  priceDiscount?: any;
   attributes?: Array<Attribute>;
+  unitPrice?: any;
 }
 
 export interface Shop {

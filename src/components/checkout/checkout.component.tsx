@@ -1,21 +1,22 @@
-import { AimOutlined } from "@ant-design/icons";
-import { Col, Input, Row, notification } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { number, string } from "yup";
-import { AuthApi, endpoint } from "../../configs/Api";
-import { updateTotalPriceCheckedList } from "../../store/slices/product-checked.slice";
-import { RootState, useAppDispatch } from "../../store/store";
-import CardConfirmCheckout from "./card-confirm-checkout/card-confirm-checkout.component";
-import CardProductCheckout from "./card-product-checkout/card-product-checkout.component";
-import "./checkout.style.scss";
-import { useNavigate } from "react-router-dom";
-import { deleteItemAsyncThunk } from "../../store/slices/cartitem.slice";
-import { socket } from "../../utils/socket";
-import { createNotification } from "../../utils/notification";
-import { axiosClient } from "../../lib/axios/axios.config";
-import { FEE_SHIP } from "../../constants/order";
-import { formatCurrency } from "../../utils/common";
+import { AimOutlined } from '@ant-design/icons';
+import { Col, Input, Row, message, notification } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { number, string } from 'yup';
+import { AuthApi, endpoint } from '../../configs/Api';
+import { updateTotalPriceCheckedList } from '../../store/slices/product-checked.slice';
+import { RootState, useAppDispatch } from '../../store/store';
+import CardConfirmCheckout from './card-confirm-checkout/card-confirm-checkout.component';
+import CardProductCheckout from './card-product-checkout/card-product-checkout.component';
+import './checkout.style.scss';
+import { useNavigate } from 'react-router-dom';
+import { deleteItemAsyncThunk } from '../../store/slices/cartitem.slice';
+import { socket } from '../../utils/socket';
+import { createNotification } from '../../utils/notification';
+import { axiosClient } from '../../lib/axios/axios.config';
+import { FEE_SHIP } from '../../constants/order';
+import { formatCurrency } from '../../utils/common';
+import { Response } from '../../models/http';
 const Checkout = () => {
   const [api, contextHolder] = notification.useNotification();
   const nav = useNavigate();
@@ -57,7 +58,7 @@ const Checkout = () => {
 
   const testOrder = async (
     chargeId?: string,
-    payment: string = "Thanh toán khi nhận hàng",
+    payment: string = 'Thanh toán khi nhận hàng',
     totalPrice?: number
   ) => {
     if (listProductsChecked.length > 0) {
@@ -74,7 +75,7 @@ const Checkout = () => {
           };
           orderDetails.push(newOrderDetail);
         }
-        const res = await AuthApi().post(endpoint.order.buyProduct, {
+        const res: Response = await AuthApi().post(endpoint.order.buyProduct, {
           shipAddress: `${currentAddress.detail} ${currentAddress.street} - ${currentAddress.ward} - ${currentAddress.district} - ${currentAddress.city}`,
           shopId: listProductsChecked[i].shopId,
           payment: payment,
@@ -98,7 +99,7 @@ const Checkout = () => {
             updatedAt: new Date(),
           });
 
-          socket.emit("sendNotification", {
+          socket.emit('sendNotification', {
             senderName: currentUser.userName,
             receiverName: user.data.userName,
             content: `${currentUser.userName} vừa đặt 1 đơn hàng`,
@@ -116,13 +117,13 @@ const Checkout = () => {
       });
       api.success({
         message: `Thông báo`,
-        description: "Bạn đã đặt hàng thành công.",
+        description: 'Bạn đã đặt hàng thành công.',
         duration: 3,
       });
-      
+
       setTimeout(() => {
-        nav('/')
-      }, 1500)
+        nav('/');
+      }, 1500);
     }
   };
   return (
@@ -132,10 +133,10 @@ const Checkout = () => {
         <div className="address-child">
           <Row>
             <Col span={1}>
-              <AimOutlined style={{ fontSize: 25, color: "red" }} />
+              <AimOutlined style={{ fontSize: 25, color: 'red' }} />
             </Col>
             <Col span={23}>
-              <h3 style={{ color: "red" }}>Địa chỉ nhận hàng</h3>
+              <h3 style={{ color: 'red' }}>Địa chỉ nhận hàng</h3>
             </Col>
           </Row>
           <Row>
@@ -183,7 +184,7 @@ const Checkout = () => {
               type="text"
               size="large"
               placeholder="Lời nhắn cho shop"
-              style={{ border: "1.5px solid #a6a6a6" }}
+              style={{ border: '1.5px solid #a6a6a6' }}
             />
           </Col>
           <Col span={11}>
@@ -196,8 +197,8 @@ const Checkout = () => {
               </Col>
               <Col span={8}>
                 <p className="">
-                  Phí vận chuyển:{" "}
-                  <span style={{ color: "red", fontWeight: "bold" }}>
+                  Phí vận chuyển:{' '}
+                  <span style={{ color: 'red', fontWeight: 'bold' }}>
                     {formatCurrency(FEE_SHIP.NGOAI_THANH)}
                   </span>
                 </p>

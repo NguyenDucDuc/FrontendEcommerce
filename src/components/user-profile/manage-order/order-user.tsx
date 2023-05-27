@@ -25,7 +25,7 @@ import { extractData } from "../../../utils/product";
 import { ParamsOrderDetail, STATUS_ACTION } from "../../../constants/order";
 import { formatCurrency, formatDateString, getOrderDetail } from "../../../utils/common";
 
-interface Pagination {
+export interface Pagination {
   total?: number;
   pageSize?: number;
   current?: number;
