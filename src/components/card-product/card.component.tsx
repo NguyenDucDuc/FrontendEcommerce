@@ -30,10 +30,16 @@ const CardProduct: React.FC<Props> = ({ product }) => {
         <h4 className="home-product-item__name">{product?.name}</h4>
         <div className="home-product-item__price">
           <span className="home-product-item__price-old">
-            {formatCurrency(product?.price as number)}
+            {product?.priceDiscount !== undefined
+              ? formatCurrency(product?.price as number)
+              : ''}
+            {/* {formatCurrency(product?.price as number)} */}
           </span>
           <span className="home-product-item__price-current">
-            {formatCurrency(product?.price as number)}
+            {product?.priceDiscount === undefined
+              ? formatCurrency(product?.price as number)
+              : formatCurrency(product?.priceDiscount as number)}
+            {/* {formatCurrency(product?.priceDiscount as number)} */}
           </span>
         </div>
         <div className="home-product-item__action">
@@ -70,7 +76,9 @@ const CardProduct: React.FC<Props> = ({ product }) => {
           <span>Yêu thích</span>
         </div>
         <div className="home-product-item__sale-off">
-          <span className="home-product-item__sale-off-percent">10%</span>
+          <span className="home-product-item__sale-off-percent">
+            {product?.promotion ? `${product?.promotion.value * 100}%` : '0%'}
+          </span>
           <span className="home-product-item__sale-off-label">GIẢM</span>
         </div>
       </div>

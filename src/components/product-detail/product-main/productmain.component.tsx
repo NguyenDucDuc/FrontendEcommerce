@@ -5,7 +5,7 @@ import {
   QuestionCircleTwoTone,
   ShoppingCartOutlined,
   WarningOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 import {
   Badge,
   Button,
@@ -17,22 +17,23 @@ import {
   Row,
   Skeleton,
   notification,
-} from "antd";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { AuthApi, endpoint } from "../../../configs/Api";
+} from 'antd';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AuthApi, endpoint } from '../../../configs/Api';
 import {
   addItem,
   ICartItem,
   updateCartCount,
-} from "../../../store/slices/cartitem.slice";
-import { RootState, useAppDispatch } from "../../../store/store";
-import "./productmain.style.scss";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
-import { Product } from "../../../models/models";
-import { formatCurrency } from "../../../utils/common";
+} from '../../../store/slices/cartitem.slice';
+import { RootState, useAppDispatch } from '../../../store/store';
+import './productmain.style.scss';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import { Product } from '../../../models/models';
+import { formatCurrency } from '../../../utils/common';
+import { axiosClient } from '../../../lib/axios/axios.config';
 
 interface IProps {
   productId: number;
@@ -52,11 +53,10 @@ interface Props {
 }
 
 const arrImgs = [
-  "https://cf.shopee.vn/file/sg-11134201-22090-n8jt8x4mvthv55",
-  "https://cf.shopee.vn/file/sg-11134201-22110-x6zyf93phrjv92",
-  "https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e",
+  'https://cf.shopee.vn/file/sg-11134201-22090-n8jt8x4mvthv55',
+  'https://cf.shopee.vn/file/sg-11134201-22110-x6zyf93phrjv92',
+  'https://cf.shopee.vn/file/47e93f885083c41daaebb6093f8e522e',
 ];
-
 
 const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const {
@@ -72,10 +72,13 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
     unitOnOrder,
     shopId,
     categoryId,
+    promotionId,
     attributeGroupId,
     createdAt,
     updatedAt,
     attributes,
+    promotion,
+    priceDiscount,
   } = product;
   const listCartItem = useSelector(
     (state: RootState) => state.cartItem.listProducts
@@ -86,20 +89,15 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const [urlMainImage, setUrlMainImage] = useState<string>(image as string);
   //   const [value4, setValue4] = useState("Apple");
   const [isHeart, setIsHeart] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(1)
+  const [quantity, setQuantity] = useState<number>(1);
   const nav = useNavigate();
   const dispatch = useAppDispatch();
   const handleChangeQuantity = (value: any) => {
-    console.log(value)
-    setQuantity(value)
-  }
-
-  const handleOnChangeRate = (values: number) => {
-    console.log(values);
+    setQuantity(value);
   };
+  const handleOnChangeRate = (values: number) => {};
   const handleChangeShowChatBox = () => {
     setShowChatBox(true);
-    console.log(showChatBox);
   };
   const handleChangeHideChatBox = () => {
     setShowChatBox(false);
@@ -107,44 +105,11 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
   const handleClickImage = (img: string) => {
     setUrlMainImage(img);
   };
+
   //   const onChange4 = ({ target: { value } }: RadioChangeEvent) => {
   //     console.log("radio4 checked", value);
   //     setValue4(value);
   //   };
-  const handleAddToCart = async () => {
-    // update cart count in header
-    dispatch(updateCartCount());
-    // nofitication
-    api.success({
-      message: 'Thông báo',
-      description: 'Sản phẩm đã được thêm và giỏ hàng!',
-      duration: 4
-    });
-    // add to redux cart
-    const newCartItem: ICartItem = {
-      price: price as number,
-      id: id,
-      image: image,
-      desc: desc,
-      quantity: quantity,
-      shopId: shopId as number,
-    };
-    dispatch(addItem(newCartItem));
-    // add to database
-    // -- step 1: get cartId
-    const resCart = await AuthApi().get(endpoint.cart.getByUserId);
-
-    console.log(resCart);
-
-    // -- step 2: add to database
-    const res = await AuthApi().post(endpoint.productCart.add, {
-      productId: id,
-      cartId: resCart.data.data.id,
-      quantity: quantity,
-      unitPrice: price,
-    });
-    console.log(res.data);
-  };
 
   useEffect(() => {
     setUrlMainImage(image as string);
@@ -157,6 +122,46 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
     };
     getCurrentAddress();
   }, []);
+
+  const handleAddToCart = async () => {
+    // update cart count in header
+    dispatch(updateCartCount());
+    // nofitication
+    api.success({
+      message: 'Thông báo',
+      description: 'Sản phẩm đã được thêm và giỏ hàng!',
+      duration: 4,
+    });
+    // add to redux cart
+
+    const newCartItem: ICartItem = {
+      price:
+        priceDiscount !== undefined
+          ? (priceDiscount as number)
+          : (price as number),
+      id: id,
+      image: image,
+      desc: desc,
+      quantity: quantity,
+      shopId: shopId as number,
+    };
+    dispatch(addItem(newCartItem));
+    // add to database
+    // -- step 1: get cartId
+    const resCart = await AuthApi().get(endpoint.cart.getByUserId);
+
+    // -- step 2: add to database
+    const res = await AuthApi().post(endpoint.productCart.add, {
+      productId: id,
+      cartId: resCart.data.data.id,
+      quantity: quantity,
+      unitPrice:
+        priceDiscount !== undefined
+          ? (priceDiscount as number)
+          : (price as number),
+    });
+  };
+
   return (
     <div className="product-main">
       {contextHolder}
@@ -185,7 +190,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
                     <HeartFilled
                       onClick={() => setIsHeart(false)}
                       className="icon cs-pointer"
-                    />{" "}
+                    />{' '}
                     (3,4K)
                   </>
                 ) : (
@@ -193,7 +198,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
                     <HeartOutlined
                       onClick={() => setIsHeart(true)}
                       className="icon cs-pointer"
-                    />{" "}
+                    />{' '}
                     (3,4K)
                   </>
                 )}
@@ -206,7 +211,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
           </div>
         </Col>
         <Col span={14} className="mgl-40">
-          <h2 style={{textTransform: 'capitalize'}}>{`${name}`}</h2>
+          <h2 style={{ textTransform: 'capitalize' }}>{`${name}`}</h2>
           <Row className="mgt-10">
             <Col span={5}>
               <Rate onChange={(values) => handleOnChangeRate(values)} />
@@ -214,9 +219,9 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
             <Col span={5}>
               <p
                 style={{
-                  fontWeight: "bold",
-                  marginTop: "5px",
-                  textAlign: "center",
+                  fontWeight: 'bold',
+                  marginTop: '5px',
+                  textAlign: 'center',
                 }}
               >
                 {rate} đánh giá
@@ -225,9 +230,9 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
             <Col span={5}>
               <p
                 style={{
-                  fontWeight: "bold",
-                  marginTop: "5px",
-                  textAlign: "center",
+                  fontWeight: 'bold',
+                  marginTop: '5px',
+                  textAlign: 'center',
                 }}
               >
                 {unitOnOrder} đã bán
@@ -235,23 +240,29 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
             </Col>
           </Row>
           <Row className="mgt-10">
-            <Col span={24} style={{ background: "#f2f2f2", padding: "15px 0" }}>
+            <Col span={24} style={{ background: '#f2f2f2', padding: '15px 0' }}>
               <Row>
                 <Col span={4}>
                   <p
                     className="mgl-10"
-                    style={{ textDecoration: "line-through" }}
+                    style={{ textDecoration: 'line-through' }}
                   >
-                    {formatCurrency(price as number)}
+                    {priceDiscount === undefined ? '' : formatCurrency(price as number)}
                   </p>
                 </Col>
                 <Col span={7}>
-                  <h2 style={{ color: "#ff3333", fontSize: "28px" }}>
-                    {formatCurrency(price as number)}
+                  <h2 style={{ color: '#ff3333', fontSize: '28px' }}>
+                    {priceDiscount !== undefined
+                      ? formatCurrency(priceDiscount)
+                      : formatCurrency(price as number)}
                   </h2>
                 </Col>
                 <Col span={6}>
-                  <Badge count="Giảm 8%"></Badge>
+                  {promotion && promotion.value >= 0 ? (
+                    <Badge count={`Giảm ${promotion?.value * 100}%`}></Badge>
+                  ) : (
+                    ''
+                  )}
                 </Col>
               </Row>
               <Row justify="space-around">
@@ -260,11 +271,11 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
                     <Col span={2}>
                       <QuestionCircleTwoTone
                         twoToneColor="#52c41a"
-                        style={{ fontSize: "25px" }}
+                        style={{ fontSize: '25px' }}
                       />
                     </Col>
                     <Col span={4}>
-                      <h3 style={{ color: "red" }}>Gì cũng rẻ</h3>
+                      <h3 style={{ color: 'red' }}>Gì cũng rẻ</h3>
                     </Col>
                   </Row>
                   <Row>
@@ -278,33 +289,18 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
             </Col>
           </Row>
           {/* Shop discount */}
-          <Row className="mgt-30">
+          {/* <Row className="mgt-30">
             <Col span={6}>
               <p style={{}}>Mã giảm giá của shop: </p>
             </Col>
             <Col span={18}>
               <Row>
                 <Col span={4}>
-                  <Badge count="Giảm 10k" style={{ background: "#00cc66" }} />
-                </Col>
-                <Col span={4}>
-                  <Badge count="Giảm 10k" style={{ background: "#00cc66" }} />
-                </Col>
-                <Col span={4}>
-                  <Badge count="Giảm 10k" style={{ background: "#00cc66" }} />
-                </Col>
-                <Col span={4}>
-                  <Badge count="Giảm 10k" style={{ background: "#00cc66" }} />
-                </Col>
-                <Col span={4}>
-                  <Badge count="Giảm 10k" style={{ background: "#00cc66" }} />
-                </Col>
-                <Col span={4}>
-                  <Badge count="Giảm 10k" style={{ background: "#00cc66" }} />
+                  <Badge count={`Giảm 8%`} style={{ background: '#00cc66' }} />
                 </Col>
               </Row>
             </Col>
-          </Row>
+          </Row> */}
           {/* transport */}
           {/* <Row className="mgt-30">
             <Col span={6}>
@@ -354,9 +350,14 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
               <p>Số lượng: </p>
             </Col>
             <Col span={3}>
-              <InputNumber min={1} max={unitInStock} defaultValue={1} onChange={handleChangeQuantity} />
+              <InputNumber
+                min={1}
+                max={unitInStock}
+                defaultValue={1}
+                onChange={handleChangeQuantity}
+              />
             </Col>
-            <Col span={6} style={{ marginLeft: "10px", color: "#8c8c8c" }}>
+            <Col span={6} style={{ marginLeft: '10px', color: '#8c8c8c' }}>
               <p>{unitInStock} sản phẩm có sẵn</p>
             </Col>
           </Row>

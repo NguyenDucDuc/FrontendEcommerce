@@ -1,9 +1,9 @@
-import { Button, Checkbox, Col, InputNumber, Row } from "antd";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { useEffect, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate } from "react-router-dom";
-import Api, { AuthApi, endpoint } from "../../../configs/Api";
+import { Button, Checkbox, Col, InputNumber, Row } from 'antd';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { useEffect, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useNavigate } from 'react-router-dom';
+import Api, { AuthApi, endpoint } from '../../../configs/Api';
 import {
   decreaseTotalPrice,
   decreaseTotalPriceTotalProductPayment,
@@ -11,19 +11,19 @@ import {
   ICartItem,
   increaseTotalPrice,
   increaseTotalPriceTotalProductPayment,
-} from "../../../store/slices/cartitem.slice";
+} from '../../../store/slices/cartitem.slice';
 import {
   addItemChecked,
   ICheckedItem,
   removeItemChecked,
   updateQuantityCheckedList,
-} from "../../../store/slices/product-checked.slice";
-import { RootState, useAppDispatch } from "../../../store/store";
-import "./cartitem.style.scss";
-import { formatCurrency } from "../../../utils/common";
-import { Product, Shop } from "../../../models/models";
-import { axiosClient } from "../../../lib/axios/axios.config";
-import { useSelector } from "react-redux";
+} from '../../../store/slices/product-checked.slice';
+import { RootState, useAppDispatch } from '../../../store/store';
+import './cartitem.style.scss';
+import { formatCurrency } from '../../../utils/common';
+import { Product, Shop } from '../../../models/models';
+import { axiosClient } from '../../../lib/axios/axios.config';
+import { useSelector } from 'react-redux';
 
 interface IProps {
   quantity?: number;
@@ -48,12 +48,17 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
     createdAt,
     updatedAt,
     attributes,
+    priceDiscount,
+    unitPrice,
   } = product;
   const valueCheckBox: ICartItem = {
     id: id,
     image: image,
     desc: desc,
-    price: price as number,
+    price:
+    unitPrice !== undefined
+        ? (unitPrice as number)
+        : (price as number),
     quantity: quantity as number,
     name: name,
     shopId: shopId as number,
@@ -63,13 +68,18 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
   const dispatch = useAppDispatch();
   const nav = useNavigate();
   const [check, setCheck] = useState<boolean>();
-  const listProductChecked = useSelector((state: RootState) => state.productsChecked.listProductsChecked)
+  const listProductChecked = useSelector(
+    (state: RootState) => state.productsChecked.listProductsChecked
+  );
 
   const handleCheckboxChange = (e: CheckboxChangeEvent) => {
     if (e.target.checked === true) {
       // set check box == true
       setCheck(e.target.checked);
-      const totalPrice = (price as number) * inputNumber;
+      const totalPrice =
+        (unitPrice !== undefined
+          ? (unitPrice as number)
+          : (price as number)) * inputNumber;
       dispatch(
         increaseTotalPriceTotalProductPayment({ totalPrice: totalPrice })
       );
@@ -78,7 +88,10 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
         name: name,
         desc: desc,
         quantity: quantity as number,
-        price: price as number,
+        price:
+        unitPrice !== undefined
+            ? (unitPrice as number)
+            : (price as number),
         image: image,
         shopName: shop?.shopName,
         shopId: shopId,
@@ -89,7 +102,10 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
     if (e.target.checked === false) {
       // set state checkbox == false
       setCheck(e.target.checked);
-      const totalPrice = (price as number) * inputNumber;
+      const totalPrice =
+        (unitPrice !== undefined
+          ? (unitPrice as number)
+          : (price as number)) * inputNumber;
       dispatch(
         decreaseTotalPriceTotalProductPayment({ totalPrice: totalPrice })
       );
@@ -99,17 +115,19 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
         name: name,
         desc: desc,
         quantity: quantity as number,
-        price: price as number,
+        price:
+          unitPrice !== undefined
+            ? (unitPrice as number)
+            : (price as number),
         image: image,
         shopName: shop?.shopName as string,
         shopId: shopId,
       };
-      
+
       dispatch(removeItemChecked(newItemChecked));
     }
   };
 
-  
   const handleQuantityChange = async (value: number | string | null) => {
     setInputNumber(Number(value));
     // update into checked list product
@@ -128,11 +146,27 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
     // update UI
   };
   const onStep = (value: number, info: any) => {
-    if (info.type === "up" && check === true) {
-      dispatch(increaseTotalPrice({ unitPrice: Number(price) }));
+    if (info.type === 'up' && check === true) {
+      dispatch(
+        increaseTotalPrice({
+          unitPrice: Number(
+            unitPrice !== undefined
+              ? (unitPrice as number)
+              : (price as number)
+          ),
+        })
+      );
     }
-    if (info.type === "down" && check === true) {
-      dispatch(decreaseTotalPrice({ unitPrice: Number(price) }));
+    if (info.type === 'down' && check === true) {
+      dispatch(
+        decreaseTotalPrice({
+          unitPrice: Number(
+            unitPrice !== undefined
+              ? (unitPrice as number)
+              : (price as number)
+          ),
+        })
+      );
     }
   };
 
@@ -170,10 +204,16 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
           </div>
         </Col>
         <Col span={6}>
-          <h4 style={{textTransform: 'capitalize'}}>{name}</h4>
+          <h4 style={{ textTransform: 'capitalize' }}>{name}</h4>
         </Col>
         <Col span={3} style={{}}>
-          <p className="txt-red txt-bold">{formatCurrency(price as number)}</p>
+          <p className="txt-red txt-bold">
+            {formatCurrency(
+              unitPrice !== undefined
+                ? (unitPrice as number)
+                : (price as number as number)
+            )}
+          </p>
         </Col>
         <Col span={3} style={{}}>
           <InputNumber

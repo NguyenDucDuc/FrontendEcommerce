@@ -238,7 +238,7 @@ const Header = () => {
               <Col span={4}>
               </Col>
               <Col span={4} onClick={() => nav("/chat")}>
-                <Badge count={listConversation.length} className="cs-pointer">
+                <Badge count={listConversation?.length} className="cs-pointer">
                   <MessageOutlined onClick={() => nav("/cart")} style={{ fontSize: '22px', color: "#00cc99" }} className="icon-color cs-pointer" />
                 </Badge>
               </Col>
@@ -251,7 +251,7 @@ const Header = () => {
                     ?
                     <div className="cart-mini">
                       {listProductCart.length > 0 ? 
-                        listProductCart.map((item) => <MiniCartItem image={item.image} name={item.name} price={item.price} />)
+                        listProductCart.map((item) => <MiniCartItem image={item.image} name={item.name} price={item.unitPrice ? item.unitPrice : item.price} />)
                         :
                         null
                       }
@@ -261,7 +261,7 @@ const Header = () => {
                 }
               </Col>
               <Col span={4} onMouseEnter={handleMouseEnterNotification} onMouseLeave={handleMouseLeaveNotification}>
-                <Badge count={notification.length} className="cs-pointer">
+                <Badge count={notification?.length} className="cs-pointer">
                   <BellOutlined onClick={() => nav("/notification")} style={{ fontSize: '25px', color: "#00cc99" }} className="icon-color cs-pointer" />
                 </Badge>
                 {isShowNotifi === true ? (

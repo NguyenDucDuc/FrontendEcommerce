@@ -10,6 +10,7 @@ export interface ICartItem {
     quantity: number;
     name?: string;
     shopId: number;
+    unitPrice?: number;
 }
 
 interface ICartResponse {

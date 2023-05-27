@@ -129,7 +129,7 @@ const Address = () => {
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit" className="btn-color">
-                        Submit
+                        Xác nhận
                     </Button>
                 </Form.Item>
             </Form>

@@ -1,123 +1,130 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const endpoint = {
-  login: "/user/login",
-  googleLogin: "/user/google-login",
-  facebookLogin: "/user/facebook-login",
+  login: '/user/login',
+  googleLogin: '/user/google-login',
+  facebookLogin: '/user/facebook-login',
   user: {
-    register: "/user",
-    currentUser: "/user/current-user",
+    register: '/user',
+    currentUser: '/user/current-user',
     updateUser: (userId: number) => `/user/${userId}`,
-    roleAdmin: "/user/role-admin",
-    getShopOwner: (productId: number) => `/user/get-user-by-productId/${productId}`,
-    resetPassword: "/user/reset-password"
+    roleAdmin: '/user/role-admin',
+    getShopOwner: (productId: number) =>
+      `/user/get-user-by-productId/${productId}`,
+    resetPassword: '/user/reset-password',
   },
   shop: {
     getDetail: (shopId: number) => `/shop/${shopId}`,
-    create: "/shop",
-    getAll: "/shop",
+    create: '/shop',
+    getAll: '/shop',
     lock: (shopId: number) => `/shop/block/${shopId}`,
     unLock: (shopId: number) => `/shop/unlock/${shopId}`,
     getUserByShopID: (shopId: number) => `/shop/${shopId}/get-user`,
     update: (shopId: number) => `/shop/${shopId}`,
   },
   seller: {
-    register: "/seller",
-    getAll: "/seller",
+    register: '/seller',
+    getAll: '/seller',
     lock: (userId: number) => `/seller/lock/${userId}`,
     unLock: (userId: number) => `/seller/un-lock/${userId}`,
     checkOfficial: '/seller/check-official',
     getAllUnOfficial: '/seller/unofficial',
-    confirm: (userId: number) => `/seller/${userId}/confirm`
+    confirm: (userId: number) => `/seller/${userId}/confirm`,
   },
   address: {
-    currentAddress: "/address/current",
+    currentAddress: '/address/current',
     updateAddress: (userId: number) => `/user/${userId}`,
   },
   product: {
-    main: "/product",
-    search: "/product",
+    main: '/product',
+    search: '/product',
     compare: '/product/compare',
     productDetail: (productId: string) => `/product/${productId}`,
     reviews: (productId: string) => `/product/${productId}/reviews`,
     update: (productId: string) => `product/${productId}`,
-    getImages: (productId: string) => `product/${productId}/images`
+    getImages: (productId: string) => `product/${productId}/images`,
   },
   cart: {
-    getAllItem: "/cart/products",
-    getByUserId: "/cart",
+    getAllItem: '/cart/products',
+    getByUserId: '/cart',
   },
   productCart: {
-    add: "/product-cart",
-    update: "/product-cart",
-    delete: "/product-cart/delete"
+    add: '/product-cart',
+    update: '/product-cart',
+    delete: '/product-cart/delete',
   },
   admin: {
     main: '/admin',
-    login: "/admin/login",
+    login: '/admin/login',
   },
   order: {
-    buyProduct: "/order",
-    getOrder: "/order",
+    buyProduct: '/order',
+    getOrder: '/order',
     confirmOrder: '/order/action',
     confirmOrderForCustomer: '/order/cancel-order',
-    getDetail: '/order/details'
+    getDetail: '/order/details',
   },
   customer: {
-    checkBoughtProduct: "/customer/check-bought-product",
-    getDetail: (userId: number) => `/customer/${userId}`
+    checkBoughtProduct: '/customer/check-bought-product',
+    getDetail: (userId: number) => `/customer/${userId}`,
   },
   category: {
-    getAll: '/category'
+    getAll: '/category',
   },
   notification: {
-    base: '/notification'
+    base: '/notification',
   },
   review: {
-    create: '/review/create-v2'
+    create: '/review/create-v2',
   },
   message: {
     getAll: (conversationId: string) => `/message/${conversationId}`,
-    create: '/message'
+    create: '/message',
   },
   payment: {
     checkout: '/checkout/payment',
-    refund: '/checkout/refund'
+    refund: '/checkout/refund',
   },
   conversation: {
-    getAll: '/conversation'
+    getAll: '/conversation',
   },
   promotion: {
     getAll: (shopId: number) => `promotion/${shopId}/get-all`,
-    delete: (promotionId: number) => `promotion/${promotionId}/delete`,
+    getPromotionByShop: (shopId: number) =>
+      `promotion/get-promotion-by-shop/${shopId}`,
+    getPromotionByProduct: (productId: number) =>
+      `promotion/get-promotion-by-product/${productId}`,
+    delete: (promotionId: number) => `promotion/${promotionId}`,
     create: '/promotion',
-    update: (promotionId: number) => `promotion/${promotionId}/update`
+    getDetail: (promotionId: number) => `promotion/${promotionId}`,
+    update: (promotionId: number) => `promotion/${promotionId}`,
+    addPromotionForProduct: '/promotion/add-promotion-for-product',
   },
   stats: {
     statsShop: '/stats/stats-shop',
     countShopByMonth: '/stats/count-shop-by-month',
-    countUserByMonth: '/stats/count-user-by-month'
-  }
+    countUserByMonth: '/stats/count-user-by-month',
+  },
 };
 
 export const AuthApi = () => {
   return axios.create({
-    baseURL: "http://localhost:5000/",
+    baseURL: 'http://localhost:5000/',
     headers: {
-      authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
 };
 
 export const AuthAdminApi = () => {
   return axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: 'http://localhost:5000',
     headers: {
-      authorization: `Bearer ${localStorage.getItem("accessTokenAdmin")}`,
+      authorization: `Bearer ${localStorage.getItem('accessTokenAdmin')}`,
     },
   });
 };
 
 export default axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: 'http://localhost:5000/',
 });

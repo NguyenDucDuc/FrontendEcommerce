@@ -6,7 +6,7 @@ import {
   SendOutlined,
   ShoppingCartOutlined,
   WarningOutlined,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 import {
   Avatar,
   Button,
@@ -18,38 +18,38 @@ import {
   Skeleton,
   Space,
   Spin,
-} from "antd";
-import "./productdetail.style.scss";
-import "../style-commond/commond.style.scss";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import ProductMain from "./product-main/productmain.component";
-import ShopInfo from "./shop-info/shopinfo.component";
-import ProductDesc from "./product-desc/productdesc.component";
-import ProductAttribute from "./product-attribute/productattribute.component";
-import ProductRate from "./product-rate/productrate.component";
-import Api, { endpoint } from "../../configs/Api";
-import { RootState, useAppDispatch } from "../../store/store";
-import { getAllReviewAsyncThunk } from "../../store/slices/reviews.slice";
-import LazyLoad from "react-lazy-load";
-import { MessageSender } from "../message/message.component";
-import { MessageReceiver } from "../message/message-receiver.component";
+} from 'antd';
+import './productdetail.style.scss';
+import '../style-commond/commond.style.scss';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import ProductMain from './product-main/productmain.component';
+import ShopInfo from './shop-info/shopinfo.component';
+import ProductDesc from './product-desc/productdesc.component';
+import ProductAttribute from './product-attribute/productattribute.component';
+import ProductRate from './product-rate/productrate.component';
+import Api, { endpoint } from '../../configs/Api';
+import { RootState, useAppDispatch } from '../../store/store';
+import { getAllReviewAsyncThunk } from '../../store/slices/reviews.slice';
+import LazyLoad from 'react-lazy-load';
+import { MessageSender } from '../message/message.component';
+import { MessageReceiver } from '../message/message-receiver.component';
 import {
   addMessageRedux,
   createMessageAsynkThunk,
   getAllMessageAsyncThunk,
-} from "../../store/slices/message.slice";
-import { useSelector } from "react-redux";
-import { currentUserAsyncThunk } from "../../store/slices/user.slice";
-import { socket } from "../../App";
-import { Product, Shop } from "../../models/models";
-import { axiosClient } from "../../lib/axios/axios.config";
+} from '../../store/slices/message.slice';
+import { useSelector } from 'react-redux';
+import { currentUserAsyncThunk } from '../../store/slices/user.slice';
+import { socket } from '../../App';
+import { Product, Shop } from '../../models/models';
+import { axiosClient } from '../../lib/axios/axios.config';
 
 const attributeDemo = {
-  Category: "Áo thun",
-  Color: "Đen",
-  Weight: "250gsm",
-  Height: "75cm",
+  Category: 'Áo thun',
+  Color: 'Đen',
+  Weight: '250gsm',
+  Height: '75cm',
   Quantity: 90,
 };
 
@@ -78,7 +78,7 @@ const ProductDetail: React.FC = () => {
   const [showProductDesc, setShowProductDesc] = useState<boolean>(false);
   const [showProductRate, setShowProductRate] = useState<boolean>(false);
   //
-  const [contentMessage, setContentMessage] = useState<string>("");
+  const [contentMessage, setContentMessage] = useState<string>('');
   const messageRef: any = useRef(null);
   const [showChatBox, setShowChatBox] = useState<boolean>(false);
   const [attributes, setAttributes] = useState<any>([]);
@@ -104,7 +104,7 @@ const ProductDetail: React.FC = () => {
   };
   const handleSendMessage = async () => {};
   const scrollToBottom = () => {
-    messageRef.current.scrollIntoView({ behavior: "smooth" });
+    messageRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   const fetchImage = async (productId: string) => {
@@ -132,7 +132,6 @@ const ProductDetail: React.FC = () => {
     const resShop = await axiosClient.get(
       endpoint.shop.getDetail(res.data.shopId)
     );
-    console.log({ res, resShop });
 
     setShop(resShop.data);
     setProduct(res.data);
@@ -160,17 +159,17 @@ const ProductDetail: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    socket.off("serverSendMessage").on("serverSendMessage", (data) => {
+    socket.off('serverSendMessage').on('serverSendMessage', (data) => {
       dispatch(addMessageRedux(data));
     });
   }, [socket]);
   return (
     <div className="product-detail-father">
-      {product.desc !== "" ? (
+      {product.desc !== '' ? (
         <ProductMain product={product} imageList={imageList} />
       ) : (
         <Spin tip="Loading..." size="large">
-          <ProductMain product={product} imageList={imageList}/>
+          <ProductMain product={product} imageList={imageList} />
         </Spin>
       )}
 
@@ -237,7 +236,7 @@ const ProductDetail: React.FC = () => {
             </Col>
             <Col span={2}>
               <CloseOutlined
-                style={{ color: "red", fontWeight: "bold" }}
+                style={{ color: 'red', fontWeight: 'bold' }}
                 className="cs-pointer"
                 onClick={handleChangeHideChatBox}
               />
@@ -258,7 +257,7 @@ const ProductDetail: React.FC = () => {
             <Col span={3}>
               <Button
                 className="btn-color"
-                style={{ color: "white" }}
+                style={{ color: 'white' }}
                 icon={<SendOutlined />}
                 onClick={handleSendMessage}
               >
