@@ -35,15 +35,19 @@ const initialState: IInitialState = {
 }
 
 export const getAllItemAsyncThunk = createAsyncThunk("cart/getAllItem", async () => {
-    const res = await AuthApi().get(endpoint.cart.getAllItem)
-    console.log(res.data.data)
-    return res.data.data
+    try {
+        const res = await AuthApi().get(endpoint.cart.getAllItem)
+        console.log(res.data.data)
+        return res.data.data
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 export const deleteItemAsyncThunk = createAsyncThunk("cart/deleteItem", async (productId: number) => {
     // -- Get cart id to delete
     const resCart = await AuthApi().get(endpoint.cart.getByUserId)
-        
+
     const res = await Api.post(endpoint.productCart.delete, {
         productId: productId,
         cartId: resCart.data.data.id
@@ -58,9 +62,9 @@ const cartItemSlice = createSlice({
     reducers: {
         addItem: (state, action: PayloadAction<ICartItem>) => {
             const index = state.listProducts.findIndex((item) => item.id === action.payload.id)
-            if(index === -1){
+            if (index === -1) {
                 state.listProducts = [...state.listProducts, action.payload]
-            }else {
+            } else {
                 state.listProducts[index].quantity++
             }
         },
@@ -74,7 +78,7 @@ const cartItemSlice = createSlice({
             state.totalProductPayment++
             state.totalPrice += action.payload.totalPrice
         },
-        decreaseTotalPriceTotalProductPayment: (state,action) => {
+        decreaseTotalPriceTotalProductPayment: (state, action) => {
             state.totalProductPayment--
             state.totalPrice -= action.payload.totalPrice
         },
@@ -126,11 +130,11 @@ const cartItemSlice = createSlice({
 
 export default cartItemSlice.reducer
 export const {
-    addItem, 
-    updateCartCount, 
-    increaseTotalPriceTotalProductPayment, 
-    decreaseTotalPriceTotalProductPayment, 
-    increaseTotalPrice, 
+    addItem,
+    updateCartCount,
+    increaseTotalPriceTotalProductPayment,
+    decreaseTotalPriceTotalProductPayment,
+    increaseTotalPrice,
     decreaseTotalPrice,
     setNullTotalPriceAndTotalProduct,
     setNullCartItem,
