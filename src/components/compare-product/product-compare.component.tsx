@@ -14,6 +14,8 @@ const ProductCompare = () => {
     (state: RootState) => state.productCompare.listProduct
   );
 
+  console.log({ p1, p2 });
+
   const [productCompare, setProductCompare] = useState<any>();
 
   const fetchData = async () => {
@@ -24,6 +26,9 @@ const ProductCompare = () => {
 
     setProductCompare(res.data);
   };
+
+  console.log({ productCompare });
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -70,7 +75,19 @@ const ProductCompare = () => {
                   className="price"
                   style={{ textTransform: 'capitalize' }}
                 >
-                  {formatCurrency(p1.price)}
+                  <span className="home-product-item__price-old">
+                    {p1?.priceDiscount !== undefined
+                      ? formatCurrency(p1?.price as number)
+                      : ''}
+                    {/* {formatCurrency(product?.price as number)} */}
+                  </span>
+                  <span className="home-product-item__price-current">
+                    {p1?.priceDiscount === undefined
+                      ? formatCurrency(p1?.price as number)
+                      : formatCurrency(p1?.priceDiscount as number)}
+                    {/* {formatCurrency(product?.priceDiscount as number)} */}
+                  </span>
+                  {/* {formatCurrency(p1.price)} */}
                 </Typography.Text>
               </Col>
               <Col span={24}>
@@ -126,7 +143,9 @@ const ProductCompare = () => {
               <Col span={24} style={{ marginBottom: 10 }}>
                 <span>
                   Bắt đầu bán:{' '}
-                  {formatDateString(productCompare?.base?.shop.createdAt)}
+                  {formatDateString(
+                    productCompare?.base?.shop.createdAt as string
+                  )}
                 </span>
               </Col>
               <Col span={24}>
@@ -167,7 +186,20 @@ const ProductCompare = () => {
                   className="price"
                   style={{ textTransform: 'capitalize' }}
                 >
-                  {formatCurrency(p2.price)}
+                  {p2?.priceDiscount !== undefined ? (
+                    <span className="home-product-item__price-old">
+                      {formatCurrency(p2?.price as number)}
+                    </span>
+                  ) : (
+                    ''
+                  )}
+
+                  <span className="home-product-item__price-current">
+                    {p2?.priceDiscount === undefined
+                      ? formatCurrency(p2?.price as number)
+                      : formatCurrency(p2?.priceDiscount as number)}
+                  </span>
+                  {/* {formatCurrency(p2.price)} */}
                 </Typography.Text>
               </Col>
               <Col span={24}>

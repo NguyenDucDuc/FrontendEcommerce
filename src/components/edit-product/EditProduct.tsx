@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Input, Row, Select, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, Input, Radio, RadioChangeEvent, Row, Select, Space, message } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 
-import { authAxios, axiosClient } from "../../lib/axios/axios.config";
-import { ENDPOINT } from "../../constants/api";
-import { generateOptions } from "../../utils/generateOptions";
-import { Attribute, Product } from "../../models/models";
-import { Response } from "../../models/http";
-import { endpoint } from "../../configs/Api";
-import { useNavigate, useParams } from "react-router-dom";
+import { authAxios, axiosClient } from '../../lib/axios/axios.config';
+import { ENDPOINT } from '../../constants/api';
+import { generateOptions } from '../../utils/generateOptions';
+import { Attribute, Product } from '../../models/models';
+import { Response } from '../../models/http';
+import { endpoint } from '../../configs/Api';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditProduct: React.FC = () => {
   const [initValue, setInitValue] = useState({
@@ -18,9 +18,11 @@ const EditProduct: React.FC = () => {
   const [image, setImage] = useState<any>();
   const [attributeList, setAttributeList] = useState<any>({});
   const [productDetail, setProductDetail] = useState<Product>();
+  const [valueRadio, setValueRadio] = useState(true);
+
   const { productId } = useParams();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [form] = Form.useForm();
 
@@ -43,7 +45,7 @@ const EditProduct: React.FC = () => {
       setProductDetail(res.data);
     } catch (error) {
       console.log(error);
-      message.error("Đã có lỗi xảy ra !!");
+      message.error('Đã có lỗi xảy ra !!');
     }
   };
 
@@ -86,7 +88,7 @@ const EditProduct: React.FC = () => {
           key={attribute.id}
           label={attribute.name}
           // name={["attributes", `${attribute.id}`]}
-          name={["attributes", attribute.id, "value"]}
+          name={['attributes', attribute.id, 'value']}
         >
           <Input type={attribute?.frontendInput} />
         </Form.Item>
@@ -100,11 +102,11 @@ const EditProduct: React.FC = () => {
     ).reduce(
       (obj: any, attributeId: any) => {
         const attribute: Attribute = {
-          value: values.attributes[attributeId]["value"],
+          value: values.attributes[attributeId]['value'],
           attributeId: attributeId,
-          name: attributeList[attributeId]["name"],
-          backendType: attributeList[attributeId]["backendType"],
-          frontendInput: attributeList[attributeId]["frontendInput"],
+          name: attributeList[attributeId]['name'],
+          backendType: attributeList[attributeId]['backendType'],
+          frontendInput: attributeList[attributeId]['frontendInput'],
         };
         obj.ids.push(parseInt(attributeId));
         obj.list.push(attribute);
@@ -128,24 +130,28 @@ const EditProduct: React.FC = () => {
         dataToServer,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
       if (res.status === 200) {
         message.success(res.message);
-        navigate(-1)
+        navigate(-1);
       } else {
         message.error(res.message);
       }
     } catch (error) {
-      message.error("Đã có lỗi xảy ra !!");
+      message.error('Đã có lỗi xảy ra !!');
     }
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    message.error("Đã có lỗi xảy ra !!");
-    console.log("Failed:", errorInfo);
+    message.error('Đã có lỗi xảy ra !!');
+    console.log('Failed:', errorInfo);
+  };
+
+  const onChange = (e: RadioChangeEvent) => {
+    setValueRadio(e.target.value);
   };
 
   useEffect(() => {
@@ -167,7 +173,7 @@ const EditProduct: React.FC = () => {
           layout="horizontal"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          style={{ width: "50%" }}
+          style={{ width: '50%' }}
         >
           <Col span={24}>
             <Form.Item
@@ -177,7 +183,7 @@ const EditProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -192,11 +198,21 @@ const EditProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
               <Input type="number" />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item label="Tình trạng" name="isActive">
+              <Radio.Group onChange={onChange}>
+                <Space direction="horizontal">
+                  <Radio value={true}>Còn bán</Radio>
+                  <Radio value={false}>Không bán</Radio>
+                </Space>
+              </Radio.Group>
             </Form.Item>
           </Col>
           <Col span={24}>
@@ -207,7 +223,7 @@ const EditProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -222,7 +238,7 @@ const EditProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -237,7 +253,7 @@ const EditProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -257,7 +273,7 @@ const EditProduct: React.FC = () => {
               rules={[
                 {
                   required: true,
-                  message: "Vui lòng nhập trường này",
+                  message: 'Vui lòng nhập trường này',
                 },
               ]}
             >
@@ -270,7 +286,7 @@ const EditProduct: React.FC = () => {
           </Col>
           {Object.values(attributeList).map((item: any) => generateInput(item))}
           <Col span={24}>
-            <Form.Item style={{ textAlign: "center", width: "100%" }}>
+            <Form.Item style={{ textAlign: 'center', width: '100%' }}>
               <Button type="primary" htmlType="submit">
                 Cập nhật
               </Button>

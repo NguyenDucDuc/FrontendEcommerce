@@ -76,7 +76,7 @@ const FlashSale: React.FC = () => {
                 <div className="flash-sale-info flex">
                   <div className="price">
                     <span className="">
-                      {formatCurrency(item.price as number)}
+                      {item.priceDiscount ? formatCurrency(item.priceDiscount as number) : formatCurrency(item.price as number)}
                     </span>
                   </div>
                   <div className="flash-sale-info__ordered">

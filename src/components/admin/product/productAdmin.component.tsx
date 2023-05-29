@@ -1,28 +1,14 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  Select,
-  Space,
-  Table,
-  Tag,
-  message,
-} from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Space, Table, Tag, message } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import React, { useEffect, useMemo, useState } from 'react';
-import { extractData, getAllProduct } from '../../../../utils/product';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Params, Response } from '../../../../models/http';
-import { authAxios, axiosClient } from '../../../../lib/axios/axios.config';
-import { endpoint } from '../../../../configs/Api';
-import { PAGE_SIZE } from '../../../../constants/product';
-import {
-  formatCurrency,
-  randomColor,
-} from '../../../../utils/common';
-import { useForm } from 'antd/es/form/Form';
+import { Link, useNavigate } from 'react-router-dom';
+import { Params, Response } from '../../../models/http';
+import { PAGE_SIZE } from '../../../constants/product';
+import { authAxios, axiosClient } from '../../../lib/axios/axios.config';
+import { extractData, getAllProduct } from '../../../utils/product';
+import { endpoint } from '../../../configs/Api';
+import { formatCurrency, randomColor } from '../../../utils/common';
 
 interface DataType {
   id: number;
@@ -32,32 +18,16 @@ interface DataType {
   unitOnOrder: number;
   unitInStock: number;
   categoryId: number;
-  isActive: boolean;
 }
 
-const ProductManage: React.FC = () => {
-  const { shopId } = useParams();
+const ProductAdmin: React.FC = () => {
   const [params, setParams] = useState<Params>({
-    shopId: shopId,
     page: 1,
     pageSize: PAGE_SIZE,
-    isActive: 0,
   });
   const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [amountProduct, setAmountProduct] = useState<Number>();
   const [categories, setCategories] = useState<any>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [promotions, setPromotions] = useState<any>([]);
-  const [recordProduct, setRecordProduct] = useState<any>();
-
-  const generateOptions = (list: Array<any>) => {
-    return list.map((item) => {
-      return {
-        value: item['id'],
-        label: item['value'],
-      };
-    });
-  };
 
   const getCategory = useMemo(async () => {
     const resCate = await axiosClient.get(endpoint.category.getAll);
@@ -78,36 +48,13 @@ const ProductManage: React.FC = () => {
       'categoryId',
       'amountPage',
       'amountProduct',
-      'isActive',
-
     ]);
     setDataSource(result);
     setAmountProduct(res?.data.amountProduct);
   };
 
-  const getAllPromotion = async () => {
-    try {
-      const res = await axiosClient.get(
-        endpoint.promotion.getPromotionByShop(Number(shopId)),
-        {
-          params: {
-            pageNumber: -1,
-          },
-        }
-      );
-
-      if (res.status === 200) {
-        const promotionData = generateOptions(res.data?.listPromotion);
-        setPromotions(promotionData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     fetchData();
-    getAllPromotion();
   }, [params]);
 
   const handleDeleteProduct = async (productID: number) => {
@@ -157,13 +104,6 @@ const ProductManage: React.FC = () => {
           </Link>
         );
       },
-    },
-    {
-      title: 'Tình trạng',
-      dataIndex: 'isActive',
-      key: 'isActive',
-      align: 'center',
-      render: (_, record) => <span>{record.isActive ? 'Còn bán' : 'Không bán'}</span>,
     },
     {
       title: 'Giá',
@@ -216,17 +156,6 @@ const ProductManage: React.FC = () => {
         return (
           <Space size="middle">
             <Button
-              onClick={() => {
-                setRecordProduct(record);
-                setIsModalOpen(true);
-              }}
-              icon={<PlusOutlined style={{ color: 'blue' }} />}
-            ></Button>
-            <Button
-              onClick={() => navigate(`${record.id}/edit`)}
-              icon={<EditOutlined style={{ color: 'green' }} />}
-            ></Button>
-            <Button
               onClick={() => handleDeleteProduct(record.id)}
               icon={<DeleteOutlined style={{ color: 'red' }} />}
             ></Button>
@@ -235,38 +164,6 @@ const ProductManage: React.FC = () => {
       },
     },
   ];
-
-  const [form] = useForm();
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const addPromotionForProduct = async (
-    promotionId: number,
-    productId: number
-  ) => {
-    try {
-      const res: Response = await axiosClient.post(
-        endpoint.promotion.addPromotionForProduct,
-        {
-          productId,
-          promotionId,
-        }
-      );
-
-      if (res.status === 201) {
-        message.success(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleOk = () => {
-    addPromotionForProduct(form.getFieldsValue().promotionId, recordProduct.id);
-    setIsModalOpen(false);
-  };
 
   return (
     <section>
@@ -284,44 +181,8 @@ const ProductManage: React.FC = () => {
           pageSizeOptions: ['5', '10'],
         }}
       />
-      <Modal
-        title="Thêm khuyến mãi cho sản phẩm"
-        open={isModalOpen}
-        onCancel={handleCancel}
-        onOk={handleOk}
-      >
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          autoComplete="off"
-          form={form}
-        >
-          <Form.Item
-            label="Tên sản phẩm"
-            name="productId"
-            rules={[{ required: true, message: 'Bắt buộc!' }]}
-          >
-            <Input
-              style={{ textTransform: 'capitalize' }}
-              placeholder={recordProduct?.name}
-              value={recordProduct?.id}
-              disabled
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Giá trị khuyến mãi"
-            name="promotionId"
-            rules={[{ required: true, message: 'Bắt buộc!' }]}
-          >
-            <Select options={promotions} />
-          </Form.Item>
-        </Form>
-      </Modal>
     </section>
   );
 };
 
-export default ProductManage;
+export default ProductAdmin;

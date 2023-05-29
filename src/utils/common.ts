@@ -18,7 +18,7 @@ export const flatten = (ob: any) => {
 };
 
 export const formatDateString = (date: string) => {
-  return date.split("T")[0];
+  return date?.split("T")[0];
 };
 
 export const getOrderDetail = async (params: ParamsOrderDetail) => {

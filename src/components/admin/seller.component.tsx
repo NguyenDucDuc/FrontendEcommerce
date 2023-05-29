@@ -85,7 +85,7 @@ const SellerAdmin = () => {
     labels: dataChart.length > 0 && dataChart.map((item: any) => item.month),
     datasets: [
       {
-        label: 'My First dataset',
+        label: 'Thống kê số khách hàng mới theo tháng',
         data: dataChart.length > 0 && dataChart.map((item: any) => item.countCustomer),
         fill: false,
         borderColor: 'rgb(75, 192, 192)',

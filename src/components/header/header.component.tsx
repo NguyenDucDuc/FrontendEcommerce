@@ -123,15 +123,15 @@ const Header = () => {
       }
 
     } : null,
-    user.userName !== "" ?
-      {
-        label: (<Link to="/admin/home">Quản trị</Link>),
-        key: 'admin',
-        icon: <SettingOutlined />,
-        style: {
-          color: "black"
-        }
-      } : null,
+    // user.userName !== "" ?
+    //   {
+    //     label: (<Link to="/admin/home">Quản trị</Link>),
+    //     key: 'admin',
+    //     icon: <SettingOutlined />,
+    //     style: {
+    //       color: "black"
+    //     }
+    //   } : null,
     user.userName !== "" ?
       {
         label: `${user.firstName} ${user.lastName}`,
@@ -152,6 +152,7 @@ const Header = () => {
               dispatch(setNullConversation())
               nav("/login")
               dispatch(setNullCartItem())
+              socket.emit('logout');
               
             },
             style: {
@@ -214,7 +215,12 @@ const Header = () => {
       <div className="header-child">
         <Row>
           <Col span={10}>
-            <h1 style={{ color: "#00cc99" }}>Ecommerce</h1>
+          <h1
+              onClick={() => nav('/')}
+              style={{ color: '#00cc99', cursor: 'pointer' }}
+            >
+              Ecommerce
+            </h1>
           </Col>
           <Col span={14}>
             <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />

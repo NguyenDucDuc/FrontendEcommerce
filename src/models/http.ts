@@ -16,5 +16,6 @@ export interface Params {
   pageSize?: number;
   state?: string | null;
   userId?: number;
-  rate?: number
+  rate?: number;
+  isActive?: number
 }

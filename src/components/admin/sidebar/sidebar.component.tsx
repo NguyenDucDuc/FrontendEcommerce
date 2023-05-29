@@ -27,22 +27,24 @@ function getItem(
 }
 
 const items: MenuProps["items"] = [
-  getItem(<Link to="/admin/home">Tổng quan</Link>, "home", <HomeOutlined />),
+  getItem(<Link to="/admin/home">Tổng quan</Link>, "0", <HomeOutlined />),
 
-  getItem("Quản lý user", "user", <MailOutlined />, [
-    getItem(<Link to="/admin/sellers">Quản lý đối tác</Link>, "1"),
-    getItem(<Link to="/admin/shops">Quản lý shop</Link>, "2"),
+  getItem("Quản lý người dùng", "user", <MailOutlined />, [
+    getItem(<Link to="/admin/sellers">Quản lý khách hàng</Link>, "1"),
+    getItem(<Link to="/admin/shops">Quản lý cửa hàng</Link>, "2"),
     getItem(<Link to="/admin/confirm-seller">Xác nhận đối tác</Link>, "3"),
   ]),
 
-  getItem("Quản lý sản phẩm", "product", <AppstoreOutlined />, []),
+  getItem("Quản lý sản phẩm", "product", <AppstoreOutlined />, [
+    getItem(<Link to="products">Tất cả sản phẩm</Link>, "4"),
+  ]),
 
   getItem("Thống kê doanh thu", "stats", <BarChartOutlined />, [
     getItem(
       <Link to="stats?type=total_product">Thống kê theo sản phẩm</Link>,
-      "3"
+      "5"
     ),
-    getItem(<Link to="stats?type=frequency">Thống kê tần suất</Link>, "4"),
+    getItem(<Link to="stats?type=frequency">Thống kê tần suất</Link>, "6"),
   ]),
 ];
 
@@ -55,7 +57,7 @@ const SideBar = () => {
       <Menu
         onClick={onClick}
         style={{ width: 300, marginTop: 50 }}
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["0"]}
         defaultOpenKeys={["sub1"]}
         mode="inline"
         items={items}
