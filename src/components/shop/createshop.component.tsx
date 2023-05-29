@@ -1,5 +1,5 @@
 import { WarningOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Col, Form, Input, notification, Row } from "antd"
+import { Button, Checkbox, Col, Form, Input, notification, Row, Spin } from "antd"
 import { useEffect, useState } from "react";
 import Api, { AuthApi, endpoint } from "../../configs/Api";
 import "./createshop.style.scss"
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const ShopCreate = () => {
     const [api, contextHolder] = notification.useNotification();
     const [image, setImage] = useState<any>()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const nav = useNavigate()
     useEffect( () => {
         const checkSellerOfficial = async () => {
@@ -29,12 +30,17 @@ const ShopCreate = () => {
             formData.append("shopName", values.shopName)
             formData.append("desc", values.desc)
             formData.append("image", image)
+            setIsLoading(true)
             const res = await AuthApi().post(endpoint.shop.create, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             })
+            setIsLoading(false)
             console.log(res.data)
+            if(res.data.status === 201){
+                nav(`/shop/${res.data.data.id}/dashboard`)
+            }
         } catch (error: any) {
             console.log(error.response.data.errors)
             api.open({
@@ -53,6 +59,14 @@ const ShopCreate = () => {
         if (event.target.files !== null) {
             setImage(event.target.files[0])
         }
+    }
+    if(isLoading === true){
+        return (
+            <Spin tip='Đang tạo shop...' size="large" style={{
+                width: '100%',
+                marginTop: 200
+            }} />
+        )
     }
     return (
         <div className="create-shop">

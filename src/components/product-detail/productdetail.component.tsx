@@ -150,6 +150,7 @@ const ProductDetail: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0,0)
     getShopOwner();
     getCurrentUser();
     getProductDetail();

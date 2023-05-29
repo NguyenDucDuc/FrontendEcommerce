@@ -38,9 +38,7 @@ export const Chat = () => {
       }
       const resNewMessage = await dispatch(createMessageAsynkThunk(reqBody))
       socket.emit('clientSendMessage', resNewMessage.payload)
-      const { scrollHeight, clientHeight } = scrollableDiv.current;
-      const scrollPosition = scrollHeight - clientHeight;
-      scrollableDiv.current.scrollTo({ top: scrollPosition, behavior: "smooth" });
+      
       dispatch(getAllConversationAsyncThunk())
       refContent.current.value = ''
     }
@@ -66,6 +64,8 @@ export const Chat = () => {
     socket.off('serverSendMessage').on('serverSendMessage', (data) => {
       console.log(data)
       dispatch(addMessageRedux(data))
+      // get all lại để lấy last message
+      dispatch(getAllConversationAsyncThunk())
     })
   }, [socket])
 
@@ -76,7 +76,7 @@ export const Chat = () => {
           <div className="chat-left">
             {listConversation.length > 0 ?
               listConversation.map((item, idx) =>
-                <CardChatUser index={idx} _id={item._id} isSelect={item.isSelect} fullName={item.name} avatar={item.avatar} content={item.lastMessage !== undefined ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
+                <CardChatUser index={idx} _id={item._id} isSelect={item.isSelect} fullName={item.name} avatar={item.avatar} content={(item.lastMessage !== null && item.lastMessage !== undefined) ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
               )
               :
               null

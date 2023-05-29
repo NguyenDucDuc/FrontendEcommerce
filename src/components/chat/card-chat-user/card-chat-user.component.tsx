@@ -57,7 +57,7 @@ export const CardChatUser: React.FC<IProps> = ({isSelect, content, fullName, _id
                     </div>
                 </Col>
                 <Col span={4}>
-                    <p style={{color: '#737373'}}>11:45 PM</p>
+                    <p style={{color: '#737373'}}></p>
                 </Col>
             </Row>
         </div>

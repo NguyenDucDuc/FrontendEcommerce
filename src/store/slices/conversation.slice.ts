@@ -27,8 +27,8 @@ export const getAllConversationAsyncThunk = createAsyncThunk('conversation/getAl
         const res = await AuthApi().get(endpoint.conversation.getAll)
         console.log(res.data.data)
         return res.data.data
-    } catch (error) {
-        
+    } catch (error: any) {
+        console.log(error.response)
     }
 })
 

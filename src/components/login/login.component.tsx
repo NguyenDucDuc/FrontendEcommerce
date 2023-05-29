@@ -63,10 +63,10 @@ const Login = () => {
         description: 'Đăng nhập thành công',
         duration: 4
       });
-      // dispatch to get product in cart for user
-      dispatch(getAllItemAsyncThunk())
       // get conversation
       dispatch(getAllConversationAsyncThunk())
+      // dispatch to get product in cart for user
+      dispatch(getAllItemAsyncThunk())
       // emit socket 
       socket.emit('clientLogin', {
         userId: resLoginAsyncThunk.payload.user.id
