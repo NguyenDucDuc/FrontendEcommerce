@@ -96,7 +96,7 @@ const AdminShop = () => {
         labels: dataChart !== null && dataChart.map((item: any) => item.month),
         datasets: [
           {
-            label: 'My First dataset',
+            label: 'Thống kê số cửa hàng mới theo tháng',
             data: dataChart !== null && dataChart.map((item: any) => item.countShop),
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
@@ -182,7 +182,6 @@ const AdminShop = () => {
                 </div>
                 <div className="chart-shop">
                     <Line data={data}  />
-                    <p style={{marginTop: 50, textAlign: 'center'}}>Thống kê số cửa hàng mới theo tháng</p>
                 </div>
                 <div className="data-table">
                     {shops.length > 0

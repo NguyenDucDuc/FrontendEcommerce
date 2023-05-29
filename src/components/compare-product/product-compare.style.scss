@@ -4,4 +4,15 @@
     text-transform: capitalize !important;
   }
 
+  .home-product-item__price-old {
+    margin-right: 10px;
+    font-size: 12px;
+    color: #666;
+    text-decoration: line-through;
+  }
+
+  .home-product-item__price-current {
+    font-size: 20px;
+    color: #ee4d2d;
+  }
 }

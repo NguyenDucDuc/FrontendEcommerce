@@ -1,16 +1,31 @@
-import { Button, Form, Input, notification } from 'antd';
-import { useEffect } from 'react';
+import { Button, Col, Form, Input, Row, notification } from 'antd';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AuthApi, endpoint } from '../../../configs/Api';
 import { RootState } from '../../../store/store';
 import './profile.style.scss';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { axiosClient } from '../../../lib/axios/axios.config';
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.user.user);
   const nav = useNavigate();
   const [api, contextHolder] = notification.useNotification();
+  const [shops, setShops] = useState<any[]>([]);
+  const getShopByUserId = async () => {
+    const res = await axiosClient.get(
+      endpoint.shop.getShopByUserID(user.id as number)
+    );
+    if (res.status === 200) {
+      setShops(res.data);
+    }
+  };
+
+  useEffect(() => {
+    getShopByUserId();
+  }, []);
+
   const onFinish = async (values: any) => {
     let body: any = {};
     const decode: any = await jwtDecode(
@@ -80,6 +95,24 @@ const Profile = () => {
           autoComplete="off"
           size="large"
         >
+          {shops.length > 0 ? (
+            <>
+              <Form.Item label="Các cửa hàng của bạn">
+                <Row gutter={16}>
+                  {shops.map((shop: any) => (
+                    <Col>
+                      <Button onClick={() => nav(`/shop/${shop.id}/dashboard`)}>
+                        {shop.shopName}
+                      </Button>
+                    </Col>
+                  ))}
+                </Row>
+              </Form.Item>
+            </>
+          ) : (
+            ''
+          )}
+
           <Form.Item label="Tên tài khoản" name="userName">
             <Input placeholder={user.userName} disabled />
           </Form.Item>

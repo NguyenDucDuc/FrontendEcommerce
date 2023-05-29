@@ -151,7 +151,7 @@ export const HomeAdminV2 = () => {
         </Row>
       </div>
 
-      <ShopPromotion />
+      {/* <ShopPromotion /> */}
     </div>
   )
 }

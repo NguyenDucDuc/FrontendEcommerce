@@ -20,6 +20,7 @@ export const endpoint = {
     lock: (shopId: number) => `/shop/block/${shopId}`,
     unLock: (shopId: number) => `/shop/unlock/${shopId}`,
     getUserByShopID: (shopId: number) => `/shop/${shopId}/get-user`,
+    getShopByUserID: (userId: number) => `/shop/${userId}/get-shop`,
     update: (shopId: number) => `/shop/${shopId}`,
   },
   seller: {

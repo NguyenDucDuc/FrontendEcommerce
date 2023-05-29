@@ -48,6 +48,7 @@ import { ForbiddenV2 } from "./components/shop/forbidden.component";
 import { ConfirmSeller } from "./components/admin/confirm/confirm-seller.component";
 import ProductCompare from "./components/compare-product/product-compare.component";
 import { ResetPassword } from "./components/reset-password/reset-password.component";
+import ProductAdmin from "./components/admin/product/productAdmin.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -131,6 +132,7 @@ function App() {
             <Route path="/admin/shops" element={<AdminShop />} />
             <Route path="/admin/forbidden" element={<Forbidden />} />
             <Route path="/admin/stats" element={<StatsAdmin />} />
+            <Route path="/admin/products" element={<ProductAdmin />} />
             <Route path="/admin/confirm-seller" element={<ConfirmSeller />} />
           </Route>
         </Routes>

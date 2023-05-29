@@ -222,7 +222,18 @@ const Stats: React.FC<Props> = () => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Tháng" name="month">
+              <Form.Item label="Tháng" name="month" rules={[
+                 {
+                  validator: (_, values) => {
+    
+                    if (values < 1 || values > 12)
+                      return Promise.reject(
+                        'Tháng nằm trong khoảng 1 - 12'
+                      );
+                    return Promise.resolve();
+                  },
+                },
+              ]}>
                 <InputNumber style={{ width: "100%" }} />
               </Form.Item>
             </Col>

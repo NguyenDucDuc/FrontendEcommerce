@@ -63,7 +63,7 @@ const SideBar = () => {
       <Menu
         onClick={onClick}
         style={{ width: 256 }}
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["0"]}
         defaultOpenKeys={["sub1"]}
         mode="inline"
         items={items}
