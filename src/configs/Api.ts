@@ -12,6 +12,8 @@ export const endpoint = {
     getShopOwner: (productId: number) =>
       `/user/get-user-by-productId/${productId}`,
     resetPassword: '/user/reset-password',
+    getUserNotAdmin: '/user/get-user-not-admin',
+    getAllRole: (userId: number) => `/user/${userId}/get-all-role`
   },
   shop: {
     getDetail: (shopId: number) => `/shop/${shopId}`,
@@ -31,6 +33,7 @@ export const endpoint = {
     checkOfficial: '/seller/check-official',
     getAllUnOfficial: '/seller/unofficial',
     confirm: (userId: number) => `/seller/${userId}/confirm`,
+    grant: (userId: number) => `/seller/${userId}/grant`
   },
   address: {
     currentAddress: '/address/current',
@@ -106,6 +109,9 @@ export const endpoint = {
     countShopByMonth: '/stats/count-shop-by-month',
     countUserByMonth: '/stats/count-user-by-month',
   },
+  staff: {
+    grant:(userId: number) => `/staff/grant/${userId}`
+  }
 };
 
 export const AuthApi = () => {

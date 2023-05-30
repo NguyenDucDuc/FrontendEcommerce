@@ -49,6 +49,7 @@ import { ConfirmSeller } from "./components/admin/confirm/confirm-seller.compone
 import ProductCompare from "./components/compare-product/product-compare.component";
 import { ResetPassword } from "./components/reset-password/reset-password.component";
 import ProductAdmin from "./components/admin/product/productAdmin.component";
+import { UserManager } from "./components/admin/user-manager/user-manager.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -134,6 +135,7 @@ function App() {
             <Route path="/admin/stats" element={<StatsAdmin />} />
             <Route path="/admin/products" element={<ProductAdmin />} />
             <Route path="/admin/confirm-seller" element={<ConfirmSeller />} />
+            <Route path="/admin/users" element={<UserManager />} />
           </Route>
         </Routes>
       </BrowserRouter>

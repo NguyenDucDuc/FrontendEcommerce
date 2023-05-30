@@ -38,7 +38,7 @@ export const Chat = () => {
       }
       const resNewMessage = await dispatch(createMessageAsynkThunk(reqBody))
       socket.emit('clientSendMessage', resNewMessage.payload)
-      
+
       dispatch(getAllConversationAsyncThunk())
       refContent.current.value = ''
     }
@@ -76,7 +76,15 @@ export const Chat = () => {
           <div className="chat-left">
             {listConversation.length > 0 ?
               listConversation.map((item, idx) =>
-                <CardChatUser index={idx} _id={item._id} isSelect={item.isSelect} fullName={item.name} avatar={item.avatar} content={(item.lastMessage !== null && item.lastMessage !== undefined) ? item.lastMessage.content : "Hãy bắt đầu trò truyện"} />
+                <CardChatUser
+                  index={idx}
+                  _id={item._id}
+                  isSelect={item.isSelect}
+                  fullName={item.name}
+                  avatar={item.avatar}
+                  content={(item.lastMessage !== null && item.lastMessage !== undefined) ? item.lastMessage.content : "Hãy bắt đầu trò truyện"}
+                  lastMessageCreatedAt={(item.lastMessage !== null && item.lastMessage !== undefined) ? item.lastMessage.createdAt : ""}
+                />
               )
               :
               null
