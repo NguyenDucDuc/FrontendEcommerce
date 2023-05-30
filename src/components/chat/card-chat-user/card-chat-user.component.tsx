@@ -8,6 +8,7 @@ import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { currentUserAsyncThunk } from "../../../store/slices/user.slice"
 import { updateSelectItemConversation } from "../../../store/slices/conversation.slice"
+import moment from 'moment'
 
 
 interface IProps {
@@ -17,9 +18,10 @@ interface IProps {
     fullName: string,
     index: number;
     avatar: string;
+    lastMessageCreatedAt: string;
 }
 
-export const CardChatUser: React.FC<IProps> = ({isSelect, content, fullName, _id, index, avatar}) => {
+export const CardChatUser: React.FC<IProps> = ({isSelect, content, fullName, _id, index, avatar, lastMessageCreatedAt}) => {
     const dispatch = useAppDispatch()
     const nav = useNavigate()
     const user = useSelector((state: RootState) => state.user.user)
@@ -57,7 +59,7 @@ export const CardChatUser: React.FC<IProps> = ({isSelect, content, fullName, _id
                     </div>
                 </Col>
                 <Col span={4}>
-                    <p style={{color: '#737373'}}></p>
+                    <p style={{color: '#737373'}}>{}</p>
                 </Col>
             </Row>
         </div>

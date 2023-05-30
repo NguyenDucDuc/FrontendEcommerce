@@ -1,4 +1,4 @@
-import { AppstoreOutlined, BellOutlined, DownOutlined, MailOutlined, MessageOutlined, NotificationFilled, NotificationOutlined, SettingOutlined, ShoppingCartOutlined, ShoppingFilled, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, BellOutlined, DownOutlined, HomeOutlined, MailOutlined, MessageOutlined, NotificationFilled, NotificationOutlined, SettingOutlined, ShopOutlined, ShoppingCartOutlined, ShoppingFilled, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
 import { Badge, Button, Col, Dropdown, Menu, MenuProps, Row, Space, Spin, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { useEffect, useState } from "react";
@@ -109,7 +109,7 @@ const Header = () => {
     {
       label: (<Link to="/" >Trang chủ</Link>),
       key: 'home',
-      icon: <MailOutlined />,
+      icon: <HomeOutlined />,
       style: {
         color: "black"
       }
@@ -190,6 +190,7 @@ const Header = () => {
       {
         label: (<Link to="/shop-create">Tạo shop</Link>),
         key: "shopCreate",
+        icon: <ShopOutlined/>,
         style: {
           color: "black"
         }
