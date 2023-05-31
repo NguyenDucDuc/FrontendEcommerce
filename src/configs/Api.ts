@@ -33,7 +33,8 @@ export const endpoint = {
     checkOfficial: '/seller/check-official',
     getAllUnOfficial: '/seller/unofficial',
     confirm: (userId: number) => `/seller/${userId}/confirm`,
-    grant: (userId: number) => `/seller/${userId}/grant`
+    grant: (userId: number) => `/seller/${userId}/grant`,
+    removeRole: (userId: number) => `/seller/${userId}/remove-role`
   },
   address: {
     currentAddress: '/address/current',
@@ -110,7 +111,8 @@ export const endpoint = {
     countUserByMonth: '/stats/count-user-by-month',
   },
   staff: {
-    grant:(userId: number) => `/staff/grant/${userId}`
+    grant:(userId: number) => `/staff/grant/${userId}`,
+    removeRole: (userId: number) => `/staff/remove-role/${userId}`
   }
 };
 
