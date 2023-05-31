@@ -81,6 +81,8 @@ export const endpoint = {
   },
   review: {
     create: '/review/create-v2',
+    stats: (productId: number) => `/review/${productId}/stats`,
+    checkReview: (productId: number) => `/review/${productId}/check-review`
   },
   message: {
     getAll: (conversationId: string) => `/message/${conversationId}`,

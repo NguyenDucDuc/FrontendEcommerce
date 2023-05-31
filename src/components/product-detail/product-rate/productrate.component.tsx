@@ -67,7 +67,10 @@ const ProductRate:React.FC<Props> = ({ rate}) => {
                     :
                     null
                 }
-                <Row>
+                <Row style={{
+                    paddingBottom: 50,
+                    marginTop: 50
+                }}>
                     <Col span={9}></Col>
                     <Col span={6}>
                         <Pagination defaultCurrent={1} total={amountReview} pageSize={6} onChange={handleChangePage} />
