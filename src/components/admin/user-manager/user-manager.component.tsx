@@ -39,6 +39,7 @@ export const UserManager = () => {
   const [role, setRole] = useState<any>('')
   const [allRole, setAllRole] = useState<IRole[]>([])
   const [userIdGrant, setUserIdGrant] = useState<number>(0)
+  const [userIdRemoveRole, setUserIdRemoveRole] = useState<number>(0)
   const [roleOption, setRoleOption] = useState<any[]>([
     { value: 'seller', label: 'Người bán' },
     { value: 'staff', label: 'Nhân viên' },
@@ -86,6 +87,8 @@ export const UserManager = () => {
     const res = await AuthAdminApi().get(endpoint.user.getAllRole(userId))
     console.log(res.data)
     setAllRole(res.data.data)
+    // set userId để remove role
+    setUserIdRemoveRole(userId)
     setIsModalOpenRemoveRole(true);
   };
 
@@ -103,8 +106,44 @@ export const UserManager = () => {
     setRole(value)
   };
 
-  const handleRemoveRole = (roleName: string) => {
+  const handleRemoveRole = async (roleName: string) => {
+    if (roleName === 'Nhân viên') {
+      const res = await AuthAdminApi().post(endpoint.staff.removeRole(userIdRemoveRole))
+      if (res.data.status === 200) {
+        setAllRole(allRole.filter((item) => item.name !== roleName))
+        api.success({
+          message: 'Thông báo',
+          description: 'Gỡ quyền thành công!',
+          duration: 3
+        });
+      } else {
+        api.error({
+          message: 'Thông báo',
+          description: 'Có lỗi xảy ra, vui lòng thử lại sau',
+          duration: 3
+        });
+      }
+    }
     console.log(roleName)
+    if (roleName === 'Người bán') {
+      console.log('123')
+      const res = await AuthAdminApi().post(endpoint.seller.removeRole(userIdRemoveRole))
+      if (res.data.status === 200) {
+        setAllRole(allRole.filter((item) => item.name !== roleName))
+        api.success({
+          message: 'Thông báo',
+          description: 'Gỡ quyền thành công!',
+          duration: 3
+        });
+      } else {
+        api.error({
+          message: 'Thông báo',
+          description: 'Có lỗi xảy ra, vui lòng thử lại sau',
+          duration: 3
+        });
+      }
+    }
+    
   }
 
   const columns: ColumnsType<DataType> = [
