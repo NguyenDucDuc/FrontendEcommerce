@@ -26,6 +26,7 @@ function getItem(
 const items: MenuProps['items'] = [
     getItem((<Link to="/user/profile">Hồ sơ</Link>), '1'),
     getItem((<Link to="/user/address">Địa chỉ</Link>), '2'),
+    getItem((<Link to="/user/address-manager">Quản lý địa chỉ</Link>), '7'),
     getItem('Quản lý đơn hàng', 'order', <AppstoreOutlined />, [
         getItem((<Link to="orders">Tất cả</Link>), '3'),
         getItem((<Link to="orders?state=3">Đang giao hàng</Link>), '4'),

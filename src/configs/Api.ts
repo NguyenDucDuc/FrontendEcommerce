@@ -39,6 +39,8 @@ export const endpoint = {
   address: {
     currentAddress: '/address/current',
     updateAddress: (userId: number) => `/user/${userId}`,
+    getAll: '/address',
+    create: '/address'
   },
   product: {
     main: '/product',

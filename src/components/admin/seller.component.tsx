@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Spin, Statistic, Table, Tag } from "antd"
+import { Button, Card, Col, Modal, Row, Spin, Statistic, Table, Tag } from "antd"
 import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -44,20 +44,38 @@ const SellerAdmin = () => {
   //   console.log("row click")
   // }
   const nav = useNavigate()
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sellers, setSellers] = useState<DataType[]>([])
   const [reload, setReload] = useState<boolean>(false)
   const [show, setShow] = useState<boolean>(true)
   const [dataChart, setDataChart] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleBlockUser = async (record: DataType) => {
+    setIsModalOpen(true)
     const res = await AuthAdminApi().patch(endpoint.seller.lock(record.id))
+    setIsModalOpen(false)
     setReload(!reload)
   }
   const handleUnLock = async (recode: DataType) => {
+    setIsModalOpen(true)
     const res = await AuthAdminApi().patch(endpoint.seller.unLock(recode.id))
+    setIsModalOpen(false)
     console.log(res.data)
     setReload(!reload)
   }
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   // Data
   const columns: ColumnsType<DataType> = [
     { title: 'Id người dùng', dataIndex: 'id', key: 'id' },
@@ -127,6 +145,13 @@ const SellerAdmin = () => {
       </div>
     </Spin>
   }
+  if (isLoading === true) {
+    return <Spin tip="Loading..." size="large">
+      <div style={{ height: 600 }}>
+
+      </div>
+    </Spin>
+  }
   return (
     <div  className="admin-seller">
       <div className="admin-seller__w-90">
@@ -187,6 +212,11 @@ const SellerAdmin = () => {
             null
           }
         </div>
+        <Modal title="" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} >
+          <Spin style={{
+            marginLeft: '40%'
+          }} tip="Vui lòng chờ" size='large' />
+        </Modal>
       </div>
     </div>
   )
