@@ -73,6 +73,10 @@ const TotalRate: React.FC<Props> = ({ }) => {
       setRate(0)
       setReviewContent('')
       setReload(!reload)
+      api.success({
+        message: 'Thông báo',
+        description: 'Đã thêm đánh giá!',
+      });
     }
     
   }
@@ -119,7 +123,7 @@ const TotalRate: React.FC<Props> = ({ }) => {
                 <p>Chọn mức độ hài lòng về sản phẩm</p>
               </Col>
               <Col span={6}>
-                <Rate defaultValue={rate} onChange={handleRateChange} />
+                <Rate value={rate} onChange={handleRateChange} />
               </Col>
             </Row>
             <Row style={{ marginTop: '20px' }}>

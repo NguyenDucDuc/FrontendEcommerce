@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Statistic, Tag, notification } from 'antd'
+import { Button, Card, Col, Modal, Row, Spin, Statistic, Tag, notification } from 'antd'
 import './confirm-seller.style.scss'
 import { CarryOutOutlined, DollarOutlined, UserOutlined } from '@ant-design/icons'
 import Table, { ColumnsType } from 'antd/es/table';
@@ -18,11 +18,15 @@ interface DataType {
 
 
 export const ConfirmSeller = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const nav = useNavigate()
   const [api, contextHolder] = notification.useNotification();
   const [listSellerUnOfficial, setListSellerUnOfficial] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const handleConfirm = async (record: DataType) => {
+    setIsModalOpen(true)
     const res = await AuthAdminApi().post(endpoint.seller.confirm(record.id))
+    setIsModalOpen(false)
     console.log(res.data)
     if (res.data.status === 200) {
       api.success({
@@ -59,6 +63,18 @@ export const ConfirmSeller = () => {
     }
   ];
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     const getListUserUnOfficial = async () => {
       try {
@@ -72,6 +88,15 @@ export const ConfirmSeller = () => {
 
     getListUserUnOfficial()
   }, [])
+
+  if (isLoading === true) {
+    return <Spin tip="Loading..." size="large">
+      <div style={{ height: 600 }}>
+
+      </div>
+    </Spin>
+  }
+
   return (
     <div className="admin-confirm-seller">
       {contextHolder}
@@ -128,6 +153,12 @@ export const ConfirmSeller = () => {
             size="large"
           />
         </div>
+
+        <Modal title="" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} >
+          <Spin style={{
+            marginLeft: '40%'
+          }} tip="Vui lòng chờ" size='large' />
+        </Modal>
       </div>
     </div>
   )

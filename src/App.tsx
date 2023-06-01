@@ -50,6 +50,7 @@ import ProductCompare from "./components/compare-product/product-compare.compone
 import { ResetPassword } from "./components/reset-password/reset-password.component";
 import ProductAdmin from "./components/admin/product/productAdmin.component";
 import { UserManager } from "./components/admin/user-manager/user-manager.component";
+import { AddressManager } from "./components/user-profile/address-manager/address-manager.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -79,6 +80,7 @@ function App() {
             <Route path="/user" element={<UserProfile />}>
               <Route path="/user/profile" element={<Profile />} />
               <Route path="/user/address" element={<Address />} />
+              <Route path="/user/address-manager" element={<AddressManager />} />
               <Route path="orders" element={<OrderUser />} />
             </Route>
             <Route path="/register-seller" element={<RegisterSeller />} />
