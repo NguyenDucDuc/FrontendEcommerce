@@ -40,7 +40,8 @@ export const endpoint = {
     currentAddress: '/address/current',
     updateAddress: (userId: number) => `/user/${userId}`,
     getAll: '/address',
-    create: '/address'
+    create: '/address',
+    setDefault: (addressId: number) => `/address/${addressId}/set-default`
   },
   product: {
     main: '/product',

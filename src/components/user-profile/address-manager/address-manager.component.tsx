@@ -18,6 +18,7 @@ interface DataType {
 
 export const AddressManager = () => {
   const [api, contextHolder] = notification.useNotification();
+  const [reload, setReload] = useState<boolean>(true)
   const [addresses, setAddresses] = useState<DataType[]>([])
   const [wards, setWards] = useState<any>([])
   const [districts, setDistricts] = useState<any>([])
@@ -33,6 +34,12 @@ export const AddressManager = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const handleSetDefault = async (addressId: number) => {
+    const res = await AuthApi().post(endpoint.address.setDefault(addressId))
+    console.log(res.data)
+    if(res.data.status === 200) setReload(!reload)
+  }
   const columns: ColumnsType<DataType> = [
     {
       title: 'Số nhà',
@@ -70,6 +77,12 @@ export const AddressManager = () => {
       key: 'isSelect',
       dataIndex: 'isSelect',
       render: (_, record) => record.isSelect ? <Tag color="#00cc99">Mặc định</Tag> : null
+    },
+    {
+      title: '',
+      key: '',
+      dataIndex: '',
+      render: (_, record) => !record.isSelect ? <Button onClick={() => handleSetDefault(record.id)} type="primary" className="btn-color">Mặc định</Button> : null
     },
   ];
 
@@ -114,7 +127,7 @@ export const AddressManager = () => {
       setAddresses(res.data.data)
     }
     getAllAddress()
-  }, [])
+  }, [reload])
   return (
     <div className="address-manager" style={{
       marginLeft: 20
