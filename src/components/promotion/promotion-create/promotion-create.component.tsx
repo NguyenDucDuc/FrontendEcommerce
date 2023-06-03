@@ -71,9 +71,9 @@ export const PromotionCreate = () => {
               validator: (_, values) => {
                 console.log({ values });
 
-                if (values < 0 || values > 1)
+                if (values < 0 || values > 100)
                   return Promise.reject(
-                    'Giá trị khuyến mãi chỉ được trong khoảng từ 0 -> 1'
+                    'Giá trị khuyến mãi chỉ được trong khoảng từ 0 -> 100'
                   );
                 return Promise.resolve();
               },

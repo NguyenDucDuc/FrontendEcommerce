@@ -139,12 +139,14 @@ export const PromotionManager = () => {
       title: 'Giá trị khuyến mãi',
       key: 'value',
       dataIndex: 'value',
+      align: 'center',
+      render: (value) => <span>{value * 100}%</span>,
     },
     {
       title: 'Ngày kết thúc',
       key: 'dateEnd',
       dataIndex: 'dateEnd',
-      // render: (_, record) => <p>{record.dateEnd.split('T')[0]}</p>,
+      align: 'center',
       render: (_, record) => <span>{formatDateString(record?.dateEnd)}</span>,
     },
 
@@ -179,6 +181,9 @@ export const PromotionManager = () => {
 
   const handleUploadPromotion = async (id: number, promotionUpdate: any) => {
     try {
+      if (promotionUpdate.value) {
+        promotionUpdate.value /= 100;
+      }
       const res: any = await axiosClient.put(
         endpoint.promotion.update(id),
         promotionUpdate
@@ -280,9 +285,9 @@ export const PromotionManager = () => {
                     validator: (_, values) => {
                       console.log({ values });
 
-                      if (values < 0 || values > 1)
+                      if (values < 0 || values > 100)
                         return Promise.reject(
-                          'Giá trị khuyến mãi chỉ được trong khoảng từ 0 -> 1'
+                          'Giá trị khuyến mãi chỉ được trong khoảng từ 0 -> 100'
                         );
                       return Promise.resolve();
                     },

@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Radio, RadioChangeEvent, Row, Select, Space, message } from 'antd';
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Radio,
+  RadioChangeEvent,
+  Row,
+  Select,
+  Space,
+  message,
+} from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 
 import { authAxios, axiosClient } from '../../lib/axios/axios.config';
@@ -9,6 +20,8 @@ import { Attribute, Product } from '../../models/models';
 import { Response } from '../../models/http';
 import { endpoint } from '../../configs/Api';
 import { useNavigate, useParams } from 'react-router-dom';
+import { roundToHundreds } from '../../utils/common';
+import PriceInput from '../price-value/PriceValue.component';
 
 const EditProduct: React.FC = () => {
   const [initValue, setInitValue] = useState({
@@ -41,6 +54,7 @@ const EditProduct: React.FC = () => {
       );
 
       form.setFieldsValue({ ...res?.data });
+      form.setFieldValue(['price', 'number'], res.data.price);
       changeAttributeGroup(res.data?.attributeGroupId);
       setProductDetail(res.data);
     } catch (error) {
@@ -114,6 +128,7 @@ const EditProduct: React.FC = () => {
       },
       { ids: [], list: [] }
     );
+    values.price = roundToHundreds(values.price);
     values.image = image;
     values.ids = JSON.stringify(attributes.ids);
     values.list = JSON.stringify(attributes.list);
@@ -202,7 +217,8 @@ const EditProduct: React.FC = () => {
                 },
               ]}
             >
-              <Input type="number" />
+              <PriceInput value={{ number: 12312 }} />
+              {/* <Input type="number" /> */}
             </Form.Item>
           </Col>
           <Col span={24}>
