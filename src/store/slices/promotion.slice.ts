@@ -77,7 +77,7 @@ export const createPromotionAsyncThunk = createAsyncThunk(
     try {
       const res = await authAxios().post(endpoint.promotion.create, {
         desc: reqBody.desc,
-        value: reqBody.value,
+        value: reqBody.value / 100,
         dateEnd: reqBody.dateEnd,
         shopId: reqBody.shopId,
       });

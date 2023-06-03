@@ -1,12 +1,14 @@
-import { LeftOutlined, RightOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Col, Row } from "antd";
-import React, { useEffect, useState } from "react";
+import { LeftOutlined, RightOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-import "./style.scss";
-import { Product } from "../../models/models";
-import { getAllProduct } from "../../utils/product";
-import { formatCurrency } from "../../utils/common";
-import { Link } from "react-router-dom";
+import './style.scss';
+import { Product } from '../../models/models';
+import { getAllProduct } from '../../utils/product';
+import { formatCurrency } from '../../utils/common';
+import { Link } from 'react-router-dom';
+import { axiosClient } from '../../lib/axios/axios.config';
+import { endpoint } from '../../configs/Api';
 
 const FlashSale: React.FC = () => {
   const [position, setPosition] = useState<number>(1);
@@ -14,11 +16,7 @@ const FlashSale: React.FC = () => {
   const [productData, setProductData] = useState<Array<Product>>([]);
 
   const fetchData = async () => {
-    const res = await getAllProduct({
-      order: "desc",
-      sortBy: "unitOnOrder",
-      pageSize: 20,
-    });
+    const res = await axiosClient.get(`${endpoint.product.main}/hot-trend`);
     setProductData(res?.data.listProduct);
   };
 
@@ -26,10 +24,10 @@ const FlashSale: React.FC = () => {
     fetchData();
   }, []);
   const clickCarouselArrow = (event: React.MouseEvent<HTMLElement>) => {
-    if (event.currentTarget.classList.contains("btn-next")) {
+    if (event.currentTarget.classList.contains('btn-next')) {
       setPosition((prev) => prev + 1);
     }
-    if (event.currentTarget.classList.contains("btn-prev")) {
+    if (event.currentTarget.classList.contains('btn-prev')) {
       setPosition((prev) => prev - 1);
     }
   };
@@ -59,7 +57,7 @@ const FlashSale: React.FC = () => {
             onClick={clickCarouselArrow}
           />
         ) : (
-          ""
+          ''
         )}
 
         <div className="flash-sale-wrapper">
@@ -70,24 +68,35 @@ const FlashSale: React.FC = () => {
             {productData.map((item) => (
               <Col className="flash-sale-item" span={4}>
                 <Link to={`/product-detail/${item.id}`}>
-                <div className="flash-sale-item__img">
-                  <img src={item.image} alt="Ảnh sản phẩm" />
-                </div>
-                <div className="flash-sale-info flex">
-                  <div className="price">
-                    <span className="">
-                      {item.priceDiscount ? formatCurrency(item.priceDiscount as number) : formatCurrency(item.price as number)}
-                    </span>
+                  <div className="flash-sale-item__img">
+                    <img src={item.image} alt="Ảnh sản phẩm" />
+                    <div className="home-product-item__sale-off">
+                      <span className="home-product-item__sale-off-percent">
+                        {item?.promotion
+                          ? `${item?.promotion.value * 100}%`
+                          : '0%'}
+                      </span>
+                      <span className="home-product-item__sale-off-label">
+                        GIẢM
+                      </span>
+                    </div>
                   </div>
-                  <div className="flash-sale-info__ordered">
-                    <div className="icon"></div>
-                    <div className="quantity">{`Đã bán ${item.unitOnOrder}`}</div>
-                    <div className="bg-process"></div>
-                    <div className="process"></div>
+                  <div className="flash-sale-info flex">
+                    <div className="price">
+                      <span className="">
+                        {item.priceDiscount
+                          ? formatCurrency(item.priceDiscount as number)
+                          : formatCurrency(item.price as number)}
+                      </span>
+                    </div>
+                    <div className="flash-sale-info__ordered">
+                      <div className="icon"></div>
+                      <div className="quantity">{`Đã bán ${item.unitOnOrder}`}</div>
+                      <div className="bg-process"></div>
+                      <div className="process"></div>
+                    </div>
                   </div>
-                </div>
                 </Link>
-
               </Col>
             ))}
           </Row>
@@ -101,7 +110,7 @@ const FlashSale: React.FC = () => {
             onClick={clickCarouselArrow}
           />
         ) : (
-          ""
+          ''
         )}
       </div>
     </section>

@@ -9,6 +9,8 @@ import { generateOptions } from '../../utils/generateOptions';
 import { Attribute } from '../../models/models';
 import { Response } from '../../models/http';
 import { useParams } from 'react-router-dom';
+import { roundToHundreds } from '../../utils/common';
+import PriceInput from '../price-value/PriceValue.component';
 
 const AddProduct: React.FC = () => {
   const { shopId } = useParams();
@@ -68,7 +70,7 @@ const AddProduct: React.FC = () => {
     );
   };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: any) => {    
     const attributes = Object.keys(values.attributes).reduce(
       (obj: any, attributeId: any) => {
         const attribute: Attribute = {
@@ -84,6 +86,7 @@ const AddProduct: React.FC = () => {
       },
       { ids: [], list: [] }
     );
+    values.price = roundToHundreds(values.price);
     values.image = image;
     values.shopId = shopId;
     values.ids = JSON.stringify(attributes.ids);
@@ -164,7 +167,8 @@ const AddProduct: React.FC = () => {
                 },
               ]}
             >
-              <Input type="number" />
+              <PriceInput/>
+              {/* <Input type="number" /> */}
             </Form.Item>
           </Col>
           <Col span={24}>
