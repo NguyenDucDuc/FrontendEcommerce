@@ -41,7 +41,8 @@ export const endpoint = {
     updateAddress: (userId: number) => `/user/${userId}`,
     getAll: '/address',
     create: '/address',
-    setDefault: (addressId: number) => `/address/${addressId}/set-default`
+    setDefault: (addressId: number) => `/address/${addressId}/set-default`,
+    delete: (addressId: number) => `/address/${addressId}/delete`
   },
   product: {
     main: '/product',
