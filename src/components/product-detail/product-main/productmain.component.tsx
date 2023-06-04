@@ -24,8 +24,10 @@ import { useNavigate } from 'react-router-dom';
 import { AuthApi, endpoint } from '../../../configs/Api';
 import {
   addItem,
+  addItem2,
   ICartItem,
   updateCartCount,
+  updateCartCount2,
 } from '../../../store/slices/cartitem.slice';
 import { RootState, useAppDispatch } from '../../../store/store';
 import './productmain.style.scss';
@@ -125,12 +127,12 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
 
   const handleAddToCart = async () => {
     // update cart count in header
-    dispatch(updateCartCount());
+    dispatch(updateCartCount2({ quantity: quantity }));
     // nofitication
     api.success({
       message: 'Thông báo',
       description: 'Sản phẩm đã được thêm và giỏ hàng!',
-      duration: 4,
+      duration: 3,
     });
     // add to redux cart
 
@@ -144,8 +146,8 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
       desc: desc,
       quantity: quantity,
       shopId: shopId as number,
-    };
-    dispatch(addItem(newCartItem));
+    };    
+    dispatch(addItem2(newCartItem));
     // add to database
     // -- step 1: get cartId
     const resCart = await AuthApi().get(endpoint.cart.getByUserId);
@@ -247,7 +249,9 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
                     className="mgl-10"
                     style={{ textDecoration: 'line-through' }}
                   >
-                    {priceDiscount === undefined ? '' : formatCurrency(price as number)}
+                    {priceDiscount === undefined
+                      ? ''
+                      : formatCurrency(price as number)}
                   </p>
                 </Col>
                 <Col span={7}>

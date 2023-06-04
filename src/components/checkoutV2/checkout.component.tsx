@@ -1,40 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import StripeCheckout from 'react-stripe-checkout';
-import { authAxios, axiosClient } from '../../lib/axios/axios.config';
+import { AimOutlined } from '@ant-design/icons';
+import { Col, Input, Row, message, notification } from 'antd';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { number, string } from 'yup';
 import { AuthApi, endpoint } from '../../configs/Api';
-import './payment.style.scss';
-import { Button, message, notification } from 'antd';
-import { formatCurrency } from '../../utils/common';
-import { PAYMENT } from '../../constants/order';
-import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../../store/store';
-import { createNotification } from '../../utils/notification';
-import { socket } from '../../utils/socket';
 import {
   removeItemCheckedFromShopId,
   updateTotalPriceCheckedList,
 } from '../../store/slices/product-checked.slice';
-import { deleteItemAsyncThunk } from '../../store/slices/cartitem.slice';
+import { RootState, useAppDispatch } from '../../store/store';
+import CardConfirmCheckout from './card-confirm-checkout/card-confirm-checkout.component';
+import CardProductCheckout from './card-product-checkout/card-product-checkout.component';
+import './checkout.style.scss';
 import { useNavigate } from 'react-router-dom';
-
-interface Props {
-  amount?: number;
-  shopId: number;
-  testOrder: (chargeId?: string, payment?: string, totalPrice?: number) => any;
-}
-
-const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
-  const btnRef = useRef<any>(null);
-  const [stripeToken, setStripeToken] = useState<any>(null);
+import { deleteItemAsyncThunk } from '../../store/slices/cartitem.slice';
+import { socket } from '../../utils/socket';
+import { createNotification } from '../../utils/notification';
+import { axiosClient } from '../../lib/axios/axios.config';
+import { FEE_SHIP } from '../../constants/order';
+import { formatCurrency } from '../../utils/common';
+import { Response } from '../../models/http';
+import CardShopCheckout from './card-shop-checkout/card-shop.checkout.component';
+const Checkout = () => {
   const [api, contextHolder] = notification.useNotification();
+  const nav = useNavigate();
   const listProductsChecked = useSelector(
     (state: RootState) => state.productsChecked.listProductsChecked
   );
-  const [shopId2, setShopId2] = useState<number>();
+  const totalPrice = useSelector(
+    (state: RootState) => state.productsChecked.totalPrice
+  );
   const dispatch = useAppDispatch();
   const [currentAddress, setCurrentAddress] = useState<any>();
   const [currentUser, setCurrentUser] = useState<any>();
-
+  const [shopId, setShopId] = useState<number>();
+  const [cart, setCart] = useState<any>();
   useEffect(() => {
     const calcPrice = () => {
       for (let i = 0; i < listProductsChecked.length; i++) {
@@ -57,31 +57,10 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
     calcPrice();
     getCurrentAddress();
     getCurrentUser();
-    setShopId2(listProductsChecked[0].shopId as number);
+    setShopId(listProductsChecked[0].shopId as number);
   }, []);
-  const nav = useNavigate();
 
-  const onToken = (token: any) => {
-    setStripeToken(token);
-  };
-  const updateTotalPriceShop = async (shopId: number, amount: number) => {
-    await axiosClient.put(endpoint.shop.update(shopId), {
-      amount: amount,
-    });
-  };
-  const makeRequest = async () => {
-    try {
-      const res: any = await authAxios().post(endpoint.payment.checkout, {
-        token: { id: stripeToken.id },
-        amount: amount,
-      });
-      await testOrderV2(res.id as string, PAYMENT.ONLINE);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const testOrderV2 = async (
+  const testOrder = async (
     chargeId?: string,
     payment: string = 'Thanh toán khi nhận hàng',
     totalPrice?: number
@@ -90,8 +69,8 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
     if (listProductsChecked.length > 0) {
       for (let i = 0; i < listProductsChecked.length; i++) {
         // -- create order details
-        let totalPriceOrder = 0;
         let orderDetails = [];
+        let totalPriceOrder = 0;
         for (let j = 0; j < listProductsChecked[i].products.length; j++) {
           totalPriceOrder +=
             Number(listProductsChecked[i].products[j].quantity) *
@@ -139,11 +118,6 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
             if (res.status === 'fulfilled') {
               const user = await axiosClient.get(
                 endpoint.shop.getUserByShopID(res.value.data.data.data.shopId)
-              );
-
-              await updateTotalPriceShop(
-                res.value.data.data.data.shopId,
-                res.value.data.data.data.totalPrice
               );
 
               await createNotification({
@@ -194,35 +168,53 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
         });
     }
   };
-
-  useEffect(() => {
-    stripeToken && makeRequest();
-  }, [stripeToken]);
   return (
-    <>
-      <Button
-        onClick={() => btnRef.current.onClick()}
-        type="primary"
-        className="btn-payment"
-        size="large"
-        style={{ width: '100%' }}
-      >
-        Thanh toán
-        <StripeCheckout
-          ref={btnRef}
-          name="NamDNH"
-          image="https://res.cloudinary.com/de5pwc5fq/image/upload/v1666019608/825b219385d46_k9zpfl.png"
-          billingAddress
-          shippingAddress
-          description={`Tổng tiền ${formatCurrency(amount as number)}`}
-          amount={amount}
-          token={onToken}
-          currency="vnd"
-          stripeKey={process.env.REACT_APP_STRIPE_KEY as string}
-        />
-      </Button>
-    </>
+    <div>
+      {contextHolder}
+      <div className="address">
+        <div className="address-child">
+          <Row>
+            <Col span={1}>
+              <AimOutlined style={{ fontSize: 25, color: 'red' }} />
+            </Col>
+            <Col span={23}>
+              <h3 style={{ color: 'red' }}>Địa chỉ nhận hàng</h3>
+            </Col>
+          </Row>
+          <Row>
+            {currentUser !== undefined ? (
+              <h4
+                style={{ marginTop: 20, marginBottom: 20 }}
+              >{`${currentUser.firstName} ${currentUser.lastName} - ${currentUser.phone}`}</h4>
+            ) : null}
+          </Row>
+          <Row>
+            {currentAddress !== undefined ? (
+              <h4>{`${currentAddress.detail} ${currentAddress.street} - ${currentAddress.ward} - ${currentAddress.district} - ${currentAddress.city}`}</h4>
+            ) : null}
+          </Row>
+        </div>
+      </div>
+      <div className="list-product">
+        {listProductsChecked.length > 0 &&
+          listProductsChecked.map((item, idx) => (
+            <CardShopCheckout
+              shopId={item.shopId as number}
+              products={item.products}
+            />
+          ))}
+      </div>
+      <div className="confirm-checkout">
+        {totalPrice !== 0 ? (
+          <CardConfirmCheckout
+            testOrder={testOrder}
+            totalPrice={totalPrice}
+            shopId={shopId as number}
+          />
+        ) : null}
+      </div>
+    </div>
   );
 };
 
-export default Stripe;
+export default Checkout;

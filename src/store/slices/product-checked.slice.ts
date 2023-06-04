@@ -56,6 +56,10 @@ const productsCheckedSlice = createSlice({
                     state.listProductsChecked = state.listProductsChecked.filter(item => item.shopId !== action.payload.shopId)
             }
         },
+        removeItemCheckedFromShopId: (state, action: PayloadAction<{shopId: number}>) => {
+            const newListProductChecked = state.listProductsChecked.filter((item) => item.shopId !== action.payload.shopId)
+           state.listProductsChecked = newListProductChecked
+        },
         setNullListProductsChecked: (state) => {
             state.listProductsChecked = []
             state.totalPrice=0
@@ -88,6 +92,7 @@ export const {
     removeItemChecked,
     setNullListProductsChecked,
     updateQuantityCheckedList,
-    updateTotalPriceCheckedList
+    updateTotalPriceCheckedList,
+    removeItemCheckedFromShopId
 
 } = productsCheckedSlice.actions

@@ -69,8 +69,19 @@ const cartItemSlice = createSlice({
                 state.listProducts[index].quantity++
             }
         },
+        addItem2: (state, action: PayloadAction<ICartItem>) => {
+            const index = state.listProducts.findIndex((item) => item.id === action.payload.id)
+            if (index === -1) {
+                state.listProducts = [...state.listProducts, action.payload]
+            } else {
+                state.listProducts[index].quantity += action.payload.quantity
+            }
+        },
         updateCartCount: (state) => {
             state.totalProduct++
+        },
+        updateCartCount2: (state, action) => {
+            state.totalProduct += action.payload.quantity
         },
         decreaseCartCount: (state, action) => {
             state.totalProduct = state.totalProduct - action.payload
@@ -132,7 +143,9 @@ const cartItemSlice = createSlice({
 export default cartItemSlice.reducer
 export const {
     addItem,
+    addItem2,
     updateCartCount,
+    updateCartCount2,
     increaseTotalPriceTotalProductPayment,
     decreaseTotalPriceTotalProductPayment,
     increaseTotalPrice,

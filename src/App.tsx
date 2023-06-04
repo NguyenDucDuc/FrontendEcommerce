@@ -23,7 +23,6 @@ import Profile from "./components/user-profile/profile/profile.component";
 import Address from "./components/user-profile/address/address.component";
 import { io } from "socket.io-client";
 import RegisterSeller from "./components/register-seller/register-seller.component";
-import Checkout from "./components/checkout/checkout.component";
 import LoginAdmin from "./components/admin/login/login-admin.component";
 import Forbidden from "./components/admin/forbidden/forbidden.component";
 import AddProduct from "./components/add-product/AddProduct";
@@ -51,6 +50,8 @@ import { ResetPassword } from "./components/reset-password/reset-password.compon
 import ProductAdmin from "./components/admin/product/productAdmin.component";
 import { UserManager } from "./components/admin/user-manager/user-manager.component";
 import { AddressManager } from "./components/user-profile/address-manager/address-manager.component";
+import CartV2 from "./components/cart/cartv2.component";
+import Checkout from "./components/checkoutV2/checkout.component";
 
 export const socket = io("http://localhost:5000");
 
@@ -75,7 +76,8 @@ function App() {
             <Route path="/compare-product" element={<ProductCompare/>}/>
             <Route path="/shop-create" element={<ShopCreate />} />
             <Route path="/products" element={<ProductSales />} />
-            <Route path="/cart" element={<Cart />} />
+            {/* <Route path="/cart" element={<Cart />} /> */}
+            <Route path="/cart" element={<CartV2 />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/user" element={<UserProfile />}>
               <Route path="/user/profile" element={<Profile />} />
