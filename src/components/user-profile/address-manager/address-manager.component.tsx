@@ -40,6 +40,19 @@ export const AddressManager = () => {
     console.log(res.data)
     if(res.data.status === 200) setReload(!reload)
   }
+  const handleDeleteAddress = async (addressId: number) => {
+    console.log(123)
+    const res = await AuthApi().post(endpoint.address.delete(addressId))
+    if(res.data.status === 200){
+      api.success({
+        message: 'Thông báo',
+        description: 'Xóa thành công!!!',
+      });
+      const newAddresses = addresses.filter((addressItem) => addressItem.id !== addressId)
+      console.log(newAddresses)
+      setAddresses(newAddresses)
+    }
+  }
   const columns: ColumnsType<DataType> = [
     {
       title: 'Số nhà',
@@ -83,6 +96,12 @@ export const AddressManager = () => {
       key: '',
       dataIndex: '',
       render: (_, record) => !record.isSelect ? <Button onClick={() => handleSetDefault(record.id)} type="primary" className="btn-color">Mặc định</Button> : null
+    },
+    {
+      title: '',
+      key: '',
+      dataIndex: '',
+      render: (_, record) => !record.isSelect ? <Button onClick={() => handleDeleteAddress(record.id)} type="primary" style={{background: 'red'}}>Xóa</Button> : null
     },
   ];
 
