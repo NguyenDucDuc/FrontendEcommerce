@@ -2,29 +2,29 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   SearchOutlined,
-} from "@ant-design/icons";
-import { Avatar, Button, Space, Table, Tag, message } from "antd";
-import { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import React, { useEffect, useMemo, useState } from "react";
-import { extractData } from "../../../../utils/product";
+} from '@ant-design/icons';
+import { Avatar, Button, Space, Table, Tag, message } from 'antd';
+import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
+import React, { useEffect, useMemo, useState } from 'react';
+import { extractData } from '../../../../utils/product';
 import {
   Link,
   useLocation,
   useParams,
   useSearchParams,
-} from "react-router-dom";
-import { Params, Response } from "../../../../models/http";
-import { authAxios, axiosClient } from "../../../../lib/axios/axios.config";
-import { endpoint } from "../../../../configs/Api";
+} from 'react-router-dom';
+import { Params, Response } from '../../../../models/http';
+import { authAxios, axiosClient } from '../../../../lib/axios/axios.config';
+import { endpoint } from '../../../../configs/Api';
 import {
   formatCurrency,
   formatDateString,
   getOrderDetail,
-} from "../../../../utils/common";
-import { PAGE_SIZE } from "../../../../constants/product";
-import { ParamsOrderDetail, STATUS_ACTION } from "../../../../constants/order";
-import Modal from "antd/es/modal/Modal";
-import { DataTypeOrder, DataTypeOrderDetail } from "../../../../models/models";
+} from '../../../../utils/common';
+import { PAGE_SIZE } from '../../../../constants/product';
+import { ParamsOrderDetail, STATUS_ACTION } from '../../../../constants/order';
+import Modal from 'antd/es/modal/Modal';
+import { DataTypeOrder, DataTypeOrderDetail } from '../../../../models/models';
 
 interface Pagination {
   total?: number;
@@ -40,8 +40,8 @@ const OrderManage: React.FC = () => {
   const [params, setParams] = useState<Params>({
     shopId: shopId,
     pageSize: PAGE_SIZE,
-    state: searchParams.get("state")
-      ? (searchParams.get("state") as string)
+    state: searchParams.get('state')
+      ? (searchParams.get('state') as string)
       : null,
   });
 
@@ -70,17 +70,17 @@ const OrderManage: React.FC = () => {
       });
 
       const result = extractData(res?.data.listOrder, [
-        "id",
-        "userId",
-        "firstName",
-        "lastName",
-        "isActive",
-        "avatar",
-        "status",
-        "payment",
-        "shipAddress",
-        "chargeId",
-        "updatedAt",
+        'id',
+        'userId',
+        'firstName',
+        'lastName',
+        'isActive',
+        'avatar',
+        'status',
+        'payment',
+        'shipAddress',
+        'chargeId',
+        'updatedAt',
       ]);
 
       setDataSource(result);
@@ -106,8 +106,8 @@ const OrderManage: React.FC = () => {
     setParams({
       shopId: shopId,
       pageSize: PAGE_SIZE,
-      state: searchParams.get("state")
-        ? (searchParams.get("state") as string)
+      state: searchParams.get('state')
+        ? (searchParams.get('state') as string)
         : null,
     });
   }, [location]);
@@ -125,28 +125,42 @@ const OrderManage: React.FC = () => {
           action: action,
         }
       );
-      
+
       if (res.status === 200) {
         message.success(res.message);
         if (action === STATUS_ACTION.CANCEL && res.data.chargeId !== '0') {
-          const refund: any = await axiosClient.post(endpoint.payment.refund, {
-            chargeId: res.data.chargeId,
-          });
-          if (refund) {
-            const shopUpdate = await axiosClient.put(
-              endpoint.shop.update(res.data.shopId),
-              {
-                amount: -refund.amount,
-              }
-            );
-            if (shopUpdate.status === 200) {
-              message.info(
-                `Tài khoản của bạn sẽ được hoàn lại ${formatCurrency(
-                  refund.amount
-                )}.`
-              );
+          const shopUpdate = await axiosClient.put(
+            endpoint.shop.update(res.data.shopId),
+            {
+              amount: -Number(res.data.totalPrice),
             }
+          );
+          if (shopUpdate.status === 200) {
+            message.info(
+              `Tài khoản của bạn sẽ được hoàn lại ${formatCurrency(
+                res.data.totalPrice
+              )}.`
+            );
           }
+
+          // const refund: any = await axiosClient.post(endpoint.payment.refund, {
+          //   chargeId: res.data.chargeId,
+          // });
+          // if (refund) {
+          //   const shopUpdate = await axiosClient.put(
+          //     endpoint.shop.update(res.data.shopId),
+          //     {
+          //       amount: -refund.amount,
+          //     }
+          //   );
+          //   if (shopUpdate.status === 200) {
+          //     message.info(
+          //       `Tài khoản của bạn sẽ được hoàn lại ${formatCurrency(
+          //         refund.amount
+          //       )}.`
+          //     );
+          //   }
+          // }
         }
         await fetchData();
       } else {
@@ -159,16 +173,16 @@ const OrderManage: React.FC = () => {
 
   const handleViewOrderDetail = async (params: ParamsOrderDetail) => {
     const data: Response | boolean = await getOrderDetail(params);
-    if (typeof data !== "boolean") {
+    if (typeof data !== 'boolean') {
       const result = extractData(data.data.listOrderDetail, [
-        "id",
-        "productName",
-        "shopName",
-        "quantity",
-        "unitPrice",
-        "discount",
-        "productId",
-        "orderId",
+        'id',
+        'productName',
+        'shopName',
+        'quantity',
+        'unitPrice',
+        'discount',
+        'productId',
+        'orderId',
       ]);
       setDataSourceDetail(result);
       setIsModalOpen(true);
@@ -186,16 +200,16 @@ const OrderManage: React.FC = () => {
 
   const columns: ColumnsType<DataTypeOrder> = [
     {
-      title: "ID",
-      dataIndex: "id",
+      title: 'ID',
+      dataIndex: 'id',
       width: 10,
-      key: "id",
+      key: 'id',
       render: (id) => <span>{id}</span>,
     },
     {
-      title: "Khách hàng",
-      dataIndex: "name",
-      key: "name",
+      title: 'Khách hàng',
+      dataIndex: 'name',
+      key: 'name',
       render: (_, record) => {
         return (
           // <Link to={`/product-detail/${record.id}`}>
@@ -203,40 +217,40 @@ const OrderManage: React.FC = () => {
           //   {`${record.firstName} ${record.lastName}`}
           // </Link>
           <span>
-            <Avatar style={{ marginRight: "20px" }} src={record.avatar} />
+            <Avatar style={{ marginRight: '20px' }} src={record.avatar} />
             {`${record.firstName} ${record.lastName}`}
           </span>
         );
       },
     },
     {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
-      align: "center",
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
+      align: 'center',
     },
     {
-      title: "Phương thức thanh toán",
-      dataIndex: "payment",
-      key: "payment",
-      align: "center",
+      title: 'Phương thức thanh toán',
+      dataIndex: 'payment',
+      key: 'payment',
+      align: 'center',
     },
     {
-      title: "Địa chỉ",
-      dataIndex: "shipAddress",
-      key: "shipAddress",
-      align: "center",
+      title: 'Địa chỉ',
+      dataIndex: 'shipAddress',
+      key: 'shipAddress',
+      align: 'center',
     },
     {
-      title: "Ngày giao",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
-      align: "center",
+      title: 'Ngày giao',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      align: 'center',
       render: (_, record) => <span>{formatDateString(record.updatedAt)}</span>,
     },
     {
-      title: "",
-      key: "",
+      title: '',
+      key: '',
       render: (_, record) => {
         return (
           <Space size="middle">
@@ -248,17 +262,17 @@ const OrderManage: React.FC = () => {
                   shopId: shopId as string,
                 })
               }
-              icon={<SearchOutlined style={{ color: "black" }} />}
+              icon={<SearchOutlined style={{ color: 'black' }} />}
             ></Button>
             <Button
               onClick={() => handleConfirmOrder(record.id, STATUS_ACTION.DONE)}
-              icon={<CheckCircleOutlined style={{ color: "green" }} />}
+              icon={<CheckCircleOutlined style={{ color: 'green' }} />}
             ></Button>
             <Button
               onClick={() =>
                 handleConfirmOrder(record.id, STATUS_ACTION.CANCEL)
               }
-              icon={<CloseCircleOutlined style={{ color: "red" }} />}
+              icon={<CloseCircleOutlined style={{ color: 'red' }} />}
             ></Button>
           </Space>
         );
@@ -268,39 +282,42 @@ const OrderManage: React.FC = () => {
 
   const columnsOrderDetail: ColumnsType<DataTypeOrderDetail> = [
     {
-      title: "ID",
-      dataIndex: "id",
+      title: 'ID',
+      dataIndex: 'id',
       width: 10,
-      key: "id",
+      key: 'id',
       render: (id) => <span>{id}</span>,
     },
     {
-      title: "Sản phẩm",
-      dataIndex: "productName",
-      key: "productName",
+      title: 'Sản phẩm',
+      dataIndex: 'productName',
+      key: 'productName',
       render: (_, record) => (
-        <Link style={{textTransform: 'capitalize'}} to={`/product-detail/${record.productId}`}>
+        <Link
+          style={{ textTransform: 'capitalize' }}
+          to={`/product-detail/${record.productId}`}
+        >
           {record.productName}
         </Link>
       ),
     },
     {
-      title: "Cửa hàng",
-      dataIndex: "shopName",
-      key: "shopName",
-      align: "center",
+      title: 'Cửa hàng',
+      dataIndex: 'shopName',
+      key: 'shopName',
+      align: 'center',
     },
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "center",
+      title: 'Số lượng',
+      dataIndex: 'quantity',
+      key: 'quantity',
+      align: 'center',
     },
     {
-      title: "Đơn giá",
-      dataIndex: "unitPrice",
-      key: "unitPrice",
-      align: "right",
+      title: 'Đơn giá',
+      dataIndex: 'unitPrice',
+      key: 'unitPrice',
+      align: 'right',
       render: (_, record) => (
         <span>{record.unitPrice && formatCurrency(record.unitPrice)}</span>
       ),
@@ -318,8 +335,8 @@ const OrderManage: React.FC = () => {
           ...pagination,
           defaultPageSize: 2,
           showSizeChanger: true,
-          locale: { items_per_page: "đơn hàng" },
-          pageSizeOptions: ["1", "2"],
+          locale: { items_per_page: 'đơn hàng' },
+          pageSizeOptions: ['1', '2'],
         }}
       />
 

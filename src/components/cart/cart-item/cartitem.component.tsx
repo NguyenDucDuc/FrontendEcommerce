@@ -72,7 +72,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
     (state: RootState) => state.productsChecked.listProductsChecked
   );
 
-  const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+  const handleCheckboxChange = (e: CheckboxChangeEvent) => {    
     if (e.target.checked === true) {
       // set check box == true
       setCheck(e.target.checked);
@@ -87,7 +87,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
         id: id,
         name: name,
         desc: desc,
-        quantity: quantity as number,
+        quantity: inputNumber as number,
         price:
         unitPrice !== undefined
             ? (unitPrice as number)
@@ -114,7 +114,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
         id: id,
         name: name,
         desc: desc,
-        quantity: quantity as number,
+        quantity: inputNumber as number,
         price:
           unitPrice !== undefined
             ? (unitPrice as number)
@@ -128,7 +128,7 @@ const CartItem: React.FC<IProps> = ({ product, quantity }) => {
     }
   };
 
-  const handleQuantityChange = async (value: number | string | null) => {
+  const handleQuantityChange = async (value: number | string | null) => { 
     setInputNumber(Number(value));
     // update into checked list product
     dispatch(
