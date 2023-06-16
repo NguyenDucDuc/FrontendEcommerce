@@ -83,7 +83,7 @@ const Address = () => {
     <div className="profile-address">
       <h1 style={{ marginLeft: '20px' }}>Địa Chỉ Của Tôi</h1>
       {currentAddress !== undefined ?
-        <p style={{ marginLeft: '20px' }}>Địa chỉ hiện tại: {`${currentAddress.detail} ${currentAddress.street}, ${currentAddress.ward}, ${currentAddress.district}, ${currentAddress.city}`}</p>
+        <p style={{ marginLeft: '20px' }}>Địa chỉ hiện tại: {`${currentAddress?.detail} ${currentAddress?.street}, ${currentAddress?.ward}, ${currentAddress?.district}, ${currentAddress?.city}`}</p>
         :
         null
       }

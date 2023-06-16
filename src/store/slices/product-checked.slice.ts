@@ -80,6 +80,9 @@ const productsCheckedSlice = createSlice({
         updateTotalPriceCheckedList: (state, action) => {
             state.totalPrice = state.totalPrice + action.payload
         },
+        setNullTotalPriceCheckedList: (state) => {
+            state.totalPrice = 0
+        },
     },
     extraReducers: {
 
@@ -93,6 +96,7 @@ export const {
     setNullListProductsChecked,
     updateQuantityCheckedList,
     updateTotalPriceCheckedList,
-    removeItemCheckedFromShopId
+    removeItemCheckedFromShopId,
+    setNullTotalPriceCheckedList
 
 } = productsCheckedSlice.actions

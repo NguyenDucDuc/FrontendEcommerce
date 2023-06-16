@@ -30,3 +30,19 @@ export const extractData = (
     return list;
   }, []);
 };
+
+export const extractData2 = (
+  listObj: Array<any> = [],
+  fieldsName: Array<string>
+) => {
+  return listObj.reduce((list, obj) => {
+    const newObj = fieldsName.reduce((objTemp: any, item) => {
+      objTemp[item] = obj[item];
+      return objTemp;
+    }, {});
+    console.log({newObj});
+    
+    list.push(newObj);
+    return list;
+  }, []);
+};

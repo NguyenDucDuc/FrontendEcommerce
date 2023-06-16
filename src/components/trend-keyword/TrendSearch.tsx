@@ -5,6 +5,49 @@ import { Link } from 'react-router-dom';
 
 import './trend-search.style.scss';
 
+const searchSample = [
+  {
+    label: 'Iphone',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686754418/ProductImage/ip14__0_oife0d.jpg',
+  },
+  {
+    label: 'Sách kinh tế',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686844326/chientrangtinte__0_cmljbg.webp',
+  },
+  {
+    label: 'Áo',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686754417/ProductImage/adidas__0_ljb4fy.jpg',
+  },
+  {
+    label: 'Lens máy ảnh',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686754420/ProductImage/mayanh__0_h5bmkd.webp',
+  },
+  {
+    label: 'Xe máy',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686754421/ProductImage/sh__0_nyzwmf.webp',
+  },
+  {
+    label: 'Kinh doanh',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686760829/ProductImage/kinhdoanh__0_zpszdu.webp',
+  },
+  {
+    label: 'Tư duy',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686760830/ProductImage/luathapdan_o2zgkp.webp',
+  },
+  {
+    label: 'Đồng hồ rẻ',
+    image:
+      'https://res.cloudinary.com/de5pwc5fq/image/upload/v1686754418/ProductImage/dongho__0_lhrlk1.png',
+  },
+];
+
 const TrendSearch: React.FC = () => {
   const [position, setPosition] = useState<number>(1);
   const clickCarouselArrow = (event: React.MouseEvent<HTMLElement>) => {
@@ -40,23 +83,23 @@ const TrendSearch: React.FC = () => {
             className={`trend-search-container carousel carousel-${position}`}
             gutter={[16, 16]}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+            {searchSample.map((item) => (
               <Col className="trend-search-item" span={4}>
                 <Link
                   className="trend-search-item__link"
-                  to="/top_products?catId=VN_BITL0_1467%3Atop_sold"
+                  to={`/categories/1?kw=${item.label}`}
                 >
                   <div className="container-item">
                     <div className="trend-tag"></div>
                     <div className="trend-image">
                       <img
-                        src="https://cf.shopee.vn/file/b746397953b962663a74567a7ed20da5"
+                        src={item.image}
                         alt="Ảnh minh họa sản phẩm"
                       />
                     </div>
-                    <div className="quantity-ordered">Bán 2k+ / tháng</div>
+                    <div className="quantity-ordered">Bán 123+ / tháng</div>
                   </div>
-                  <div className="keyword">Rong Biển Cơm</div>
+                  <div className="keyword">{item.label}</div>
                 </Link>
               </Col>
             ))}

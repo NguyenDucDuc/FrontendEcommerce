@@ -4,6 +4,7 @@ import './user-manager.style.scss'
 import Table, { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { AuthAdminApi, endpoint } from "../../../configs/Api";
+import { useNavigate } from "react-router-dom";
 
 
 interface DataType {
@@ -44,6 +45,7 @@ export const UserManager = () => {
     { value: 'seller', label: 'Người bán' },
     { value: 'staff', label: 'Nhân viên' },
   ])
+  const nav = useNavigate()
 
   const showModal = async (userId: number) => {
     // gán id của record cho user cần gán quyền
@@ -78,6 +80,18 @@ export const UserManager = () => {
       }
     }
   };
+
+  const getAllShop = async () => {
+    try {
+      const res = await AuthAdminApi().get(endpoint.shop.getAll)
+      console.log(res.data)
+    } catch (error) {
+      nav("/admin/forbidden")
+    }
+  }
+  useEffect(() => {
+    getAllShop()
+  }, [])
 
   const handleCancel = () => {
     setIsModalOpen(false);

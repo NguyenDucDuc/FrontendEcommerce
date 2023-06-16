@@ -184,7 +184,7 @@ const ShopProfile = () => {
                   Số đánh giá: <span className="txt-red">420</span>
                 </h4>
                 <h4>
-                  Tỷ lệ đánh giá: <span className="txt-red">{shop?.rate}</span>
+                  Điểm đánh giá: <span className="txt-red">{shop?.rate}</span>
                 </h4>
                 <h4>
                   Số lượt thích: <span className="txt-red">1.290</span>

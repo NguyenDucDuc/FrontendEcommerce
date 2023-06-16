@@ -59,10 +59,10 @@ const ProductRate:React.FC<Props> = ({ rate}) => {
                         id={item.id}
                         content={item.content}
                         createdAt={item.createdAt}
-                        img={item.User.avatar}
+                        img={item.User?.avatar}
                         rate={item.rate}
-                        firstName={item.User.firstName}
-                        lastName={item.User.lastName}
+                        firstName={item.User?.firstName}
+                        lastName={item.User?.lastName}
                     />)
                     :
                     null
