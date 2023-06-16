@@ -40,7 +40,7 @@ export const getAllReviewAsyncThunk = createAsyncThunk("reviews/getAll", async (
 })
 
 export const createReviewAsyncThunk = createAsyncThunk("review/create", async (body: any) => {
-    const res = await AuthApi().post(endpoint.review.create, {
+    const res = await AuthApi().post(endpoint.review.createV3, {
         rate: body.rate, 
         content: body.content,
         productId: body.productId
@@ -73,7 +73,7 @@ const reviewSlice = createSlice({
         })
         builder.addCase(createReviewAsyncThunk.fulfilled, (state, action) => {
             state.status = "fulfilled"
-            state.listReviews = [...state.listReviews, action.payload]
+            state.listReviews = [...state.listReviews, action.payload,]
         })
         builder.addCase(createReviewAsyncThunk.rejected, (state) => {
             state.status = "rejected"

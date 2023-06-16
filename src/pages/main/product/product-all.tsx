@@ -180,7 +180,7 @@ const ProductAll = () => {
       name: kw || '',
       fP: fP as string,
       tP: tP as string,
-      rate: Number(rate),
+      rate: rate ? Number(rate) : undefined,
     });
   }, [location]);
 

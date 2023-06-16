@@ -85,6 +85,7 @@ export const endpoint = {
   },
   review: {
     create: '/review/create-v2',
+    createV3: '/review',
     stats: (productId: number) => `/review/${productId}/stats`,
     checkReview: (productId: number) => `/review/${productId}/check-review`
   },

@@ -12,6 +12,7 @@ import { createNotification } from '../../utils/notification';
 import { socket } from '../../utils/socket';
 import {
   removeItemCheckedFromShopId,
+  setNullTotalPriceCheckedList,
   updateTotalPriceCheckedList,
 } from '../../store/slices/product-checked.slice';
 import { deleteItemAsyncThunk } from '../../store/slices/cartitem.slice';
@@ -37,6 +38,7 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
 
   useEffect(() => {
     const calcPrice = () => {
+      dispatch(setNullTotalPriceCheckedList())
       for (let i = 0; i < listProductsChecked.length; i++) {
         for (let j = 0; j < listProductsChecked[i].products.length; j++) {
           let total =

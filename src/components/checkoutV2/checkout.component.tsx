@@ -6,6 +6,7 @@ import { number, string } from 'yup';
 import { AuthApi, endpoint } from '../../configs/Api';
 import {
   removeItemCheckedFromShopId,
+  setNullTotalPriceCheckedList,
   updateTotalPriceCheckedList,
 } from '../../store/slices/product-checked.slice';
 import { RootState, useAppDispatch } from '../../store/store';
@@ -37,6 +38,7 @@ const Checkout = () => {
   const [cart, setCart] = useState<any>();
   useEffect(() => {
     const calcPrice = () => {
+      dispatch(setNullTotalPriceCheckedList())
       for (let i = 0; i < listProductsChecked.length; i++) {
         for (let j = 0; j < listProductsChecked[i].products.length; j++) {
           let total =
@@ -152,7 +154,7 @@ const Checkout = () => {
               api.success({
                 message: `Thông báo`,
                 description: 'Bạn đã đặt hàng thành công.',
-                duration: 2,
+                duration: 1,
               });
               return;
             }
@@ -160,7 +162,7 @@ const Checkout = () => {
           if (isContinue) {
             setTimeout(() => {
               nav('/');
-            }, 1500);
+            }, 1200);
           }
         })
         .catch(async (error) => {
@@ -190,7 +192,7 @@ const Checkout = () => {
           </Row>
           <Row>
             {currentAddress !== undefined ? (
-              <h4>{`${currentAddress.detail} ${currentAddress.street} - ${currentAddress.ward} - ${currentAddress.district} - ${currentAddress.city}`}</h4>
+              <h4>{`${currentAddress?.detail} ${currentAddress?.street} - ${currentAddress?.ward} - ${currentAddress?.district} - ${currentAddress?.city}`}</h4>
             ) : null}
           </Row>
         </div>

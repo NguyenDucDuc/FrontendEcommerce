@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Params, Response } from '../../../models/http';
 import { PAGE_SIZE } from '../../../constants/product';
 import { authAxios, axiosClient } from '../../../lib/axios/axios.config';
-import { extractData, getAllProduct } from '../../../utils/product';
+import { extractData, extractData2, getAllProduct } from '../../../utils/product';
 import { endpoint } from '../../../configs/Api';
 import { formatCurrency, randomColor } from '../../../utils/common';
 
@@ -38,7 +38,7 @@ const ProductAdmin: React.FC = () => {
 
   const fetchData = async () => {
     const res = await getAllProduct(params);
-    const result = extractData(res?.data?.listProduct, [
+    const result = extractData2(res?.data?.listProduct, [
       'id',
       'name',
       'price',
@@ -46,8 +46,6 @@ const ProductAdmin: React.FC = () => {
       'unitOnOrder',
       'unitInStock',
       'categoryId',
-      'amountPage',
-      'amountProduct',
     ]);
     setDataSource(result);
     setAmountProduct(res?.data.amountProduct);
@@ -88,7 +86,9 @@ const ProductAdmin: React.FC = () => {
       dataIndex: 'id',
       width: 10,
       key: 'id',
-      render: (id) => <span>{id}</span>,
+      render: (_, record) => {
+        return <span>{record.id}</span>
+      },
     },
     {
       title: 'Tên sản phẩm',
