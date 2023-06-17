@@ -14,7 +14,7 @@ import { getAllItemAsyncThunk, setNullCartItem } from "../../store/slices/cartit
 import { logoutAdmin } from "../../store/slices/user-admin.slice";
 // import { socket } from "../../App";
 import { endpoint } from "../../configs/Api";
-import { authAxios } from "../../lib/axios/axios.config";
+import { authAxios, axiosClient } from "../../lib/axios/axios.config";
 import { socket } from "../../utils/socket";
 import { getAllConversationAsyncThunk, setNullConversation } from "../../store/slices/conversation.slice";
 
@@ -27,6 +27,16 @@ const Header = () => {
   const listConversation = useSelector((state: RootState) => state.conversation.listConversation)
   const [statusLogin, setStatusLogin] = useState<any>({
   })
+  const [shop, setShop] = useState<any[]>([]);
+
+  const getShopByUserId = async () => {
+    const res = await axiosClient.get(
+      endpoint.shop.getShopByUserID(user.id as number)
+    );
+    if (res.status === 200) {
+      setShop(res.data);
+    }
+  };
   const [notification, setNotification] = useState<any[]>([]);
   const dispatch = useAppDispatch()
   const nav = useNavigate()
@@ -52,6 +62,10 @@ const Header = () => {
     getCart()
     checkLogin()
   }, [])
+
+  useEffect(() => {
+    getShopByUserId()
+  }, [user.id])
   const handleMouseEnterCartMini = () => {
     setIsShowCartMini(true)
   }
@@ -277,6 +291,7 @@ const Header = () => {
                       <MiniCardNotification
                         content={item.content}
                         valueId={item.valueId}
+                        shopId={shop[0] ? shop[0].id : 1}
                       />
                     ))}
                   </div>

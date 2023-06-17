@@ -40,7 +40,7 @@ const ProductAll = () => {
   const [searchParams] = useSearchParams();
   const [params, setParams] = useState<Params>({
     page: 1,
-    pageSize: 10,
+    pageSize: 12,
     cateId: Number(cateId),
   });
   const [arrowUp, setArrowUp] = useState(false);
@@ -267,7 +267,7 @@ const ProductAll = () => {
               onChange={handleChange}
               pageSize={params.pageSize}
               showSizeChanger
-              pageSizeOptions={[5, 10, 15, 20]}
+              pageSizeOptions={[6, 12, 24, 30]}
             />
           ) : (
             ''

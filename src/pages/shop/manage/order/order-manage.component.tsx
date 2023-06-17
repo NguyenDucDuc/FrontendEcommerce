@@ -336,7 +336,7 @@ const OrderManage: React.FC = () => {
           defaultPageSize: 2,
           showSizeChanger: true,
           locale: { items_per_page: 'đơn hàng' },
-          pageSizeOptions: ['1', '2'],
+          pageSizeOptions: ['5', '10', '15'],
         }}
       />
 

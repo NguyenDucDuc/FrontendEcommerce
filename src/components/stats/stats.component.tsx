@@ -165,7 +165,7 @@ const Stats: React.FC<Props> = () => {
       {
         ...removeUndefine(values),
       },
-      { type: (type as string).toUpperCase(), name: "" },
+      { type: (type as string).toUpperCase() },
       datePic ? { date: datePic } : {}
     );
 

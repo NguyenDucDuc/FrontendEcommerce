@@ -26,10 +26,16 @@ const CardConfirmCheckout: React.FC<IProps> = ({
   );
 
   const fetchData = async () => {
-    const res = await axiosClient.get(
-      endpoint.shop.getDetail(shopId as number)
-    );
-    setShop(res.data);
+    try {
+      const res = await axiosClient.get(
+        endpoint.shop.getDetail(shopId as number)
+      );
+      
+      setShop(res.data);
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   useEffect(() => {
