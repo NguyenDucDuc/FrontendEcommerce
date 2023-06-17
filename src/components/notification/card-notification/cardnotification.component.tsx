@@ -1,15 +1,18 @@
 import { Col, Row } from "antd";
 import "./cardnotification.style.scss";
+import { Link } from "react-router-dom";
 
 interface Props {
   content?: string;
   valueId?: number;
   avatar?: string;
+  shopId?: string;
 }
 
-const CardNotification: React.FC<Props> = ({ content, valueId, avatar }) => {
+const CardNotification: React.FC<Props> = ({ content, valueId, avatar, shopId }) => {
   return (
     <div className="card-notification">
+      <Link to={`/shop/${shopId}/dashboard/orders`}>
       <Row>
         <Col span={4}>
           <div className="notification-img">
@@ -20,6 +23,7 @@ const CardNotification: React.FC<Props> = ({ content, valueId, avatar }) => {
           <h4>{content}</h4>
         </Col>
       </Row>
+      </Link>
     </div>
   );
 };

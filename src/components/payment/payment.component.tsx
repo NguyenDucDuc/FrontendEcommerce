@@ -25,6 +25,7 @@ interface Props {
 }
 
 const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
+  const user = useSelector((state: RootState) => state.user.user);
   const btnRef = useRef<any>(null);
   const [stripeToken, setStripeToken] = useState<any>(null);
   const [api, contextHolder] = notification.useNotification();
@@ -35,6 +36,16 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
   const dispatch = useAppDispatch();
   const [currentAddress, setCurrentAddress] = useState<any>();
   const [currentUser, setCurrentUser] = useState<any>();
+
+  const [shop, setShop] = useState<any[]>([]);
+  const getShopByUserId = async () => {
+    const res = await axiosClient.get(
+      endpoint.shop.getShopByUserID(user.id as number)
+    );
+    if (res.status === 200) {
+      setShop(res.data);
+    }
+  };
 
   useEffect(() => {
     const calcPrice = () => {
@@ -60,6 +71,7 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
     getCurrentAddress();
     getCurrentUser();
     setShopId2(listProductsChecked[0].shopId as number);
+    getShopByUserId()
   }, []);
   const nav = useNavigate();
 
@@ -212,8 +224,8 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
         Thanh toán
         <StripeCheckout
           ref={btnRef}
-          name="NamDNH"
-          image="https://res.cloudinary.com/de5pwc5fq/image/upload/v1666019608/825b219385d46_k9zpfl.png"
+          name={shop[0] ? shop[0].shopName : 'NamĐNH'}
+          image={shop[0] ? shop[0].image : 'https://res.cloudinary.com/djbju13al/image/upload/v1675909925/Avatar/1675909923474.jpg'}
           billingAddress
           shippingAddress
           description={`Tổng tiền ${formatCurrency(amount as number)}`}
