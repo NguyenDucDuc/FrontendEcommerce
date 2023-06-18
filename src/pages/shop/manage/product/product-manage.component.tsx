@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/es/table';
 import React, { useEffect, useMemo, useState } from 'react';
-import { extractData, getAllProduct } from '../../../../utils/product';
+import { extractData, extractData2, getAllProduct } from '../../../../utils/product';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Params, Response } from '../../../../models/http';
 import { authAxios, axiosClient } from '../../../../lib/axios/axios.config';
@@ -33,6 +33,7 @@ interface DataType {
   unitInStock: number;
   categoryId: number;
   isActive: boolean;
+  priceDiscount?: number;
 }
 
 const ProductManage: React.FC = () => {
@@ -68,10 +69,11 @@ const ProductManage: React.FC = () => {
 
   const fetchData = async () => {
     const res = await getAllProduct(params);
-    const result = extractData(res?.data?.listProduct, [
+    const result = extractData2(res?.data?.listProduct, [
       'id',
       'name',
       'price',
+      'priceDiscount',
       'rate',
       'unitOnOrder',
       'unitInStock',
@@ -117,9 +119,7 @@ const ProductManage: React.FC = () => {
       );
       if (res.status === 200) {
         message.success(res.message);
-        setDataSource((preDataSource) => {
-          return preDataSource.filter((item) => item.id !== productID);
-        });
+        await fetchData()
       } else {
         message.info(res.message);
       }
@@ -170,7 +170,7 @@ const ProductManage: React.FC = () => {
       dataIndex: 'price',
       key: 'price',
       align: 'right',
-      render: (_, record) => <span>{formatCurrency(record.price)}</span>,
+      render: (_, record) => <span>{record.priceDiscount ? formatCurrency(record.priceDiscount) : formatCurrency(record.price)}</span>,
     },
     {
       title: 'Đánh giá',

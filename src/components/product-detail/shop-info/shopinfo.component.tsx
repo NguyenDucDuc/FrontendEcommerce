@@ -76,7 +76,7 @@ const ShopInfo: React.FC<IProps> = ({ handleShowChatBox, shop }) => {
           <Row className="shop-info-stats">
             <Col span={8}>
               <h4>
-                Đánh giá: <span style={{ color: "red" }}>{rate}</span>
+                Điểm đánh giá: <span style={{ color: "red" }}>{rate}</span>
               </h4>
             </Col>
             <Col span={8}>

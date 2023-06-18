@@ -31,8 +31,8 @@ const PriceInput: React.FC<PriceInputProps> = ({
     if (Number.isNaN(newValue)) {
       return;
     }
-    setNumber(newValue as number);
-    triggerChange({ number: newValue as number });
+    setNumber(newValue as number || 0);
+    triggerChange({ number: newValue as number || 0 });
   };
 
   return (

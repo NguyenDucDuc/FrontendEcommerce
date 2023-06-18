@@ -1,5 +1,5 @@
 import { AppstoreOutlined, MailOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, Menu, MenuProps, Rate, Row, Select } from "antd";
+import { Button, Col, Form, Input, InputNumber, Menu, MenuProps, Rate, Row, Select } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { axiosClient } from "../../../lib/axios/axios.config";
@@ -7,7 +7,16 @@ import { endpoint } from "../../../configs/Api";
 import { Response } from "../../../models/http";
 import { generateShopOptions } from "../../../utils/generateOptions";
 import { useForm } from "antd/es/form/Form";
+import { DETECH_THREE_DIGITAL_OF_NUMBER_REGEX } from "../../../constants/product";
 
+
+export function formatDecimal(input?: string | number) {
+	if (!input) return '';
+	const numberArray = `${input}`.split('.');
+	return (
+		numberArray[0].replace(DETECH_THREE_DIGITAL_OF_NUMBER_REGEX, ',') + (numberArray[1] ? `.${numberArray[1]}` : '')
+	);
+}
 type MenuItem = Required<MenuProps>["items"][number];
 
 function getItem(
@@ -112,27 +121,32 @@ const [formShop] = useForm()
             <Col span={24}>Chọn khoảng giá</Col>
           </Row>
           <Row justify={"space-between"}>
-            <Col span={11}>
-              <Input
+            <Col span={4}>Từ: </Col>
+            <Col span={20}>
+              <InputNumber
+              style={{width: '100%'}}
                 value={inputCurrency.fP}
                 name={"fP"}
-                onChange={(e) => {
+                formatter={formatDecimal}
+                parser={(value: any) => value!.replace(/\$\s?|(,*)/g, '')}
+                onChange={(value) => {
                   setInputCurrency((pre) => {
-                    return { ...pre, fP: Number(e.target.value) };
+                    return { ...pre, fP: Number(value) };
                   });
                 }}
               />
             </Col>
-            <Col span={2} style={{ textAlign: "center" }}>
-              -
-            </Col>
-            <Col span={11}>
-              <Input
+            <Col span={4}>Đến: </Col>
+            <Col span={20}>
+              <InputNumber
+              style={{width: '100%'}}
                 value={inputCurrency.tP}
                 name="tP"
-                onChange={(e) => {
+                formatter={formatDecimal}
+                parser={(value: any) => value!.replace(/\$\s?|(,*)/g, '')}
+                onChange={(value) => {
                   setInputCurrency((pre) => {
-                    return { ...pre, tP: Number(e.target.value) };
+                    return { ...pre, tP: Number(value) };
                   });
                 }}
               />
