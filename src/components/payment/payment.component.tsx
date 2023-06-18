@@ -224,8 +224,8 @@ const Stripe: React.FC<Props> = ({ amount, shopId, testOrder }) => {
         Thanh toán
         <StripeCheckout
           ref={btnRef}
-          name={shop[0] ? shop[0].shopName : 'NamĐNH'}
-          image={shop[0] ? shop[0].image : 'https://res.cloudinary.com/djbju13al/image/upload/v1675909925/Avatar/1675909923474.jpg'}
+          name={'NamĐNH'}
+          image={'https://res.cloudinary.com/de5pwc5fq/image/upload/v1687073715/homepage_zcizty.png'}
           billingAddress
           shippingAddress
           description={`Tổng tiền ${formatCurrency(amount as number)}`}

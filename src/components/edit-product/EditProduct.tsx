@@ -219,7 +219,7 @@ const EditProduct: React.FC = () => {
             >
               <PriceInput value={{ number: 12312 }} />
               {/* <Input type="number" /> */}
-            </Form.Item>
+              </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item label="Tình trạng" name="isActive">

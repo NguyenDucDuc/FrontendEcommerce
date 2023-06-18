@@ -1012,7 +1012,7 @@ const Register = () => {
                         <Form.Item
                             label="Email"
                             name="email"
-                            rules={[{ required: true, message: 'Bắt buộc!' }]}>
+                            rules={[{ required: true, type: "email", message: 'Bắt buộc!' }]}>
                             <Input />
                         </Form.Item>
 

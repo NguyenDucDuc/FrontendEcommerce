@@ -226,7 +226,7 @@ const ProductMain: React.FC<Props> = ({ product, imageList }) => {
                   textAlign: 'center',
                 }}
               >
-                {rate} đánh giá
+                Đánh giá {rate}
               </p>
             </Col>
             <Col span={5}>
