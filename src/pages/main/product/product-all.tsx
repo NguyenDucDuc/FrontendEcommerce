@@ -171,7 +171,7 @@ const ProductAll = () => {
   useEffect(() => {
     const fP = searchParams.get('fP');
     const tP = searchParams.get('tP');
-    const rate = searchParams.get('rate');
+    const shopId = searchParams.get('shopId');
     const kw = searchParams.get('kw');
     setParams({
       ...params,
@@ -180,7 +180,7 @@ const ProductAll = () => {
       name: kw || '',
       fP: fP as string,
       tP: tP as string,
-      rate: rate ? Number(rate) : undefined,
+      shopId: shopId as string,
     });
   }, [location]);
 
