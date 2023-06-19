@@ -1,5 +1,5 @@
 import { AimOutlined } from '@ant-design/icons';
-import { Col, Input, Row, message, notification } from 'antd';
+import { Col, Input, Modal, Row, message, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { number, string } from 'yup';
@@ -31,6 +31,20 @@ const Checkout = () => {
   const [currentUser, setCurrentUser] = useState<any>();
   const [shopId, setShopId] = useState<number>();
   const [cart, setCart] = useState<any>();
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     const calcPrice = () => {
       for (let i = 0; i < listProductsChecked.length; i++) {
@@ -61,6 +75,7 @@ const Checkout = () => {
     payment: string = 'Thanh toán khi nhận hàng',
     totalPrice?: number
   ) => {
+    setIsModalOpen(true)
     if (listProductsChecked.length > 0) {
       for (let i = 0; i < listProductsChecked.length; i++) {
         // -- create order details
@@ -129,6 +144,11 @@ const Checkout = () => {
   return (
     <div>
       {contextHolder}
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
       <div className="address">
         <div className="address-child">
           <Row>
@@ -162,19 +182,19 @@ const Checkout = () => {
                 } */}
         {listProductsChecked.length > 0
           ? listProductsChecked.map((item, idx) =>
-              item.products?.map((item, idx) => (
-                <CardProductCheckout
-                  shopName={item.shopName}
-                  name={item.name}
-                  key={idx}
-                  desc={item.desc}
-                  image={item.image}
-                  id={item.id}
-                  quantity={item.quantity}
-                  unitPrice={item.price}
-                />
-              ))
-            )
+            item.products?.map((item, idx) => (
+              <CardProductCheckout
+                shopName={item.shopName}
+                name={item.name}
+                key={idx}
+                desc={item.desc}
+                image={item.image}
+                id={item.id}
+                quantity={item.quantity}
+                unitPrice={item.price}
+              />
+            ))
+          )
           : null}
 
         <hr style={{ marginBottom: 20, marginTop: 20 }} color="#e6e6e6"></hr>
