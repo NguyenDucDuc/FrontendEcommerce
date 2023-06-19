@@ -132,7 +132,7 @@ const ProductCompare = () => {
                 <span>
                   Đánh giá:{' '}
                   <Rate
-                    defaultValue={productCompare?.base?.shop.rate}
+                    value={productCompare?.base?.shop.rate}
                     onChange={(values) => handleOnChangeRate(values)}
                   />
                 </span>
@@ -244,7 +244,7 @@ const ProductCompare = () => {
                 <span>
                   Đánh giá:{' '}
                   <Rate
-                    defaultValue={productCompare?.compare?.shop.rate}
+                    value={productCompare?.compare?.shop.rate}
                     onChange={(values) => handleOnChangeRate(values)}
                   />
                 </span>
