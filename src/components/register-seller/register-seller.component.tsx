@@ -56,15 +56,15 @@ const RegisterSeller = () => {
                     Tại Ecommerce, chúng tôi ưu tiên sự an toàn của người dùng, tính đa dạng, sự hòa nhập và tính chân thực trên ứng dụng.
                     Chúng tôi khuyến khích những nhà sáng tạo nội dung thể hiện cá tính riêng làm nên sự độc đáo của họ,
                     người xem tham gia thảo luận về những nội dung truyền cảm hứng cho họ; và chúng tôi tin rằng một môi trường an
-                    toàn sẽ giúp người dùng trao đổi với nhau một cách cởi mở. Chúng tôi tôn trọng tính toàn cầu của cộng đồng TikTok và
+                    toàn sẽ giúp người dùng trao đổi với nhau một cách cởi mở. Chúng tôi tôn trọng tính toàn cầu của cộng đồng và
                     luôn nỗ lực hết mình để tôn vinh sự đa dạng của các giá trị văn hóa địa phương. Ngoài ra, chúng tôi luôn hướng đến việc
                     xây dựng một môi trường chân thật, thông qua việc khuyến khích nội dung có tính xác thực trên ứng dụng.
                 </p>
                 <p>
-                    Tiêu chuẩn Cộng đồng của chúng tôi áp dụng cho mọi người dùng và mọi nội dung trên TikTok. Chúng tôi chủ động thực thi
+                    Tiêu chuẩn Cộng đồng của chúng tôi áp dụng cho mọi người dùng và mọi nội dung. Chúng tôi chủ động thực thi
                     Tiêu chuẩn Cộng đồng bằng cách sử dụng kết hợp giữa công nghệ và sự kiểm duyệt của con người trước khi nội dung được báo
                     cáo cho chúng tôi. Chúng tôi cũng khuyến khích các thành viên trong cộng đồng sử dụng các công cụ mà chúng tôi cung cấp
-                    trên TikTok để báo cáo bất kỳ nội dung nào mà họ cho rằng vi phạm Tiêu chuẩn Cộng đồng của chúng tôi.
+                    trên để báo cáo bất kỳ nội dung nào mà họ cho rằng vi phạm Tiêu chuẩn Cộng đồng của chúng tôi.
                 </p>
                 <h2>HÀNH VI THÙ ĐỊCH</h2>
                 <p>
@@ -86,7 +86,7 @@ const RegisterSeller = () => {
                     để cổ xuý hoặc tôn vinh bạo lực ngoài nền tảng, chúng tôi có thể tạm ngưng hoặc cấm tài khoản đó. Khi nhận được lệnh,
                     chúng tôi sẽ báo cáo các mối đe dọa đó cho các cơ quan pháp luật có liên quan. Để bảo vệ cộng đồng một cách hiệu quả,
                     chúng tôi có thể xem xét các hành động ngoài nền tảng để xác định các tổ chức và cá nhân bạo lực cực đoan trên nền tảng của mình.
-                    Nếu chúng tôi tìm thấy những tổ chức hoặc cá nhân như vậy trên TikTok, chúng tôi sẽ cấm tài khoản của họ.
+                    Nếu chúng tôi tìm thấy những tổ chức hoặc cá nhân như vậy trên hệ thống, chúng tôi sẽ cấm tài khoản của họ.
                 </p>
                 <div>
                     <Checkbox style={{ fontSize: '16px', marginTop: '20px', color: 'red' }} onChange={handleChangeCheck}>Đồng ý với điều khoản của chúng tôi.</Checkbox>
