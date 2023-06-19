@@ -1,5 +1,5 @@
 import { AimOutlined } from '@ant-design/icons';
-import { Col, Input, Row, message, notification } from 'antd';
+import { Col, Input, Modal, Row, Spin, message, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { number, string } from 'yup';
@@ -36,6 +36,20 @@ const Checkout = () => {
   const [currentUser, setCurrentUser] = useState<any>();
   const [shopId, setShopId] = useState<number>();
   const [cart, setCart] = useState<any>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   useEffect(() => {
     const calcPrice = () => {
       dispatch(setNullTotalPriceCheckedList())
@@ -67,6 +81,7 @@ const Checkout = () => {
     payment: string = 'Thanh toán khi nhận hàng',
     totalPrice?: number
   ) => {
+    setIsModalOpen(true)
     const listPromise = [];
     if (listProductsChecked.length > 0) {
       for (let i = 0; i < listProductsChecked.length; i++) {
@@ -156,6 +171,7 @@ const Checkout = () => {
                 description: 'Bạn đã đặt hàng thành công.',
                 duration: 1,
               });
+              setIsModalOpen(false)
               return;
             }
           });
@@ -173,6 +189,9 @@ const Checkout = () => {
   return (
     <div>
       {contextHolder}
+      <Modal title="Thông báo" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Spin tip="Đang đặt hàng..." size='large' style={{marginLeft: 170, marginTop: 50}} />
+      </Modal>
       <div className="address">
         <div className="address-child">
           <Row>
