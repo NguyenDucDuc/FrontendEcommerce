@@ -1,0 +1,43 @@
+div.message-sender-wrap {
+    p.time {
+        padding: 5px 0;
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+    div.message-sender {
+        width: 100%;
+        margin-left: 20px;
+        margin-right: 20px;
+        background: #00cc99;
+        margin-bottom: 10px;
+        border-radius: 25px;
+        p {
+            padding: 5px 0;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+}
+
+div.message-receiver-wrap {
+    p.time {
+        padding: 5px 0;
+        margin-left: 10px;
+        margin-right: 30px;
+        text-align: right;
+    }
+    div.message-receiver {
+        width: 70%;
+        margin-left: 25%;
+        margin-right: 20px;
+        background: #00cc99;
+        margin-bottom: 30px;
+        border-radius: 25px;
+        p {
+            padding: 5px 0;
+            margin-left: 10px;
+            margin-right: 10px;
+            text-align: right;
+        }
+    }
+}

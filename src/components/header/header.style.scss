@@ -1,0 +1,37 @@
+div.header {
+    box-shadow: 5px 5px 15px #e6e6e6;
+    color: black;
+}
+
+div.header-child {
+    width: 95%;
+    margin: 0 auto;
+    height: 130px;
+    position: relative;
+    div.cart-mini {
+        width: 400px;
+        max-height: 300px;
+        overflow: auto;
+        position: absolute;
+        right: 40px;
+        top: 25px;
+        z-index: 10;
+        border-radius: 5px;
+        box-shadow: 10px 10px 15px #cccccc;
+        background-color: #ffffff;
+        animation-name: animationShow;
+        animation-duration: 0.8s;
+        animation-timing-function: ease-in-out;
+        @keyframes animationShow {
+            0% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    }
+}

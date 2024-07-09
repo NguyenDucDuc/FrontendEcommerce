@@ -1,0 +1,104 @@
+.section-simple__header-title__img {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    color: #333;
+    white-space: nowrap;
+    height: 1.25rem;
+
+    img {
+        height: 1.0625rem;
+        width: 1.0625rem;
+        margin-right: 6px;
+    }
+}
+
+.brand-mall__header {
+    justify-content: space-between;
+}
+.section-simple__header-title__container {
+    display: flex;
+
+    .link {
+        display: block;
+        text-decoration: none;
+        color: #d0011b;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 1.0625rem;
+        line-height: 1.0625rem;
+        align-self: center;
+    }
+}
+
+.logo-delivery {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid #d8d8d8;
+}
+
+.brand-mall__header-link {
+    align-items: center;
+}
+
+.brand-mall-container {
+    .carousel__main-img {
+        height: 491px;
+    }
+}
+
+.brand-mall__content-right {
+    ul {
+        height: 100%;
+    }
+
+    .image-carousel__item {
+        height: 100%;
+        padding: 0px;
+        list-style-type: none;
+        text-align: center;
+    }
+
+    .image-carousel__item .ofs-carousel__item {
+        position: relative;
+        height: 50%;
+
+        .ofs-carousel__shop-cover-image {
+            display: block;
+            height: 100%;
+        }
+
+        .ofs-carousel__item__text {
+            position: absolute;
+            left: 14px;
+            bottom: 18px;
+            width: 172px;
+            height: 27px;
+            line-height: 27px;
+            text-align: center;
+            font-size: 18px;
+            display: -webkit-box;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            word-wrap: break-word;
+            overflow: hidden;
+            color: #d0011b;
+        }
+    }
+}
+
+.image-carousel__item {
+    .ofs-carousel__item {
+        .ofs-carousel__shop-cover-image {
+            .ofs-carousel__cover-image {
+                width: 100%;
+            }
+        }
+    }
+}

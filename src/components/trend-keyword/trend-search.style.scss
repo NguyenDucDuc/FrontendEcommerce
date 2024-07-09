@@ -1,0 +1,162 @@
+.trend-search-list {
+    background: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    .trend-search__header {
+        justify-content: space-between;
+        .trend-search__header-title {
+            .trend-search__header-img {
+                width: 130px;
+                height: 30px;
+                line-height: 56px;
+
+                img {
+                    object-fit: contain;
+                }
+            }
+        }
+    }
+
+    .trend-search__content {
+        position: relative;
+        .trend-search-wrapper {
+            overflow: hidden;
+        }
+        .trend-search-container {
+            transition: all 0.3s ease-in;
+            flex-wrap: nowrap;
+            padding: 0 8px;
+            .trend-search-item {
+                .trend-search-item__img {
+                    height: 70%;
+                }
+            }
+        }
+    }
+}
+
+.trend-search-info {
+    padding: 10px 0;
+    flex-direction: column;
+    align-items: center;
+
+    .trend-search-info__ordered {
+        position: relative;
+        height: 16px;
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            height: inherit;
+            width: inherit;
+            color: #fff;
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 3;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .icon {
+            background: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/c5316dd01de2b0d41d267a57f5b32844.png)
+                0 100% no-repeat;
+            background-size: contain;
+            position: absolute;
+            left: 0.1875rem;
+            top: -0.375rem;
+            z-index: 4;
+            width: 20px;
+            height: 24px;
+        }
+
+        .bg-process {
+            height: 16px;
+            width: 85%;
+            border-radius: 8px 0px 0px 8px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/ac7f81d9ee062223753413ec98497a86.png)
+                0 100% no-repeat;
+            background-size: cover;
+            z-index: 2;
+        }
+
+        .process {
+            border-radius: 8px;
+
+            width: 100%;
+            background: #ffbda6;
+            z-index: 1;
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: inherit;
+        }
+    }
+}
+
+.carousel-2 {
+    transform: translateX(-100%);
+}
+
+.carousel-1 {
+    transform: translateX(0);
+}
+
+.trend-search-item__link {
+    .keyword {
+        overflow: hidden;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        margin: 15px 0;
+        color: #555;
+        font-size: 1.125rem;
+        text-align: center;
+        text-transform: capitalize;
+        word-break: break-word;
+    }
+}
+
+.trend-search-container {
+    .trend-search-item {
+        display: block;
+
+        .container-item {
+            position: relative;
+        }
+    }
+}
+
+.trend-search-item .container-item {
+    .trend-tag {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 2rem;
+        height: 2.5rem;
+        background-size: 2rem 2.5rem;
+        background-repeat: no-repeat;
+        background-image: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/06720e49514cbd94b7552496b4de454a.png);
+    }
+
+    .quantity-ordered {
+        bottom: 0;
+        left: 0;
+        height: 1.5625rem;
+        background-color: rgba(0, 0, 0, 0.26);
+        color: #fff;
+        text-align: center;
+    }
+}

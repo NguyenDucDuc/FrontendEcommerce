@@ -1,0 +1,22 @@
+div.cart-item {
+    width: 100%;
+    height: 150px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+    margin-top: 50px;
+   div.cart-img {
+    width: 100px;
+    height: 100px;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+   }
+   p {
+    text-align: center;
+   }
+
+   .cs-pointer {
+    padding: 10px;
+   }
+}

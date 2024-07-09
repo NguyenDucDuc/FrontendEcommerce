@@ -1,0 +1,157 @@
+.flash-sale-list {
+    background: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    .flash-sale__header {
+        justify-content: space-between;
+        .flash-sale__header-title {
+            .flash-sale__header-img {
+                width: 130px;
+                height: 30px;
+                line-height: 56px;
+
+                img {
+                    object-fit: contain;
+                }
+            }
+            .timer {
+            }
+        }
+
+        .flash-sale__header-link {
+        }
+    }
+
+    .flash-sale__content {
+        position: relative;
+        .flash-sale-wrapper {
+            overflow: hidden;
+        }
+        .flash-sale-container {
+            transition: all 0.3s ease-in;
+            flex-wrap: nowrap;
+            padding: 0 8px;
+            .flash-sale-item {
+                .flash-sale-item__img {
+                    height: 70%;
+                    position: relative;
+
+                    .home-product-item__sale-off {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 40px;
+                        height: 36px;
+                        background-color: rgba(255, 216, 64, 0.94);
+                        text-align: center;
+                        border-top-right-radius: 2px;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .home-product-item__sale-off::after {
+                        content: "";
+                        position: absolute;
+                        top: 99%;
+                        left: 0;
+                        border-width: 0 20px 4px;
+                        border-style: solid;
+                        border-color: transparent rgba(255, 216, 64, 0.94) transparent rgba(255, 216, 64, 0.94);
+                    }
+
+                    .home-product-item__sale-off-percent {
+                        color: #ee4d2d;
+                        font-size: 12px;
+                        font-weight: 600;
+                        line-height: 20px;
+                    }
+
+                    .home-product-item__sale-off-label {
+                        color: white;
+
+                        font-size: 13px;
+                        font-weight: 500;
+                        line-height: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.flash-sale-info {
+    padding: 10px 0;
+    flex-direction: column;
+    align-items: center;
+
+    .flash-sale-info__ordered {
+        position: relative;
+        height: 16px;
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            height: inherit;
+            width: inherit;
+            color: #fff;
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 3;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .icon {
+            background: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/c5316dd01de2b0d41d267a57f5b32844.png)
+                0 100% no-repeat;
+            background-size: contain;
+            position: absolute;
+            left: 0.1875rem;
+            top: -0.375rem;
+            z-index: 4;
+            width: 20px;
+            height: 24px;
+        }
+
+        .bg-process {
+            height: 16px;
+            width: 85%;
+            border-radius: 8px 0px 0px 8px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: url(https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/ac7f81d9ee062223753413ec98497a86.png)
+                0 100% no-repeat;
+            background-size: cover;
+            z-index: 2;
+        }
+
+        .process {
+            border-radius: 8px;
+
+            width: 100%;
+            background: #ffbda6;
+            z-index: 1;
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: inherit;
+        }
+    }
+}
+
+.carousel-2 {
+    transform: translateX(-100%);
+}
+
+.carousel-1 {
+    transform: translateX(0);
+}

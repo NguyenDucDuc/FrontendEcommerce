@@ -1,0 +1,21 @@
+div.shop-profile {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 50px;
+    position: relative;
+    div.shop-profile-stats {
+        width: 100%;
+        height: 200px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        border-radius: 10px;
+    }
+    div.shop-profile-stats-left {
+        padding-top: 35px;
+    }
+}
+
+div.shop-stats {
+    margin-left: 50px;
+    line-height: 65px;
+}
+
